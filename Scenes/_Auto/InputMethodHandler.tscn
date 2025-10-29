@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://boo6i7kivwgsg"]
+
+[ext_resource type="Script" uid="uid://cs34q5phql787" path="res://Scripts/_Auto/InputMethodHandler.cs" id="1_kjdpv"]
+
+[node name="InputMethodHandler" type="Node"]
+script = ExtResource("1_kjdpv")

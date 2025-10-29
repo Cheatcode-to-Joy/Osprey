@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://bay52txsncxma"]
+
+[ext_resource type="Script" uid="uid://bhapmxu45wtdi" path="res://Scripts/_Auto/CheatHandler.cs" id="1_ipcb6"]
+
+[node name="CheatHandler" type="Node"]
+script = ExtResource("1_ipcb6")
+
+[node name="InputExpiration" type="Timer" parent="."]
+one_shot = true

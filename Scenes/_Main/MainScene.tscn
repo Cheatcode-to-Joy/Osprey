@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://dpahii5yd5hml"]
+
+[ext_resource type="PackedScene" uid="uid://bay52txsncxma" path="res://Scenes/_Auto/CheatHandler.tscn" id="1_lrf2w"]
+[ext_resource type="PackedScene" uid="uid://boo6i7kivwgsg" path="res://Scenes/_Auto/InputMethodHandler.tscn" id="2_yw0v0"]
+
+[node name="MainScene" type="Node2D"]
+
+[node name="CheatHandler" parent="." instance=ExtResource("1_lrf2w")]
+
+[node name="InputMethodHandler" parent="." instance=ExtResource("2_yw0v0")]
