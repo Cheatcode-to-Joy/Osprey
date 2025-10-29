@@ -1,2 +1,2 @@
 # Osprey
-[Godot/GDScript] A maildog's metroidvania.
+[Godot/C#] A maildog's metroidvania.
