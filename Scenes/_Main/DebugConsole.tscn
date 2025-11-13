@@ -1,0 +1,38 @@
+[gd_scene load_steps=3 format=3 uid="uid://2gx030hk2qj1"]
+
+[ext_resource type="Script" uid="uid://og58a6eixrjb" path="res://Scripts/_Main/DebugConsole.cs" id="1_ja2cn"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_dl2hs"]
+
+[node name="DebugConsole" type="Control" node_paths=PackedStringArray("DebugLabel")]
+custom_minimum_size = Vector2(1920, 1080)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ja2cn")
+DebugLabel = NodePath("Margin/DebugLog")
+
+[node name="Margin" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 70
+theme_override_constants/margin_top = 50
+theme_override_constants/margin_right = 70
+theme_override_constants/margin_bottom = 50
+
+[node name="DebugLog" type="RichTextLabel" parent="Margin"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/focus = SubResource("StyleBoxEmpty_dl2hs")
+bbcode_enabled = true
+scroll_following = true
+scroll_following_visible_characters = true
+justification_flags = 0

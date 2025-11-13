@@ -1,15 +1,25 @@
-[gd_scene load_steps=5 format=3 uid="uid://dpahii5yd5hml"]
+[gd_scene load_steps=7 format=3 uid="uid://dpahii5yd5hml"]
 
 [ext_resource type="Script" uid="uid://bnv08xy5c7uym" path="res://Scripts/_Main/MainScene.cs" id="1_ciy8a"]
 [ext_resource type="PackedScene" uid="uid://bay52txsncxma" path="res://Scenes/_Auto/CheatHandler.tscn" id="1_lrf2w"]
 [ext_resource type="PackedScene" uid="uid://boo6i7kivwgsg" path="res://Scenes/_Auto/InputMethodHandler.tscn" id="2_yw0v0"]
 [ext_resource type="PackedScene" uid="uid://bu60gqe333vha" path="res://Scenes/_Auto/AudioManager.tscn" id="3_yw0v0"]
+[ext_resource type="PackedScene" uid="uid://2gx030hk2qj1" path="res://Scenes/_Main/DebugConsole.tscn" id="5_acxsl"]
+[ext_resource type="PackedScene" uid="uid://bvg2sbv30qisx" path="res://Scenes/_Auto/DebugManager.tscn" id="5_s8x7n"]
 
-[node name="MainScene" type="Node2D"]
+[node name="MainScene" type="Node2D" node_paths=PackedStringArray("Console")]
 script = ExtResource("1_ciy8a")
+Console = NodePath("DebugConsole")
 
 [node name="CheatHandler" parent="." instance=ExtResource("1_lrf2w")]
 
 [node name="InputMethodHandler" parent="." instance=ExtResource("2_yw0v0")]
 
 [node name="AudioManager" parent="." instance=ExtResource("3_yw0v0")]
+
+[node name="DebugManager" parent="." instance=ExtResource("5_s8x7n")]
+
+[node name="DebugConsole" parent="." instance=ExtResource("5_acxsl")]
+visible = false
+offset_right = 1920.0
+offset_bottom = 1080.0

@@ -6,19 +6,18 @@ public static class JSONReader
 {
 	private const string TextFolder = "res://Assets/Text";
 
-	public static T ReadJSONFile<T>(string TextFile, bool TextFolder = true)
+	public static T ReadJSONFile<T>(string TextFile, bool UseFolder = true)
 	{
 		try
 		{
-			using FileAccess Reader = FileAccess.Open(TextFolder ? $"{TextFolder}/{TextFile}" : TextFile, FileAccess.ModeFlags.Read);
+			using FileAccess Reader = FileAccess.Open(UseFolder ? $"{TextFolder}/{TextFile}" : TextFile, FileAccess.ModeFlags.Read);
 			string Contents = Reader.GetAsText();
 
 			return JsonSerializer.Deserialize<T>(Contents);
 		}
 		catch (Exception)
 		{
-			// TODO. Show error: JSON file read unsuccessful (<show>).
-			GD.Print("JSON file read unsuccessful.");
+			Router.Debug.Print($"ERROR: JSON file read unsuccessful: {TextFile}.");
 			return default;
 		}
 	}

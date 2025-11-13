@@ -21,8 +21,7 @@ public partial class SFXCreator : Node
 		JSONPath = FilePathStart + JSONPath + ".json";
 		if (!JSONPath.IsAbsolutePath())
 		{
-			// TODO. Show error: SFX JSON file path not in correct format (<show>).
-			GD.Print("SFX JSON file path not in correct format.");
+			Router.Debug.Print($"ERROR: SFX JSON file path not in correct format: {JSONPath}.");
 			return false;
 		}
 
@@ -78,8 +77,7 @@ public partial class SFXCreator : Node
 			}
 			catch (Exception)
 			{
-				// TODO. Show error: Audio Stream unable to be imported: (<show file path>).
-				GD.Print("Audio Stream unable to be imported.");
+				Router.Debug.Print($"ERROR: Audio Stream unable to be imported: {FilePathStart + StreamData[0][0] + FileExtension}.");
 				return null;
 			}
 		}
@@ -99,13 +97,12 @@ public partial class SFXCreator : Node
 					NewRandomizer.RandomPitch = StreamData[2][0].ToFloat();
 					NewRandomizer.RandomVolumeOffsetDb = StreamData[2][1].ToFloat();
 				}
-				
+
 				NewStream = NewRandomizer;
 			}
 			catch (Exception)
 			{
-				// TODO. Show error: Audio Stream unable to be imported: (<show file path>).
-				GD.Print("Audio Stream unable to be imported.");
+				Router.Debug.Print($"ERROR: Audio Stream unable to be imported: {StreamData[0][0]} and following...");
 				return null;
 			}
 		}
@@ -139,29 +136,23 @@ public partial class SFXCreator : Node
 		}
 		catch (InvalidCastException)
 		{
-			// TODO. Show error: Invalid data cast for (<show property>) in SFX JSON read. Returning default.
-			GD.Print("Invalid data cast.");
-			GD.Print(Property);
+			Router.Debug.Print($"ERROR: Invalid data cast for {Property} in SFX JSON read. Returning default.");
 			return Value;
 		}
 	}
 
 	private void OnMissingData(string Property)
 	{
-		// TODO. Show error: SFX JSON file not in correct format. (<show property>) missing.
-		GD.Print("SFX JSON file not in correct format. Property missing.");
-		GD.Print(Property);
+		Router.Debug.Print($"ERROR: SFX JSON file not in correct format. {Property} missing.");
 	}
 
 	private void OnWrongDataRead(string Property, string Value)
 	{
-		// TODO. Show error: SFX JSON file not in correct format. (<show property and value>).
-		GD.Print("SFX JSON file not in correct format.");
+		Router.Debug.Print($"ERROR: SFX JSON file not in correct format. {Property}: {Value}.");
 	}
 
 	private void OnDefaultData(string Property, string Value)
 	{
-		// TODO. Show notification: Used default value for SFX creation. Specifying a value is encouraged. (<show property and value>).
-		GD.Print("Used default value for SFX creation. Specifying a value is encouraged.");
+		Router.Debug.Print($"WARNING: Used default value for SFX creation. Specifying a value is encouraged. {Property}: {Value}.");
 	}
 }

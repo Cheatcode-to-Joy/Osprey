@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://bvg2sbv30qisx"]
+
+[ext_resource type="Script" uid="uid://dp3pfecx1od27" path="res://Scripts/_Auto/DebugManager.cs" id="1_v2ubl"]
+
+[node name="DebugManager" type="Node"]
+script = ExtResource("1_v2ubl")
+
+[connection signal="tree_entered" from="." to="." method="OnTreeEntered"]
