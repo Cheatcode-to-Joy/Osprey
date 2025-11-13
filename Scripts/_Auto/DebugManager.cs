@@ -9,6 +9,12 @@ public partial class DebugManager : Node
 		Router.Debug = this;
 	}
 
+	public override void _Ready()
+	{
+		Print($"{ProjectSettings.GetSetting("application/config/name")}");
+		Print($"Version {ProjectSettings.GetSetting("application/config/version")}");
+	}
+
 	private List<string> Messages = new();
 	[Signal] public delegate void MessageSentEventHandler(string Message);
 
