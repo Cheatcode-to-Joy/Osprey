@@ -9,8 +9,8 @@ public partial class InputMethodHandler : Node
 		Controller
 	}
 	private INPUT_METHODS InputMethod = INPUT_METHODS.Keyboard; // TODO. Replace default.
-
 	[Signal] public delegate void InputMethodChangedEventHandler(INPUT_METHODS NewMethod);
+	private const float AxisOffsetMin = 0.1f;
 
 	public override void _Input(InputEvent @Event)
 	{
@@ -23,7 +23,7 @@ public partial class InputMethodHandler : Node
 		}
 		if (@Event is InputEventJoypadMotion @JoypadMotionEvent)
 		{
-			if (Math.Abs(@JoypadMotionEvent.AxisValue) > 0.1f) { CheckInput(INPUT_METHODS.Controller); }
+			if (Math.Abs(@JoypadMotionEvent.AxisValue) > AxisOffsetMin) { CheckInput(INPUT_METHODS.Controller); }
 			return;
 		}
 
