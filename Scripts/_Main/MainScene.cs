@@ -3,13 +3,13 @@ using System;
 
 public partial class MainScene : Node2D
 {
-	[Export] private DebugConsole Console;
+	[Export] private DebugOverlay DOverlay;
 
 	public override void _Input(InputEvent @Event)
 	{
-		if (@Event.IsActionPressed("ToggleDebugConsole"))
+		if (@Event.IsActionPressed("ToggleDebugOverlay"))
 		{
-			Console.Visible = !Console.Visible;
+			DOverlay.Visible = !DOverlay.Visible;
 		}
 	}
 }

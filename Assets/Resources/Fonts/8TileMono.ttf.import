@@ -1,0 +1,41 @@
+[remap]
+
+importer="font_data_dynamic"
+type="FontFile"
+uid="uid://b2d0n650ota5v"
+path="res://.godot/imported/8TileMono.ttf-7c0df62879559f513f850b8cc0d5ca66.fontdata"
+
+[deps]
+
+source_file="res://Assets/Resources/Fonts/8TileMono.ttf"
+dest_files=["res://.godot/imported/8TileMono.ttf-7c0df62879559f513f850b8cc0d5ca66.fontdata"]
+
+[params]
+
+Rendering=null
+antialiasing=0
+generate_mipmaps=false
+disable_embedded_bitmaps=true
+multichannel_signed_distance_field=false
+msdf_pixel_range=8
+msdf_size=48
+allow_system_fallback=true
+force_autohinter=false
+modulate_color_glyphs=false
+hinting=1
+subpixel_positioning=4
+keep_rounding_remainders=true
+oversampling=0.0
+Fallbacks=null
+fallbacks=[]
+Compress=null
+compress=true
+preload=[{
+"chars": [],
+"glyphs": [],
+"name": "New Configuration",
+"size": Vector2i(16, 0)
+}]
+language_support={}
+script_support={}
+opentype_features={}

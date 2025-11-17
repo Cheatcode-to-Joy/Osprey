@@ -1,0 +1,6 @@
+[gd_resource type="FontVariation" load_steps=2 format=3 uid="uid://bhh5dh6ayrlqk"]
+
+[ext_resource type="FontFile" uid="uid://b2d0n650ota5v" path="res://Assets/Resources/Fonts/8TileMono.ttf" id="1_wkss7"]
+
+[resource]
+base_font = ExtResource("1_wkss7")

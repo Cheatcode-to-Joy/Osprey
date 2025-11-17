@@ -1,0 +1,33 @@
+[gd_scene load_steps=4 format=3 uid="uid://cldal73vb6b30"]
+
+[ext_resource type="Texture2D" uid="uid://rmtvtfuvv4f6" path="res://Assets/Visual/_Debug/DebugUITile.png" id="1_a5fc8"]
+[ext_resource type="PackedScene" uid="uid://2gx030hk2qj1" path="res://Scenes/Debug/DebugConsole.tscn" id="1_iqdkr"]
+[ext_resource type="Script" uid="uid://4d3fmsp81jrp" path="res://Scripts/Debug/DebugOverlay.cs" id="1_paplw"]
+
+[node name="DebugOverlay" type="Control" node_paths=PackedStringArray("Console")]
+custom_minimum_size = Vector2(480, 264)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_force_pass_scroll_events = false
+script = ExtResource("1_paplw")
+Console = NodePath("DebugConsole")
+
+[node name="DebugGrid" type="TextureRect" parent="."]
+modulate = Color(1, 1, 1, 0.15686275)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_a5fc8")
+expand_mode = 1
+stretch_mode = 1
+
+[node name="DebugConsole" parent="." node_paths=PackedStringArray("DOverlay") instance=ExtResource("1_iqdkr")]
+layout_mode = 1
+DOverlay = NodePath("..")

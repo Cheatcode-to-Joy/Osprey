@@ -1,7 +1,7 @@
 [gd_resource type="Theme" load_steps=2 format=3 uid="uid://c3p3eo1p176wp"]
 
-[ext_resource type="FontVariation" uid="uid://strdjxgmwddn" path="res://Assets/Resources/Fonts/5By7Default.tres" id="1_v63ke"]
+[ext_resource type="FontVariation" uid="uid://bhh5dh6ayrlqk" path="res://Assets/Resources/Fonts/8TileMonoDefault.tres" id="1_v63ke"]
 
 [resource]
 default_font = ExtResource("1_v63ke")
-default_font_size = 12
+default_font_size = 9
