@@ -14,7 +14,7 @@ public partial class DebugConsole : Control
 	}
 
 	#region Scrolling
-	private const int MaxLines = 29;
+	private const int MaxLines = 36;
 	private int LineNumber = 0; // The total number of lines.
 	private int TopLine = 0; // The topmost visible line.
 

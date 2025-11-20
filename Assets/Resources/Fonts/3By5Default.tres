@@ -1,6 +1,0 @@
-[gd_resource type="FontVariation" load_steps=2 format=3 uid="uid://tyl4ch40uc48"]
-
-[ext_resource type="FontFile" uid="uid://kuhi5mx716ud" path="res://Assets/Resources/Fonts/3By5.ttf" id="1_en2us"]
-
-[resource]
-base_font = ExtResource("1_en2us")

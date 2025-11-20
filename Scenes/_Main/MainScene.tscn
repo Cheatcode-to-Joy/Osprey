@@ -1,17 +1,24 @@
-[gd_scene load_steps=7 format=3 uid="uid://dpahii5yd5hml"]
+[gd_scene load_steps=10 format=3 uid="uid://dpahii5yd5hml"]
 
 [ext_resource type="Script" uid="uid://bnv08xy5c7uym" path="res://Scripts/_Main/MainScene.cs" id="1_ciy8a"]
 [ext_resource type="PackedScene" uid="uid://bay52txsncxma" path="res://Scenes/_Auto/CheatHandler.tscn" id="1_lrf2w"]
+[ext_resource type="PackedScene" uid="uid://c181qygw4lcb7" path="res://Scenes/UserInterface/Settings/SettingsMenu.tscn" id="2_541kf"]
 [ext_resource type="PackedScene" uid="uid://boo6i7kivwgsg" path="res://Scenes/_Auto/InputMethodHandler.tscn" id="2_yw0v0"]
+[ext_resource type="PackedScene" uid="uid://cirh3sgv7y235" path="res://Scenes/_Auto/ConfigManager.tscn" id="3_ay4rq"]
 [ext_resource type="PackedScene" uid="uid://bu60gqe333vha" path="res://Scenes/_Auto/AudioManager.tscn" id="3_yw0v0"]
 [ext_resource type="PackedScene" uid="uid://bvg2sbv30qisx" path="res://Scenes/_Auto/DebugManager.tscn" id="5_s8x7n"]
+[ext_resource type="PackedScene" uid="uid://yj7c1hwqcrhk" path="res://Scenes/UserInterface/HUD/CoreHUD.tscn" id="7_ay4rq"]
 [ext_resource type="PackedScene" uid="uid://cldal73vb6b30" path="res://Scenes/Debug/DebugOverlay.tscn" id="7_ewav3"]
 
-[node name="MainScene" type="Node2D" node_paths=PackedStringArray("DOverlay")]
+[node name="MainScene" type="Node2D" node_paths=PackedStringArray("DOverlay", "SettingsHolder")]
 script = ExtResource("1_ciy8a")
 DOverlay = NodePath("DebugOverlay")
+Settings = ExtResource("2_541kf")
+SettingsHolder = NodePath("SettingsHolder")
 
 [node name="CheatHandler" parent="." instance=ExtResource("1_lrf2w")]
+
+[node name="ConfigManager" parent="." instance=ExtResource("3_ay4rq")]
 
 [node name="InputMethodHandler" parent="." instance=ExtResource("2_yw0v0")]
 
@@ -19,7 +26,18 @@ DOverlay = NodePath("DebugOverlay")
 
 [node name="DebugManager" parent="." instance=ExtResource("5_s8x7n")]
 
+[node name="CoreHUD" parent="." instance=ExtResource("7_ay4rq")]
+offset_right = 480.0
+offset_bottom = 320.0
+
+[node name="SettingsHolder" type="Control" parent="."]
+custom_minimum_size = Vector2(480, 320)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
 [node name="DebugOverlay" parent="." instance=ExtResource("7_ewav3")]
 visible = false
 offset_right = 480.0
-offset_bottom = 264.0
+offset_bottom = 320.0
