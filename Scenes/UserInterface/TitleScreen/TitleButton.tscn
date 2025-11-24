@@ -18,12 +18,13 @@ grow_vertical = 2
 
 [node name="SelectorL" type="Label" parent="Splitter"]
 auto_translate_mode = 2
-visible = false
 custom_minimum_size = Vector2(8, 24)
 layout_mode = 2
 mouse_filter = 1
-text = ">"
+text = " "
 vertical_alignment = 1
+autowrap_trim_flags = 0
+justification_flags = 0
 
 [node name="ButtonText" type="Label" parent="Splitter"]
 custom_minimum_size = Vector2(0, 24)
@@ -33,15 +34,18 @@ mouse_filter = 1
 text = "bBUTTON_TEXT"
 horizontal_alignment = 1
 vertical_alignment = 1
+justification_flags = 0
+text_overrun_behavior = 1
 
 [node name="SelectorR" type="Label" parent="Splitter"]
 auto_translate_mode = 2
-visible = false
 custom_minimum_size = Vector2(8, 24)
 layout_mode = 2
 mouse_filter = 1
-text = "<"
+text = " "
 vertical_alignment = 1
+autowrap_trim_flags = 0
+justification_flags = 0
 
 [connection signal="mouse_entered" from="." to="." method="OnMouseEntered"]
 [connection signal="mouse_exited" from="." to="." method="OnMouseExited"]

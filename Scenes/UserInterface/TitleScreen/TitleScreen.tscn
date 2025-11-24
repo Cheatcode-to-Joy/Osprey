@@ -53,7 +53,7 @@ script = ExtResource("3_61i3o")
 layout_mode = 2
 
 [node name="ButtonText" parent="Centering/CoreElements/MenuElements/ButtonMargin/MenuButtons/StartButton/Splitter" index="1"]
-text = "bPRESS_START"
+text = "bSTART_GAME"
 
 [node name="LoadButton" parent="Centering/CoreElements/MenuElements/ButtonMargin/MenuButtons" instance=ExtResource("3_1y3et")]
 layout_mode = 2
@@ -69,6 +69,10 @@ text = "bSETTINGS"
 
 [node name="PressStart" parent="Centering/CoreElements/MenuElements" instance=ExtResource("2_uxkdd")]
 layout_mode = 2
+
+[connection signal="pressed" from="Centering/CoreElements/MenuElements/ButtonMargin/MenuButtons/StartButton" to="." method="OnButtonPressed" binds= [0]]
+[connection signal="pressed" from="Centering/CoreElements/MenuElements/ButtonMargin/MenuButtons/LoadButton" to="." method="OnButtonPressed" binds= [1]]
+[connection signal="pressed" from="Centering/CoreElements/MenuElements/ButtonMargin/MenuButtons/SettingsButton" to="." method="OnButtonPressed" binds= [2]]
 
 [editable path="Centering/CoreElements/MenuElements/ButtonMargin/MenuButtons/StartButton"]
 [editable path="Centering/CoreElements/MenuElements/ButtonMargin/MenuButtons/LoadButton"]

@@ -26,8 +26,28 @@ public partial class TitleScreen : Control
 		Buttons.Show();
 	}
 
+	private StringName[] ButtonMethods = { MethodName.OnNewGamePressed, MethodName.OnLoadSavesPressed, MethodName.OnSettingsPressed };
 	public void OnButtonPressed(int ButtonNumber)
 	{
+		Router.Debug.Print($"Title button {ButtonNumber.ToString()} pressed.");
+		Call(ButtonMethods[Math.Clamp(ButtonNumber, 0, ButtonMethods.Length - 1)]);
+	}
+
+	private void OnNewGamePressed()
+	{
 		// TODO.
+		Router.Debug.Print("Starting new game.");
+	}
+
+	private void OnLoadSavesPressed()
+	{
+		// TODO.
+		Router.Debug.Print("Loading saves.");
+	}
+
+	private void OnSettingsPressed()
+	{
+		// TODO.
+		Router.Debug.Print("Opening settings.");
 	}
 }

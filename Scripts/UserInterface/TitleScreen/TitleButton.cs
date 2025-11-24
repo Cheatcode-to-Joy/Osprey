@@ -8,13 +8,13 @@ public partial class TitleButton : Button
 
 	public void OnMouseEntered()
 	{
-		SelectorL.Show();
-		SelectorR.Show();
+		SelectorL.Text = ">";
+		SelectorR.Text = "<";
 	}
 
 	public void OnMouseExited()
 	{
-		SelectorL.Hide();
-		SelectorR.Hide();
+		SelectorL.Text = " ";
+		SelectorR.Text = " ";
 	}
 }
