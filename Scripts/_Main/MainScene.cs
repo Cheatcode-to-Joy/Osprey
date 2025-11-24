@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class MainScene : Node2D
+public partial class MainScene : Node2D, IConfigReliant
 {
 	[Export] private DebugOverlay DOverlay;
 	[Export] private PackedScene Settings;
@@ -34,11 +34,13 @@ public partial class MainScene : Node2D
 	{
 		if (CurrentSettings != null)
 		{
+			SettingsHolder.Hide();
 			CurrentSettings.QueueFree();
 			CurrentSettings = null;
 			return;
 		}
 
+		SettingsHolder.Show();
 		CurrentSettings = Settings.Instantiate<SettingsMenu>();
 		SettingsHolder.AddChild(CurrentSettings);
 	}

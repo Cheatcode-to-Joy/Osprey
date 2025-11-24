@@ -1,0 +1,47 @@
+[gd_scene load_steps=2 format=3 uid="uid://b0dprqeo6km54"]
+
+[ext_resource type="Script" uid="uid://bbyqe2rt3wagx" path="res://Scripts/UserInterface/TitleScreen/TitleButton.cs" id="1_8h816"]
+
+[node name="TitleButton" type="Button" node_paths=PackedStringArray("SelectorL", "SelectorR")]
+custom_minimum_size = Vector2(160, 24)
+script = ExtResource("1_8h816")
+SelectorL = NodePath("Splitter/SelectorL")
+SelectorR = NodePath("Splitter/SelectorR")
+
+[node name="Splitter" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SelectorL" type="Label" parent="Splitter"]
+auto_translate_mode = 2
+visible = false
+custom_minimum_size = Vector2(8, 24)
+layout_mode = 2
+mouse_filter = 1
+text = ">"
+vertical_alignment = 1
+
+[node name="ButtonText" type="Label" parent="Splitter"]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 1
+text = "bBUTTON_TEXT"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SelectorR" type="Label" parent="Splitter"]
+auto_translate_mode = 2
+visible = false
+custom_minimum_size = Vector2(8, 24)
+layout_mode = 2
+mouse_filter = 1
+text = "<"
+vertical_alignment = 1
+
+[connection signal="mouse_entered" from="." to="." method="OnMouseEntered"]
+[connection signal="mouse_exited" from="." to="." method="OnMouseExited"]

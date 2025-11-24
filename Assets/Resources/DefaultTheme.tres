@@ -1,7 +1,24 @@
-[gd_resource type="Theme" load_steps=2 format=3 uid="uid://c3p3eo1p176wp"]
+[gd_resource type="Theme" load_steps=7 format=3 uid="uid://c3p3eo1p176wp"]
 
 [ext_resource type="FontVariation" uid="uid://bhh5dh6ayrlqk" path="res://Assets/Resources/Fonts/8TileMonoDefault.tres" id="1_v63ke"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_v63ke"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2gt6t"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_330b4"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_xiu4g"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_s8kvo"]
 
 [resource]
 default_font = ExtResource("1_v63ke")
 default_font_size = 9
+BoxContainer/constants/separation = 0
+Button/styles/disabled = SubResource("StyleBoxEmpty_v63ke")
+Button/styles/focus = SubResource("StyleBoxEmpty_2gt6t")
+Button/styles/hover = SubResource("StyleBoxEmpty_330b4")
+Button/styles/normal = SubResource("StyleBoxEmpty_xiu4g")
+Button/styles/pressed = SubResource("StyleBoxEmpty_s8kvo")
+SplitContainer/constants/separation = 0

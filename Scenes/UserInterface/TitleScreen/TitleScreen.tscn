@@ -1,0 +1,75 @@
+[gd_scene load_steps=5 format=3 uid="uid://bmf4o21t6o8qn"]
+
+[ext_resource type="Script" uid="uid://bad0kdlutvdch" path="res://Scripts/UserInterface/TitleScreen/TitleScreen.cs" id="1_jx26t"]
+[ext_resource type="PackedScene" uid="uid://32iwusorf4kv" path="res://Scenes/UserInterface/TitleScreen/PressStart.tscn" id="2_uxkdd"]
+[ext_resource type="PackedScene" uid="uid://b0dprqeo6km54" path="res://Scenes/UserInterface/TitleScreen/TitleButton.tscn" id="3_1y3et"]
+[ext_resource type="Script" uid="uid://1r04rm6trqec" path="res://Scripts/UserInterface/TitleScreen/MenuButtons.cs" id="3_61i3o"]
+
+[node name="TitleScreen" type="Control" node_paths=PackedStringArray("PressStart", "Buttons")]
+custom_minimum_size = Vector2(480, 320)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_jx26t")
+PressStart = NodePath("Centering/CoreElements/MenuElements/PressStart")
+Buttons = NodePath("Centering/CoreElements/MenuElements/ButtonMargin/MenuButtons")
+
+[node name="Centering" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CoreElements" type="VBoxContainer" parent="Centering"]
+layout_mode = 2
+
+[node name="GameTitle" type="TextureRect" parent="Centering/CoreElements"]
+custom_minimum_size = Vector2(240, 88)
+layout_mode = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="MenuElements" type="CenterContainer" parent="Centering/CoreElements"]
+custom_minimum_size = Vector2(240, 160)
+layout_mode = 2
+
+[node name="ButtonMargin" type="MarginContainer" parent="Centering/CoreElements/MenuElements"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_right = 16
+
+[node name="MenuButtons" type="VBoxContainer" parent="Centering/CoreElements/MenuElements/ButtonMargin"]
+visible = false
+layout_mode = 2
+alignment = 1
+script = ExtResource("3_61i3o")
+
+[node name="StartButton" parent="Centering/CoreElements/MenuElements/ButtonMargin/MenuButtons" instance=ExtResource("3_1y3et")]
+layout_mode = 2
+
+[node name="ButtonText" parent="Centering/CoreElements/MenuElements/ButtonMargin/MenuButtons/StartButton/Splitter" index="1"]
+text = "bPRESS_START"
+
+[node name="LoadButton" parent="Centering/CoreElements/MenuElements/ButtonMargin/MenuButtons" instance=ExtResource("3_1y3et")]
+layout_mode = 2
+
+[node name="ButtonText" parent="Centering/CoreElements/MenuElements/ButtonMargin/MenuButtons/LoadButton/Splitter" index="1"]
+text = "bLOAD_GAME"
+
+[node name="SettingsButton" parent="Centering/CoreElements/MenuElements/ButtonMargin/MenuButtons" instance=ExtResource("3_1y3et")]
+layout_mode = 2
+
+[node name="ButtonText" parent="Centering/CoreElements/MenuElements/ButtonMargin/MenuButtons/SettingsButton/Splitter" index="1"]
+text = "bSETTINGS"
+
+[node name="PressStart" parent="Centering/CoreElements/MenuElements" instance=ExtResource("2_uxkdd")]
+layout_mode = 2
+
+[editable path="Centering/CoreElements/MenuElements/ButtonMargin/MenuButtons/StartButton"]
+[editable path="Centering/CoreElements/MenuElements/ButtonMargin/MenuButtons/LoadButton"]
+[editable path="Centering/CoreElements/MenuElements/ButtonMargin/MenuButtons/SettingsButton"]
