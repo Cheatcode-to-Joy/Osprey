@@ -8,16 +8,26 @@ public partial class MainScene : Node2D
 	[Export] private Control SettingsHolder;
 	private SettingsMenu CurrentSettings = null;
 
+	public override void _Ready()
+	{
+		Router.Config.Connect(ConfigManager.SignalName.ConfigChanged, new Callable(this, MethodName.OnConfigUpdate));
+	}
+
 	public override void _Input(InputEvent @Event)
 	{
 		if (@Event.IsActionPressed("ToggleDebugOverlay"))
 		{
-			DOverlay.Visible = !DOverlay.Visible;
+			if (Router.Config.FetchConfig<bool>("Debug", "DebugEnabled")) { DOverlay.Visible = !DOverlay.Visible; }
 		}
 		else if (@Event.IsActionPressed("ToggleSettings"))
 		{
 			ToggleSettings();
 		}
+	}
+
+	public void OnConfigUpdate()
+	{
+		if (DOverlay.Visible && !Router.Config.FetchConfig<bool>("Debug", "DebugEnabled")) { DOverlay.Visible = false; }
 	}
 
 	private void ToggleSettings()
