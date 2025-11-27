@@ -51,14 +51,13 @@ public partial class DialogueTextBox : NinePatchRect, IConfigReliant
 
 	public void OnStartProgressDialogue()
 	{
-		if (TextActive)
+		ProgressingTextButton = true;
+
+		if (!SignalEmitted && !TextActive)
 		{
-			ProgressingTextButton = true;
-		}
-		else if (!SignalEmitted)
-		{
-			EmitSignal(SignalName.TextFinished);
 			SignalEmitted = true;
+			EmitSignal(SignalName.TextFinished);
+			return;
 		}
 	}
 	

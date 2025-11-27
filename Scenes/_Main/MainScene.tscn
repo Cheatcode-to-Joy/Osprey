@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://dpahii5yd5hml"]
+[gd_scene load_steps=11 format=3 uid="uid://dpahii5yd5hml"]
 
 [ext_resource type="Script" uid="uid://bnv08xy5c7uym" path="res://Scripts/_Main/MainScene.cs" id="1_ciy8a"]
 [ext_resource type="PackedScene" uid="uid://bay52txsncxma" path="res://Scenes/_Auto/CheatHandler.tscn" id="1_lrf2w"]
@@ -10,7 +10,6 @@
 [ext_resource type="PackedScene" uid="uid://yj7c1hwqcrhk" path="res://Scenes/UserInterface/HUD/CoreHUD.tscn" id="7_ay4rq"]
 [ext_resource type="PackedScene" uid="uid://cldal73vb6b30" path="res://Scenes/Debug/DebugOverlay.tscn" id="7_ewav3"]
 [ext_resource type="PackedScene" uid="uid://bmf4o21t6o8qn" path="res://Scenes/UserInterface/TitleScreen/TitleScreen.tscn" id="9_m4cel"]
-[ext_resource type="PackedScene" uid="uid://bg7e7bky66huf" path="res://Scenes/UserInterface/Dialogue/DialogueOverlay.tscn" id="10_vwm7e"]
 
 [node name="MainScene" type="Node2D" node_paths=PackedStringArray("DOverlay", "SettingsHolder")]
 script = ExtResource("1_ciy8a")
@@ -34,10 +33,6 @@ offset_bottom = 320.0
 
 [node name="TitleScreen" parent="." instance=ExtResource("9_m4cel")]
 visible = false
-offset_right = 480.0
-offset_bottom = 320.0
-
-[node name="DialogueOverlay" parent="." instance=ExtResource("10_vwm7e")]
 offset_right = 480.0
 offset_bottom = 320.0
 
