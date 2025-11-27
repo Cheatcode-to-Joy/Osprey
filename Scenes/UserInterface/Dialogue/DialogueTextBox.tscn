@@ -28,6 +28,8 @@ theme_override_constants/margin_bottom = 16
 [node name="DialogueText" type="RichTextLabel" parent="Margin"]
 clip_contents = false
 layout_mode = 2
+theme_override_constants/line_separation = 8
+theme_override_constants/paragraph_separation = 16
 bbcode_enabled = true
 scroll_active = false
 scroll_following_visible_characters = true

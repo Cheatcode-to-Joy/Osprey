@@ -132,8 +132,8 @@ public partial class ConfigManager : Node
 		string SUserValue = FetchConfigAsString(SectionName, ConfigName, UserConfig);
 		if (SUserValue != UnsetValueCode) { return ConvertValue<T>(SUserValue); }
 
-		string SDefaultValue = FetchConfigAsString(SectionName, ConfigName, UserConfig);
-		if (SUserValue != UnsetValueCode) { return ConvertValue<T>(SDefaultValue); }
+		string SDefaultValue = FetchConfigAsString(SectionName, ConfigName, DefaultConfig);
+		if (SDefaultValue != UnsetValueCode) { return ConvertValue<T>(SDefaultValue); }
 
 		return default;
 	}

@@ -60,3 +60,5 @@ flip_h = true
 
 [node name="DialogueTextBox" parent="Margin/Elements" instance=ExtResource("2_od2xi")]
 layout_mode = 2
+
+[connection signal="TextFinished" from="Margin/Elements/DialogueTextBox" to="." method="OnTextFinished"]

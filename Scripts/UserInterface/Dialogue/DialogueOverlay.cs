@@ -18,18 +18,24 @@ public partial class DialogueOverlay : Control
 	private const int PortraitWidth = 144;
 	private const int PortraitHeight = 144;
 	private const string JSONPathStart = "res://Assets/Text/Dialogue/";
-	private const string PortraitPathStart = "res://Assets/Visual/UserInterface/Dialogue/Portraits";
+	private const string PortraitPathStart = "res://Assets/Visual/UserInterface/Dialogue/Portraits/";
 	private const string PortraitExtension = ".png";
 
-	private string DialogueText = "";
+	private Dictionary<string, string> DialogueText;
 	private string[] DialogueSections;
+	private int CurrentSection = -1;
 
 	private Dictionary<string, string> DefaultValues = new()
 	{
 		{ "LeftPortraitPath", "_Placeholder" },
-		{ "RightPortraitPath", "_Placeholder" },
-		{ "DialogueText", "" }
+		{ "RightPortraitPath", "_Placeholder" }
 	};
+
+	// FIXME. Delete.
+	public override void _Input(InputEvent @Event)
+	{
+		if (@Event is InputEventKey EventKey && EventKey.Keycode == Key.A && @Event.IsPressed() && !EventKey.Echo) { LoadDialogue("_Test"); }
+	}
 	
 	public void LoadDialogue(string JSONPath)
 	{
@@ -49,18 +55,22 @@ public partial class DialogueOverlay : Control
 		InitialisePortrait(LeftPortrait, JSONExtractor.ReadData<string>(NodeName, DialogueData, DefaultValues, "LeftPortraitPath"));
 		InitialisePortrait(RightPortrait, JSONExtractor.ReadData<string>(NodeName, DialogueData, DefaultValues, "RightPortraitPath"));
 
-		DialogueText = JSONExtractor.ReadData<string>(NodeName, DialogueData, DefaultValues, "DialogueText");
-		DialogueSections = DialogueText.Split("{split}");
+		DialogueText = JSONExtractor.ReadData<Dictionary<string, string>>(NodeName, DialogueData, DefaultValues, "DialogueText");
+		DialogueSections = DialogueText[Router.Config.FetchConfig<string>("Text", "Language")].Split("{split}");
+
+		PlayNext();
 	}
 
 	private void InitialisePortrait(TextureRect Portrait, string FilePath)
 	{
-		AtlasTexture Atlas = (AtlasTexture)Portrait.Texture;
-		Atlas.Region = new Rect2(0, 0, PortraitWidth, PortraitHeight);
+		AtlasTexture Atlas = new()
+		{
+			Region = new Rect2(0, 0, PortraitWidth, PortraitHeight)
+		};
 
 		if (FilePath == "NONE")
 		{
-			Portrait.Texture = null;
+			Atlas.Atlas = null;
 		}
 		else
 		{
@@ -74,7 +84,25 @@ public partial class DialogueOverlay : Control
 				Router.Debug.Print($"ERROR: Dialogue portrait {FilePath} not found.");
 				NewTexture = GD.Load<Texture2D>($"{PortraitPathStart}_Placeholder{PortraitExtension}");
 			}
-			Portrait.Texture = NewTexture;
+			Atlas.Atlas = NewTexture;
 		}
+		Portrait.Texture = Atlas;
+	}
+
+	private void PlayNext()
+	{
+		CurrentSection++;
+		if (DialogueSections.Length <= CurrentSection)
+		{
+			// TODO. Expand.
+			QueueFree();
+			return;
+		}
+		TextBox.SetText(DialogueSections[CurrentSection]);
+	}
+
+	public void OnTextFinished()
+	{
+		PlayNext();
 	}
 }

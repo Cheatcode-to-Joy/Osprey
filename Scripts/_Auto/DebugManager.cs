@@ -20,6 +20,11 @@ public partial class DebugManager : Node
 
 	public void Print(string NewMessage)
 	{
+		if (NewMessage == null || NewMessage == "")
+		{
+			NewMessage = "WARNING: Attempted printing an empty message.";
+		}
+
 		if (NewMessage.StartsWith("ERROR:"))
 		{
 			NewMessage = Colourise(NewMessage, "FF365E");

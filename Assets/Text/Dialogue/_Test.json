@@ -1,0 +1,7 @@
+{
+	"LeftPortraitPath" : "_Placeholder",
+	"RightPortraitPath" : "NONE",
+	"DialogueText" : {
+		"en" : "This is a bit of testing dialogue with various functions. I wonder if it works quite right... Still needs some padding to eventually scroll downwards somewhat, that would be neat.\nHere's a new paragraph, how is that looking? Is everything showing properly with the right amount of padding?"
+	}
+}
