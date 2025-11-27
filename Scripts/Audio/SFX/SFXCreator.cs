@@ -5,6 +5,8 @@ using System.Text.Json;
 
 public partial class SFXCreator : Node
 {
+	private const string NodeName = "SFXCreator";
+
 	[Export] private PackedScene OmniSFX;
 	[Export] private PackedScene PosiSFX;
 
@@ -31,7 +33,7 @@ public partial class SFXCreator : Node
 			return false; // Error is already called in JSONReader.
 		}
 
-		bool IsAudioPositional = ReadData<bool>(SFXData, "IsAudioPositional");
+		bool IsAudioPositional = JSONExtractor.ReadData<bool>(NodeName, SFXData, DefaultValues, "IsAudioPositional");
 
 		return IsAudioPositional ? CreatePosiSFX(SFXData) : CreateOmniSFX(SFXData);
 	}
@@ -39,7 +41,7 @@ public partial class SFXCreator : Node
 	private Variant CreateOmniSFX(Dictionary<string, JsonElement> SFXData)
 	{
 		AudioStreamPlayer SoundEffect = OmniSFX.Instantiate<AudioStreamPlayer>();
-		string[][] StreamData = ReadData<string[][]>(SFXData, "StreamData");
+		string[][] StreamData = JSONExtractor.ReadData<string[][]>(NodeName, SFXData, DefaultValues, "StreamData");
 		SoundEffect.Stream = CreateStream(StreamData);
 		if (SoundEffect.Stream == null) { return false; }
 		// TODO. More will be added later.
@@ -51,7 +53,7 @@ public partial class SFXCreator : Node
 	private Variant CreatePosiSFX(Dictionary<string, JsonElement> SFXData)
 	{
 		AudioStreamPlayer2D SoundEffect = PosiSFX.Instantiate<AudioStreamPlayer2D>();
-		string[][] StreamData = ReadData<string[][]>(SFXData, "StreamData");
+		string[][] StreamData = JSONExtractor.ReadData<string[][]>(NodeName, SFXData, DefaultValues, "StreamData");
 		SoundEffect.Stream = CreateStream(StreamData);
 		if (SoundEffect.Stream == null) { return false; }
 		// TODO. More will be added later.
@@ -64,7 +66,7 @@ public partial class SFXCreator : Node
 		if (StreamData == null) { return null; }
 		if (StreamData.Length < 1 || (StreamData.Length == 1 && StreamData[0].Length > 1))
 		{
-			OnMissingData("StreamData");
+			JSONExtractor.OnMissingData(NodeName, "StreamData");
 			return null;
 		}
 
@@ -108,51 +110,5 @@ public partial class SFXCreator : Node
 		}
 
 		return NewStream;
-	}
-
-	private T ReadData<T>(Dictionary<string, JsonElement> SFXData, string Property)
-	{
-		T Value = default;
-		try
-		{
-			if (SFXData.ContainsKey(Property))
-			{
-				Value = JSONReader.DecodeJSONElement<T>(SFXData[Property]);
-			}
-			else
-			{
-				if (DefaultValues.ContainsKey(Property))
-				{
-					Value = (T)Convert.ChangeType(DefaultValues[Property], typeof(T));
-					OnDefaultData(Property, DefaultValues[Property]);
-				}
-				else
-				{
-					OnMissingData(Property);
-				}
-			}
-
-			return Value;
-		}
-		catch (InvalidCastException)
-		{
-			Router.Debug.Print($"ERROR: Invalid data cast for {Property} in SFX JSON read. Returning default.");
-			return Value;
-		}
-	}
-
-	private void OnMissingData(string Property)
-	{
-		Router.Debug.Print($"ERROR: SFX JSON file not in correct format. {Property} missing.");
-	}
-
-	private void OnWrongDataRead(string Property, string Value)
-	{
-		Router.Debug.Print($"ERROR: SFX JSON file not in correct format. {Property}: {Value}.");
-	}
-
-	private void OnDefaultData(string Property, string Value)
-	{
-		Router.Debug.Print($"WARNING: Used default value for SFX creation. Specifying a value is encouraged. {Property}: {Value}.");
 	}
 }

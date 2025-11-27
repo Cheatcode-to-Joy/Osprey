@@ -11,18 +11,8 @@ public partial class TitleScreen : Control
 		Buttons.Connect(MenuButtons.SignalName.ButtonPressed, new Callable(this, MethodName.OnButtonPressed));
 	}
 
-	public override void _Input(InputEvent @Event)
+	public void OnKeyPressed()
 	{
-		if (!PressStart.Visible) { return; }
-		if (@Event is InputEventKey || @Event is InputEventMouseButton || @Event is InputEventJoypadButton)
-		{
-			OnKeyPressed();
-		}
-	}
-
-	private void OnKeyPressed()
-	{
-		PressStart.Hide();
 		Buttons.Show();
 	}
 

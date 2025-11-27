@@ -73,6 +73,7 @@ layout_mode = 2
 [connection signal="pressed" from="Centering/CoreElements/MenuElements/ButtonMargin/MenuButtons/StartButton" to="." method="OnButtonPressed" binds= [0]]
 [connection signal="pressed" from="Centering/CoreElements/MenuElements/ButtonMargin/MenuButtons/LoadButton" to="." method="OnButtonPressed" binds= [1]]
 [connection signal="pressed" from="Centering/CoreElements/MenuElements/ButtonMargin/MenuButtons/SettingsButton" to="." method="OnButtonPressed" binds= [2]]
+[connection signal="KeyPressed" from="Centering/CoreElements/MenuElements/PressStart" to="." method="OnKeyPressed"]
 
 [editable path="Centering/CoreElements/MenuElements/ButtonMargin/MenuButtons/StartButton"]
 [editable path="Centering/CoreElements/MenuElements/ButtonMargin/MenuButtons/LoadButton"]

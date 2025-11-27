@@ -36,12 +36,12 @@ offset_right = 480.0
 offset_bottom = 320.0
 
 [node name="SettingsHolder" type="Control" parent="."]
-visible = false
 custom_minimum_size = Vector2(480, 320)
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
+mouse_filter = 2
 
 [node name="DebugOverlay" parent="." instance=ExtResource("7_ewav3")]
 visible = false

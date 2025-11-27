@@ -34,13 +34,11 @@ public partial class MainScene : Node2D, IConfigReliant
 	{
 		if (CurrentSettings != null)
 		{
-			SettingsHolder.Hide();
 			CurrentSettings.QueueFree();
 			CurrentSettings = null;
 			return;
 		}
 
-		SettingsHolder.Show();
 		CurrentSettings = Settings.Instantiate<SettingsMenu>();
 		SettingsHolder.AddChild(CurrentSettings);
 	}
