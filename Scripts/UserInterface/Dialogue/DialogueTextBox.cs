@@ -1,11 +1,13 @@
 using Godot;
 using System;
+using System.Linq;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 public partial class DialogueTextBox : NinePatchRect, IConfigReliant
 {
 	[Export] private RichTextLabel TextLabel;
 
-	private bool TextActive = false;
 	private float TextSpeed;
 	private const float MinTextSpeed = 0.02f;
 	private const float MaxTextSpeed = 1.0f;
@@ -15,27 +17,13 @@ public partial class DialogueTextBox : NinePatchRect, IConfigReliant
 	private bool ProgressingTextButton = false;
 	private const float TextSpeedProgress = 0.05f;
 
+	[Signal] public delegate void InputRegisteredEventHandler();
 	[Signal] public delegate void TextFinishedEventHandler();
 	private bool SignalEmitted = false;
 
 	public override void _Ready()
 	{
 		OnConfigUpdate();
-	}
-
-	private double TimeSince = 0;
-	public override void _Process(double Delta)
-	{
-		if (!TextActive) { return; }
-
-		TimeSince += Delta;
-		if (TimeSince > TextSpeed * TextSpeedMod * (ProgressingTextButton ? TextSpeedProgress : 1))
-		{
-			TextLabel.VisibleCharacters++;
-			TimeSince = 0;
-		}
-
-		if (TextLabel.VisibleRatio >= 1) { TextActive = false; }
 	}
 	
 	public override void _Input(InputEvent @Event)
@@ -51,9 +39,11 @@ public partial class DialogueTextBox : NinePatchRect, IConfigReliant
 
 	public void OnStartProgressDialogue()
 	{
+		EmitSignal(SignalName.InputRegistered);
+
 		ProgressingTextButton = true;
 
-		if (!SignalEmitted && !TextActive)
+		if (!SignalEmitted && !PrintingText)
 		{
 			SignalEmitted = true;
 			EmitSignal(SignalName.TextFinished);
@@ -68,12 +58,134 @@ public partial class DialogueTextBox : NinePatchRect, IConfigReliant
 
 	public void SetText(string NewText)
 	{
-		TimeSince = 0;
-		TextSpeedMod = 1;
-		SignalEmitted = false;
-
-		TextLabel.Text = NewText;
+		TextLabel.Text = "";
 		TextLabel.VisibleCharacters = 0;
-		TextActive = true;
+
+		CurrentText = NewText;
+		ScanText();
+		PrintText();
+	}
+
+	string CurrentText = "";
+	string[] TextSections;
+
+	private void ScanText()
+	{
+		TextSections = new Regex("({.+?})").Split(CurrentText);
+	}
+
+	[Export] private Timer PrintTimer;
+	private bool PrintingText = false;
+	private int ProcessedSections = 0;
+	private async void PrintText()
+	{
+		ProcessedSections = 0;
+
+		PrintingText = true;
+
+		foreach (string Entry in TextSections)
+		{
+			if (Entry.Length < 1) { continue; }
+
+			if (Entry.StartsWith("{")) { await ExecuteCommand(Entry); }
+			else
+			{
+				TextLabel.AppendText(Entry);
+				int TextLength = TextLabel.GetParsedText().Length;
+				while (TextLabel.VisibleCharacters < TextLength)
+				{
+					TextLabel.VisibleCharacters++;
+					PrintTimer.Start(TextSpeed * TextSpeedMod * (ProgressingTextButton ? TextSpeedProgress : 1));
+					await ToSignal(PrintTimer, Timer.SignalName.Timeout);
+				}
+			}
+
+			ProcessedSections++;
+		}
+
+		PrintingText = false;
+	}
+
+	private async Task ExecuteCommand(string RawCommand)
+	{
+		RawCommand = Regex.Replace(RawCommand, "[{}]", "");
+		string[] Parametres = RawCommand.Split(" ");
+
+		string[] Arguments = Parametres.Length > 1 ? Parametres.Skip(1).ToArray() : [];
+
+		Router.Debug.Print($"Executing in-line command {RawCommand}.");
+
+		switch (Parametres[0].ToLower())
+		{
+			case "split":
+			await OnInlineSplit(Arguments);
+			break;
+			case "hold":
+			await OnInlineHold(Arguments);
+			break;
+			case "pause":
+			await OnInlinePause(Arguments);
+			break;
+			case "speed":
+			await OnInlineSpeed(Arguments);
+			break;
+			default:
+			Router.Debug.Print($"WARNING: Invalid in-line command {Parametres[0].ToLower()}.");
+			return;
+		}
+	}
+
+	// TODO. Add indicator of waiting for input.
+
+	private async Task OnInlineSplit(string[] Parametres)
+	{
+		await ToSignal(this, SignalName.InputRegistered);
+
+		TextLabel.Text = "";
+		TextLabel.VisibleCharacters = 0;
+	}
+
+	private async Task OnInlineHold(string[] Parametres)
+	{
+		await ToSignal(this, SignalName.InputRegistered);
+	}
+
+	private async Task OnInlinePause(string[] Parametres)
+	{
+		// BUG: After pausing the text jumps up?
+		if (Parametres.Length < 1)
+		{
+			Router.Debug.Print("ERROR: In-line command parametre missing: pause.");
+			return;
+		}
+
+		try
+		{
+			await ToSignal(GetTree().CreateTimer(Parametres[0].Split("=")[1].ToFloat()), SceneTreeTimer.SignalName.Timeout);
+		}
+		catch (Exception)
+		{
+			Router.Debug.Print("ERROR: In-line command parametre not in correct format: pause.");
+			return;
+		}
+	}
+
+	private async Task OnInlineSpeed(string[] Parametres)
+	{
+		if (Parametres.Length < 1)
+		{
+			Router.Debug.Print("ERROR: In-line command parametre missing: speed.");
+			return;
+		}
+
+		try
+		{
+			TextSpeedMod = Parametres[0].Split("=")[1].ToFloat();
+		}
+		catch (Exception)
+		{
+			Router.Debug.Print("ERROR: In-line command parametre not in correct format: speed.");
+			return;
+		}
 	}
 }

@@ -22,8 +22,6 @@ public partial class DialogueOverlay : Control
 	private const string PortraitExtension = ".png";
 
 	private Dictionary<string, string> DialogueText;
-	private string[] DialogueSections;
-	private int CurrentSection = -1;
 
 	private Dictionary<string, string> DefaultValues = new()
 	{
@@ -56,9 +54,8 @@ public partial class DialogueOverlay : Control
 		InitialisePortrait(RightPortrait, JSONExtractor.ReadData<string>(NodeName, DialogueData, DefaultValues, "RightPortraitPath"));
 
 		DialogueText = JSONExtractor.ReadData<Dictionary<string, string>>(NodeName, DialogueData, DefaultValues, "DialogueText");
-		DialogueSections = DialogueText[Router.Config.FetchConfig<string>("Text", "Language")].Split("{split}");
 
-		PlayNext();
+		Play();
 	}
 
 	private void InitialisePortrait(TextureRect Portrait, string FilePath)
@@ -89,20 +86,14 @@ public partial class DialogueOverlay : Control
 		Portrait.Texture = Atlas;
 	}
 
-	private void PlayNext()
+	private void Play()
 	{
-		CurrentSection++;
-		if (DialogueSections.Length <= CurrentSection)
-		{
-			// TODO. Expand.
-			QueueFree();
-			return;
-		}
-		TextBox.SetText(DialogueSections[CurrentSection]);
+		TextBox.SetText(DialogueText[Router.Config.FetchConfig<string>("Text", "Language")]);
 	}
 
 	public void OnTextFinished()
 	{
-		PlayNext();
+		// TODO. Expand.
+		QueueFree();
 	}
 }

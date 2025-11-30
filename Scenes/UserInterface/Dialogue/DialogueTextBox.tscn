@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bn8humuluckya" path="res://Scripts/UserInterface/Dialogue/DialogueTextBox.cs" id="1_8yd83"]
 
-[node name="DialogueTextBox" type="NinePatchRect" node_paths=PackedStringArray("TextLabel")]
+[node name="DialogueTextBox" type="NinePatchRect" node_paths=PackedStringArray("TextLabel", "PrintTimer")]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -12,6 +12,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("1_8yd83")
 TextLabel = NodePath("Margin/DialogueText")
+PrintTimer = NodePath("PrintTimer")
 
 [node name="Margin" type="MarginContainer" parent="."]
 layout_mode = 1
@@ -29,9 +30,13 @@ theme_override_constants/margin_bottom = 16
 clip_contents = false
 layout_mode = 2
 theme_override_constants/line_separation = 8
-theme_override_constants/paragraph_separation = 16
+theme_override_constants/paragraph_separation = 8
 bbcode_enabled = true
 scroll_active = false
 scroll_following_visible_characters = true
+autowrap_trim_flags = 0
 shortcut_keys_enabled = false
-visible_characters_behavior = 1
+justification_flags = 0
+
+[node name="PrintTimer" type="Timer" parent="."]
+one_shot = true
