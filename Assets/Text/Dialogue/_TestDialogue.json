@@ -1,6 +1,6 @@
 {
-	"LeftPortraitPath" : "_Placeholder",
-	"RightPortraitPath" : "NONE",
+	"SpeakerLeft" : "_TestSpeaker",
+	"SpeakerRight" : "_TestSpeaker",
 	"DialogueText" : {
 		"en" : "This is a bit of [color=orange]testing[/color] dialogue {speed multiplier=2.0}with various [tornado radius=3.0 freq=2.0 connected=1]functions[/tornado]. I wonder if it works quite right... Still needs{pause duration=ahaa} some padding {speed multiplier=0.5}to eventually {hold}scroll downwards somewhat, that would be neat.\nHere's a new paragraph, how is that looking? Is everything showing properly with the {pause duration=2.0}right amount of padding?{split}And [pulse freq=1.0 color=#ffffff40 ease=-2.0]here's[/pulse] the {speed multiplier=1.0}second entry."
 	}

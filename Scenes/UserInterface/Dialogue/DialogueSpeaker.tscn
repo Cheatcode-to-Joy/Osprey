@@ -1,0 +1,59 @@
+[gd_scene load_steps=3 format=3 uid="uid://d3mynu7offfie"]
+
+[ext_resource type="Script" uid="uid://conib8dnvgx1k" path="res://Scripts/UserInterface/Dialogue/DialogueSpeaker.cs" id="1_psblx"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_psblx"]
+region = Rect2(0, 0, 144, 144)
+
+[node name="DialogueSpeaker" type="Control" node_paths=PackedStringArray("SpeakerPortraitTexture", "SpeakerNameLabel")]
+custom_minimum_size = Vector2(144, 168)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_psblx")
+SpeakerPortraitTexture = NodePath("Ordering/SpeakerSprite")
+SpeakerNameLabel = NodePath("Ordering/SpeakerNameBox/Margin/SpeakerName")
+Atlas = SubResource("AtlasTexture_psblx")
+
+[node name="Ordering" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="SpeakerSprite" type="TextureRect" parent="Ordering"]
+custom_minimum_size = Vector2(144, 144)
+layout_mode = 2
+texture = SubResource("AtlasTexture_psblx")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="SpeakerNameBox" type="NinePatchRect" parent="Ordering"]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+
+[node name="Margin" type="MarginContainer" parent="Ordering/SpeakerNameBox"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="SpeakerName" type="RichTextLabel" parent="Ordering/SpeakerNameBox/Margin"]
+clip_contents = false
+layout_mode = 2
+bbcode_enabled = true
+scroll_active = false
+autowrap_mode = 0
+autowrap_trim_flags = 0
+shortcut_keys_enabled = false
+horizontal_alignment = 1
+vertical_alignment = 1
+justification_flags = 0

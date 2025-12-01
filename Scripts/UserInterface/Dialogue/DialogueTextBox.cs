@@ -56,6 +56,9 @@ public partial class DialogueTextBox : NinePatchRect, IConfigReliant
 		ProgressingTextButton = false;
 	}
 
+	string CurrentText = "";
+	string[] TextSections;
+
 	public void SetText(string NewText)
 	{
 		TextLabel.Text = "";
@@ -65,9 +68,6 @@ public partial class DialogueTextBox : NinePatchRect, IConfigReliant
 		ScanText();
 		PrintText();
 	}
-
-	string CurrentText = "";
-	string[] TextSections;
 
 	private void ScanText()
 	{
@@ -106,6 +106,7 @@ public partial class DialogueTextBox : NinePatchRect, IConfigReliant
 		PrintingText = false;
 	}
 
+	#region Commands
 	private async Task ExecuteCommand(string RawCommand)
 	{
 		RawCommand = Regex.Replace(RawCommand, "[{}]", "");
@@ -184,5 +185,12 @@ public partial class DialogueTextBox : NinePatchRect, IConfigReliant
 			Success = false;
 			return default;
 		}
+	}
+	#endregion
+
+	[Export] private PackedScene DialogueIndicator;
+	private void InstantiateProgressArrow(bool Inline = false)
+	{
+		
 	}
 }

@@ -1,15 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://bg7e7bky66huf"]
+[gd_scene load_steps=4 format=3 uid="uid://bg7e7bky66huf"]
 
 [ext_resource type="Script" uid="uid://chlko2hvhtdc3" path="res://Scripts/UserInterface/Dialogue/DialogueOverlay.cs" id="1_xx611"]
+[ext_resource type="PackedScene" uid="uid://d3mynu7offfie" path="res://Scenes/UserInterface/Dialogue/DialogueSpeaker.tscn" id="2_f88pl"]
 [ext_resource type="PackedScene" uid="uid://fsrhgietnqha" path="res://Scenes/UserInterface/Dialogue/DialogueTextBox.tscn" id="2_od2xi"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_od2xi"]
-region = Rect2(0, 0, 144, 144)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_f88pl"]
-region = Rect2(0, 0, 144, 144)
-
-[node name="DialogueOverlay" type="Control" node_paths=PackedStringArray("LeftPortrait", "RightPortrait", "TextBox")]
+[node name="DialogueOverlay" type="Control" node_paths=PackedStringArray("SpeakerLeft", "SpeakerRight", "TextBox")]
 custom_minimum_size = Vector2(480, 320)
 layout_mode = 3
 anchors_preset = 15
@@ -18,8 +13,8 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_xx611")
-LeftPortrait = NodePath("Margin/Elements/Portraits/PortraitLeft")
-RightPortrait = NodePath("Margin/Elements/Portraits/PortraitRight")
+SpeakerLeft = NodePath("Margin/Elements/Portraits/SpeakerLeft")
+SpeakerRight = NodePath("Margin/Elements/Portraits/SpeakerRight")
 TextBox = NodePath("Margin/Elements/DialogueTextBox")
 
 [node name="Margin" type="MarginContainer" parent="."]
@@ -30,7 +25,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/margin_left = 16
-theme_override_constants/margin_top = 64
+theme_override_constants/margin_top = 40
 theme_override_constants/margin_right = 16
 theme_override_constants/margin_bottom = 16
 
@@ -43,22 +38,18 @@ layout_mode = 2
 theme_override_constants/separation = 160
 alignment = 1
 
-[node name="PortraitLeft" type="TextureRect" parent="Margin/Elements/Portraits"]
-custom_minimum_size = Vector2(144, 144)
+[node name="SpeakerLeft" parent="Margin/Elements/Portraits" instance=ExtResource("2_f88pl")]
 layout_mode = 2
-texture = SubResource("AtlasTexture_od2xi")
-expand_mode = 1
-stretch_mode = 5
 
-[node name="PortraitRight" type="TextureRect" parent="Margin/Elements/Portraits"]
-custom_minimum_size = Vector2(144, 144)
+[node name="SpeakerRight" parent="Margin/Elements/Portraits" instance=ExtResource("2_f88pl")]
 layout_mode = 2
-texture = SubResource("AtlasTexture_f88pl")
-expand_mode = 1
-stretch_mode = 5
+
+[node name="SpeakerSprite" parent="Margin/Elements/Portraits/SpeakerRight/Ordering" index="0"]
 flip_h = true
 
 [node name="DialogueTextBox" parent="Margin/Elements" instance=ExtResource("2_od2xi")]
 layout_mode = 2
 
 [connection signal="TextFinished" from="Margin/Elements/DialogueTextBox" to="." method="OnTextFinished"]
+
+[editable path="Margin/Elements/Portraits/SpeakerRight"]

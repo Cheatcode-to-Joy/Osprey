@@ -1,0 +1,33 @@
+[gd_scene load_steps=4 format=3 uid="uid://caal8344ttnwv"]
+
+[ext_resource type="Script" uid="uid://1rjh0xj3ytl" path="res://Scripts/UserInterface/Dialogue/DialogueProgressArrow.cs" id="1_6iivn"]
+[ext_resource type="Texture2D" uid="uid://co41se0qpqwr6" path="res://Assets/Visual/UserInterface/Dialogue/ProgressArrows.png" id="2_qa8i2"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1jbls"]
+atlas = ExtResource("2_qa8i2")
+region = Rect2(0, 0, 8, 8)
+
+[node name="DialogueProgressArrow" type="Control" node_paths=PackedStringArray("ArrowSprite")]
+custom_minimum_size = Vector2(8, 8)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -472.0
+offset_bottom = -312.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_6iivn")
+ArrowSprite = NodePath("ProgressSprite")
+Atlas = SubResource("AtlasTexture_1jbls")
+
+[node name="ProgressSprite" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("AtlasTexture_1jbls")
+expand_mode = 1
+stretch_mode = 4
