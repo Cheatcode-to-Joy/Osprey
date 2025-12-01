@@ -17,10 +17,10 @@ Custom Commands:
 - {hold} # Waits for player input to progress.
 - {pause duration=1.0} # Pauses dialogue progression.
 - {speed multiplier=1.0} # Modifies the speed of dialogue progression.
+- {expression name="<expressionname>" speaker=true} # Changes specified portrait to a different expression sprite.
 
 # TODO.
 - {shake strength=1.0} # Shakes the screen.
 - {sound name="<filename>"} # Plays the desired sound effect. Points to a JSON SFX file.
-- {expression name="<expressionname>" portrait=left} # Changes specified portrait to a different expression sprite.
-- {particle name="<particlename>" time=1.0 intensity=1.0 portrait=left} # Shows particles emanating from specified portrait.
-- {speech text="<text>" speed=1.0 wobble=1.0 duration=2.0 number=3 delay=0.2 portrait=left} # Shows text coming out from portrait.
+- {particle name="<particlename>" time=1.0 intensity=1.0 speaker=true} # Shows particles emanating from specified portrait.
+- {speech text="<text>" speed=1.0 wobble=1.0 duration=2.0 number=3 delay=0.2 speaker=true} # Shows text coming out from portrait.

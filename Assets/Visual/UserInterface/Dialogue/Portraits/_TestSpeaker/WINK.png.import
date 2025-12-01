@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ctn4r2j08aaw4"
-path="res://.godot/imported/_Placeholder.png-9bdfe5ea8069d6876be58bfc09b88fb6.ctex"
+uid="uid://ctcbp2lvf2y8x"
+path="res://.godot/imported/WINK.png-896bd908865fa23338b84e5d8aff41f3.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Visual/UserInterface/Dialogue/Portraits/_Placeholder.png"
-dest_files=["res://.godot/imported/_Placeholder.png-9bdfe5ea8069d6876be58bfc09b88fb6.ctex"]
+source_file="res://Assets/Visual/UserInterface/Dialogue/Portraits/_TestSpeaker/WINK.png"
+dest_files=["res://.godot/imported/WINK.png-896bd908865fa23338b84e5d8aff41f3.ctex"]
 
 [params]
 

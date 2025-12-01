@@ -8,6 +8,8 @@ public partial class DialogueTextBox : NinePatchRect, IConfigReliant
 {
 	[Export] private RichTextLabel TextLabel;
 
+	[Export] private DialogueOverlay Overlay;
+
 	private float TextSpeed;
 	private const float MinTextSpeed = 0.02f;
 	private const float MaxTextSpeed = 1.0f;
@@ -130,6 +132,9 @@ public partial class DialogueTextBox : NinePatchRect, IConfigReliant
 			case "speed":
 			await OnInlineSpeed(Arguments);
 			break;
+			case "expression":
+			await OnInlineExpression(Arguments);
+			break;
 			default:
 			Router.Debug.Print($"WARNING: Invalid in-line command {Parametres[0].ToLower()}.");
 			return;
@@ -161,6 +166,17 @@ public partial class DialogueTextBox : NinePatchRect, IConfigReliant
 	{
 		float NewSpeedMod = FetchParametreValue<float>("Speed", Parametres, 0, out bool Success);
 		if (Success) { TextSpeedMod = NewSpeedMod; }
+	}
+
+	private async Task OnInlineExpression(string[] Parametres)
+	{
+		string ExpressionName = FetchParametreValue<string>("Expression", Parametres, 0, out bool Success);
+		if (!Success) { return; }
+		bool Speaker = FetchParametreValue<bool>("Expression", Parametres, 1, out Success);
+		if (!Success) { return; }
+
+		DialogueSpeaker Participant = Speaker ? Overlay.GetSpeaker() : Overlay.GetListener();
+		Participant.ChangeExpression(ExpressionName);
 	}
 
 	private T FetchParametreValue<T>(string Name, string[] Parametres, int Position, out bool Success)

@@ -47,8 +47,9 @@ layout_mode = 2
 [node name="SpeakerSprite" parent="Margin/Elements/Portraits/SpeakerRight/Ordering" index="0"]
 flip_h = true
 
-[node name="DialogueTextBox" parent="Margin/Elements" instance=ExtResource("2_od2xi")]
+[node name="DialogueTextBox" parent="Margin/Elements" node_paths=PackedStringArray("Overlay") instance=ExtResource("2_od2xi")]
 layout_mode = 2
+Overlay = NodePath("../../..")
 
 [connection signal="TextFinished" from="Margin/Elements/DialogueTextBox" to="." method="OnTextFinished"]
 

@@ -1,5 +1,40 @@
 {
 	"ID" : 0,
 	"Name" : "TestSpeaker",
-	"Portrait" : "_Placeholder"
+	"ExpressionData" : {
+		"DEFAULT" : {
+			"Item1" : [
+				{
+					"Item1" : 0,
+					"Item2" : 3.0
+				},
+				{
+					"Item1" : 1,
+					"Item2" : 0.5
+				}
+			],
+			"Item2" : "LOOP"
+		},
+		"WINK" : {
+			"Item1" : [
+				{
+					"Item1" : 0,
+					"Item2" : 0.2
+				},
+				{
+					"Item1" : 1,
+					"Item2" : 0.2
+				},
+				{
+					"Item1" : 2,
+					"Item2" : 0.2
+				},
+				{
+					"Item1" : 3,
+					"Item2" : 0.5
+				}
+			],
+			"Item2" : "DEFAULT"
+		}
+	}
 }

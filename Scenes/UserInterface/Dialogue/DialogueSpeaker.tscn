@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://conib8dnvgx1k" path="res://Scripts/UserInterface/Dialogue/DialogueSpeaker.cs" id="1_psblx"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_psblx"]
+resource_local_to_scene = true
 region = Rect2(0, 0, 144, 144)
 
 [node name="DialogueSpeaker" type="Control" node_paths=PackedStringArray("SpeakerPortraitTexture", "SpeakerNameLabel")]

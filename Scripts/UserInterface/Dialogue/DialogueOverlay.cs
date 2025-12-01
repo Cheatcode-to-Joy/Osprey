@@ -21,6 +21,8 @@ public partial class DialogueOverlay : Control
 		{ "SpeakerRight", "_Placeholder" }
 	};
 
+	private bool LeftSpeaking = true;
+
 	// FIXME. Delete.
 	public override void _Input(InputEvent @Event)
 	{
@@ -53,6 +55,21 @@ public partial class DialogueOverlay : Control
 	private void Play()
 	{
 		TextBox.SetText(DialogueText[Router.Config.FetchConfig<string>("Text", "Language")]);
+	}
+
+	public void ChangeSpeaker()
+	{
+		LeftSpeaking = !LeftSpeaking;
+	}
+
+	public DialogueSpeaker GetSpeaker()
+	{
+		return LeftSpeaking ? SpeakerLeft : SpeakerRight;
+	}
+
+	public DialogueSpeaker GetListener()
+	{
+		return LeftSpeaking ? SpeakerRight : SpeakerLeft;
 	}
 
 	public void OnTextFinished()

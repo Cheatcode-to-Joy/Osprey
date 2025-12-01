@@ -26,4 +26,9 @@ public static class JSONReader
 	{
 		return JsonSerializer.Deserialize<T>(Value);
 	}
+
+	public static T DecodeJSONElementSettings<T>(JsonElement Value, JsonSerializerOptions Options)
+	{
+		return JsonSerializer.Deserialize<T>(Value, Options);
+	}
 }
