@@ -152,40 +152,37 @@ public partial class DialogueTextBox : NinePatchRect, IConfigReliant
 
 	private async Task OnInlinePause(string[] Parametres)
 	{
-		// BUG: After pausing the text jumps up?
-		if (Parametres.Length < 1)
-		{
-			Router.Debug.Print("ERROR: In-line command parametre missing: pause.");
-			return;
-		}
-
-		try
-		{
-			await ToSignal(GetTree().CreateTimer(Parametres[0].Split("=")[1].ToFloat()), SceneTreeTimer.SignalName.Timeout);
-		}
-		catch (Exception)
-		{
-			Router.Debug.Print("ERROR: In-line command parametre not in correct format: pause.");
-			return;
-		}
+		float Duration = FetchParametreValue<float>("Pause", Parametres, 0, out bool Success);
+		if (Success) { await ToSignal(GetTree().CreateTimer(Duration), SceneTreeTimer.SignalName.Timeout); }
 	}
 
 	private async Task OnInlineSpeed(string[] Parametres)
 	{
-		if (Parametres.Length < 1)
+		float NewSpeedMod = FetchParametreValue<float>("Speed", Parametres, 0, out bool Success);
+		if (Success) { TextSpeedMod = NewSpeedMod; }
+	}
+
+	private T FetchParametreValue<T>(string Name, string[] Parametres, int Position, out bool Success)
+	{
+		if (Parametres.Length <= Position)
 		{
-			Router.Debug.Print("ERROR: In-line command parametre missing: speed.");
-			return;
+			Router.Debug.Print($"ERROR: In-line command parametre missing: {Name}, position {Position}.");
+			Success = false;
+			return default;
 		}
 
 		try
 		{
-			TextSpeedMod = Parametres[0].Split("=")[1].ToFloat();
+			T Value = default;
+			Value = (T)Convert.ChangeType(Parametres[Position].Split("=")[1], typeof(T));
+			Success = true;
+			return Value;
 		}
 		catch (Exception)
 		{
-			Router.Debug.Print("ERROR: In-line command parametre not in correct format: speed.");
-			return;
+			Router.Debug.Print($"ERROR: In-line command parametre not in correct format: {Name}, position {Position}.");
+			Success = false;
+			return default;
 		}
 	}
 }
