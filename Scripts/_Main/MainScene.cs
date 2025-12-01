@@ -8,6 +8,13 @@ public partial class MainScene : Node2D, IConfigReliant
 	[Export] private Control SettingsHolder;
 	private SettingsMenu CurrentSettings = null;
 
+	[Export] public MainCamera Camera;
+
+	public void OnTreeEntered()
+	{
+		Router.Main = this;
+	}
+
 	public override void _Ready()
 	{
 		Router.Config.Connect(ConfigManager.SignalName.ConfigChanged, new Callable(this, MethodName.OnConfigUpdate));

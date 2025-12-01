@@ -23,6 +23,7 @@ window/size/viewport_width=480
 window/size/viewport_height=320
 window/size/mode=3
 window/stretch/mode="viewport"
+window/stretch/scale_mode="integer"
 
 [dotnet]
 
@@ -35,6 +36,8 @@ naming/default_signal_callback_to_self_name="On{SignalName}"
 
 [gui]
 
+theme/default_font_antialiasing=0
+theme/default_font_subpixel_positioning=0
 theme/custom="uid://c3p3eo1p176wp"
 
 [input]
@@ -72,3 +75,7 @@ ProgressDialogue={
 [internationalization]
 
 locale/translations=PackedStringArray("res://Assets/Text/Localisation/_Localisation.en.translation")
+
+[rendering]
+
+environment/defaults/default_clear_color=Color(0, 0, 0, 1)

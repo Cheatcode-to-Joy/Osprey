@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://bxwm3pj45kydn"]
+
+[ext_resource type="Script" uid="uid://cp8r8l1gsu7dw" path="res://Scripts/_Main/MainCamera.cs" id="1_2ws2l"]
+
+[node name="MainCamera" type="Camera2D"]
+offset = Vector2(240, 160)
+script = ExtResource("1_2ws2l")

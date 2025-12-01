@@ -135,6 +135,18 @@ public partial class DialogueTextBox : NinePatchRect, IConfigReliant
 			case "expression":
 			await OnInlineExpression(Arguments);
 			break;
+			case "shake":
+			await OnInlineShake(Arguments);
+			break;
+			case "swapsplit":
+			await OnInlineSwapSplit(Arguments);
+			break;
+			case "end":
+			await OnInlineEnd(Arguments);
+			break;
+			case "sound":
+			await OnInlineSound(Arguments);
+			break;
 			default:
 			Router.Debug.Print($"WARNING: Invalid in-line command {Parametres[0].ToLower()}.");
 			return;
@@ -179,11 +191,43 @@ public partial class DialogueTextBox : NinePatchRect, IConfigReliant
 		Participant.ChangeExpression(ExpressionName);
 	}
 
-	private T FetchParametreValue<T>(string Name, string[] Parametres, int Position, out bool Success)
+	private async Task OnInlineShake(string[] Parametres)
+	{
+		float Strength = FetchParametreValue<float>("Shake", Parametres, 0, out bool Success);
+		if (!Success) { return; }
+		float Duration = FetchParametreValue<float>("Shake", Parametres, 1, out Success);
+		if (!Success) { return; }
+		float Fade = FetchParametreValue<float>("Shake", Parametres, 2, out Success);
+		if (!Success) { return; }
+
+		Router.Main.Camera.ShakeCamera(Strength, Duration, Fade);
+	}
+
+	private async Task OnInlineSwapSplit(string[] Parametres)
+	{
+		await OnInlineSplit(Parametres);
+		Overlay.ChangeSpeaker();
+	}
+
+	private async Task OnInlineEnd(string[] Parametres)
+	{
+		EmitSignal(SignalName.TextFinished);
+	}
+
+	private async Task OnInlineSound(string[] Parametres)
+	{
+		string SFXName = FetchParametreValue<string>("Expression", Parametres, 0, out bool Success);
+		if (!Success) { return; }
+
+		// TODO. Handle positional.
+		Router.Audio.SFXMaker.CreateSFX(SFXName);
+	}
+
+	private T FetchParametreValue<T>(string Name, string[] Parametres, int Position, out bool Success, bool Optional = false)
 	{
 		if (Parametres.Length <= Position)
 		{
-			Router.Debug.Print($"ERROR: In-line command parametre missing: {Name}, position {Position}.");
+			if (!Optional) { Router.Debug.Print($"ERROR: In-line command parametre missing: {Name}, position {Position}."); }
 			Success = false;
 			return default;
 		}

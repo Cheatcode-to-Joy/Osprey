@@ -18,7 +18,8 @@ public partial class DialogueOverlay : Control
 	private Dictionary<string, string> DefaultValues = new()
 	{
 		{ "SpeakerLeft", "_Placeholder" },
-		{ "SpeakerRight", "_Placeholder" }
+		{ "SpeakerRight", "_Placeholder" },
+		{ "LeftSpeaking", "true" }
 	};
 
 	private bool LeftSpeaking = true;
@@ -49,6 +50,10 @@ public partial class DialogueOverlay : Control
 
 		DialogueText = JSONExtractor.ReadData<Dictionary<string, string>>(NodeName, DialogueData, DefaultValues, "DialogueText");
 
+		LeftSpeaking = JSONExtractor.ReadData<bool>(NodeName, DialogueData, DefaultValues, "LeftSpeaking");
+		SpeakerLeft.SetMain(LeftSpeaking);
+		SpeakerRight.SetMain(!LeftSpeaking);
+
 		Play();
 	}
 
@@ -60,6 +65,8 @@ public partial class DialogueOverlay : Control
 	public void ChangeSpeaker()
 	{
 		LeftSpeaking = !LeftSpeaking;
+		SpeakerLeft.SetMain(LeftSpeaking);
+		SpeakerRight.SetMain(!LeftSpeaking);
 	}
 
 	public DialogueSpeaker GetSpeaker()

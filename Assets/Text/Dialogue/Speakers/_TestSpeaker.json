@@ -35,6 +35,19 @@
 				}
 			],
 			"Item2" : "DEFAULT"
+		},
+		"WORRIED" : {
+			"Item1" : [
+				{
+					"Item1" : 0,
+					"Item2" : 0.4
+				},
+				{
+					"Item1" : 1,
+					"Item2" : 0.4
+				}
+			],
+			"Item2" : "LOOP"
 		}
 	}
 }

@@ -125,6 +125,11 @@ public partial class DialogueSpeaker : Control
 		ChangeExpression("DEFAULT");
 	}
 
+	public void SetMain(bool IsMain)
+	{
+		Modulate = new Color(1, 1, 1, IsMain ? 1 : 0.5f);
+	}
+
 	/*
 	private class Speaker
 	{
