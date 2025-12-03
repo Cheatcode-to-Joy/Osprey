@@ -4,29 +4,14 @@ using System.Text.Json;
 
 public static class JSONExtractor
 {
-	private static JsonSerializerOptions Options;
-
-	private static void CreateSettings()
-	{
-		if (Options == null) { Options = new() { IncludeFields = true }; }
-	}
-
-	public static T ReadData<T>(string NodeName, Dictionary<string, JsonElement> Data, Dictionary<string, string> DefaultValues, string Property, bool Extra = false)
+	public static T ReadData<T>(string NodeName, Dictionary<string, JsonElement> Data, Dictionary<string, string> DefaultValues, string Property)
 	{
 		T Value = default;
 		try
 		{
 			if (Data.ContainsKey(Property))
 			{
-				if (Extra)
-				{
-					CreateSettings();
-					Value = JSONReader.DecodeJSONElementSettings<T>(Data[Property], Options);
-				}
-				else
-				{
-					Value = JSONReader.DecodeJSONElement<T>(Data[Property]);
-				}
+				Value = JSONReader.DecodeJSONElement<T>(Data[Property]);
 			}
 			else
 			{

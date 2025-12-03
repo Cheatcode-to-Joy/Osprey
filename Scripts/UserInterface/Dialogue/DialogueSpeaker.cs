@@ -5,55 +5,34 @@ using System.Text.Json;
 
 public partial class DialogueSpeaker : Control
 {
-	private const string NodeName = "DialogueSpeaker";
+	[Export] private RichTextLabel NameLabel;
+	[Export] private AtlasTexture Atlas;
 
-	[Export] private TextureRect SpeakerPortraitTexture;
-	[Export] private RichTextLabel SpeakerNameLabel;
-
-	public int ID;
 	private string CodeName = "NO_NAME";
+	public Speaker CSpeaker;
 
-	private const string JSONPathStart = "res://Assets/Text/Dialogue/Speakers/";
+	private const int PortraitWidth = 144;
+	private const int PortraitHeight = 144;
 
-	private Dictionary<string, string> DefaultValues = new()
-	{
-		{ "ID", "0" },
-		{ "Name", "_Placeholder" }
-	};
+	[Signal] public delegate void ExpressionChangedEventHandler();
 
 	public void SetSpeaker(string JSONPath)
 	{
 		CodeName = JSONPath;
-		JSONPath = JSONPathStart + JSONPath + ".json";
-		if (!JSONPath.IsAbsolutePath())
-		{
-			Router.Debug.Print($"ERROR: Speaker JSON file path not in correct format: {JSONPath}.");
-			return;
-		}
+		JSONPath = $"Dialogue/Speakers/{JSONPath}.json";
 
-		Dictionary<string, JsonElement> SpeakerData = JSONReader.ReadJSONFile<Dictionary<string, JsonElement>>(JSONPath, false);
-		if (SpeakerData == null)
-		{
-			return; // Error is already called in JSONReader.
-		}
+		CSpeaker = JSONReader.ReadJSONFile<Speaker>(JSONPath);
 
-		ID = JSONExtractor.ReadData<int>(NodeName, SpeakerData, DefaultValues, "ID");
-
-		string RawName = JSONExtractor.ReadData<string>(NodeName, SpeakerData, DefaultValues, "Name");
-		SpeakerNameLabel.Text = RawName.Substring(0, Math.Min(RawName.Length, (int)(1 + SpeakerNameLabel.Size.X / 8)));
-
-		ExpressionData = JSONExtractor.ReadData<Dictionary<string,(List<(int, float)>, string)>>(NodeName, SpeakerData, DefaultValues, "ExpressionData", true);
-
+		InitialiseName();
 		InitialisePortrait();
 	}
 
-	private const int PortraitWidth = 144;
-	private const int PortraitHeight = 144;
-	private const string PortraitPathStart = "res://Assets/Visual/UserInterface/Dialogue/Portraits/";
-	private const string PortraitExtension = ".png";
+	private void InitialiseName()
+	{
+		// FIXME. Redo, probably?
+		NameLabel.Text = CSpeaker.Name[..Math.Min(CSpeaker.Name.Length, (int)(1 + NameLabel.Size.X / 8))];
+	}
 
-	[Export] private AtlasTexture Atlas;
-	private Dictionary<string,(List<(int, float)>, string)> ExpressionData;
 	private void InitialisePortrait()
 	{
 		Atlas.Region = new Rect2(0, 0, PortraitWidth, PortraitHeight);
@@ -61,10 +40,9 @@ public partial class DialogueSpeaker : Control
 		ChangeExpression("DEFAULT");
 	}
 
-	[Signal] public delegate void ExpressionChangedEventHandler();
 	public void ChangeExpression(string ExpressionName)
 	{
-		if (!ExpressionData.ContainsKey(ExpressionName.ToUpper()))
+		if (!CSpeaker.ExpressionData.ContainsKey(ExpressionName.ToUpper()))
 		{
 			Router.Debug.Print($"ERROR: Cannot find expression data for {ExpressionName}.");
 			return;
@@ -72,7 +50,7 @@ public partial class DialogueSpeaker : Control
 
 		try
 		{
-			Atlas.Atlas = GD.Load<Texture2D>($"{PortraitPathStart}{CodeName}/{ExpressionName}{PortraitExtension}");
+			Atlas.Atlas = GD.Load<Texture2D>($"res://Assets/Visual/UserInterface/Dialogue/Portraits/{CodeName}/{ExpressionName}.png");
 		}
 		catch
 		{
@@ -90,12 +68,12 @@ public partial class DialogueSpeaker : Control
 		// Animation
 		Tween AnimationTween = CreateTween();
 		Connect(SignalName.ExpressionChanged, new Callable(AnimationTween, Tween.MethodName.Kill));
-		foreach ((int, float) Entry in ExpressionData[ExpressionName.ToUpper()].Item1)
+		foreach (FrameData Data in CSpeaker.ExpressionData[ExpressionName.ToUpper()].Timing)
 		{
 			AnimationTween.TweenCallback(new Callable(this, MethodName.AnimateExpression));
-			AnimationTween.TweenInterval(Entry.Item2);
+			AnimationTween.TweenInterval(Data.Time);
 		}
-		switch (ExpressionData[ExpressionName.ToUpper()].Item2)
+		switch (CSpeaker.ExpressionData[ExpressionName.ToUpper()].Transition)
 		{
 			case "LOOP":
 			AnimationTween.SetLoops();
@@ -109,15 +87,16 @@ public partial class DialogueSpeaker : Control
 
 	}
 
+	// FIXME. Figure out a better way. Why no bind in C#????
 	private string CurrentExpression = "DEFAULT";
 	private int CurrentFrame = 0;
 
 	private void AnimateExpression()
 	{
-		int Frame = ExpressionData[CurrentExpression].Item1[CurrentFrame].Item1;
+		int Frame = CSpeaker.ExpressionData[CurrentExpression].Timing[CurrentFrame].Frame;
 		Frame = ((Frame + 1) * PortraitWidth) <= Atlas.Atlas.GetSize().X ? Frame : 0;
 		Atlas.Region = new Rect2(Frame * PortraitWidth, 0, PortraitWidth, PortraitHeight);
-		CurrentFrame = (CurrentFrame + 1) % ExpressionData[CurrentExpression].Item1.Count;
+		CurrentFrame = (CurrentFrame + 1) % CSpeaker.ExpressionData[CurrentExpression].Timing.Count;
 	}
 
 	private void PlayDefaultExpression()
@@ -130,24 +109,41 @@ public partial class DialogueSpeaker : Control
 		Modulate = new Color(1, 1, 1, IsMain ? 1 : 0.5f);
 	}
 
-	/*
-	private class Speaker
+	#region Speaker
+	public class Speaker
 	{
-		private int ID = 0;
-		private string Name = "_Placeholder";
-		private string Portrait = "_Placeholder";
-		private ExpData ExpressionData;
+		public int ID { get; set; }
+		public string Name { get; set; }
+		public Dictionary<string, Expression> ExpressionData { get; set; } = [];
 
-		private class ExpData
+		public override string ToString()
 		{
-			private Dictionary<string, Expression> Expressions;
-
-			private class Expression
-			{
-				private List<(int, float)> Timing;
-				private string Transition = "DEFAULT";
-			}
+			string Result = $"ID: {ID}\nName: {Name}";
+			foreach (string Expression in ExpressionData.Keys) { Result += $"\n{Expression}: {ExpressionData[Expression]}"; }
+			return Result;
 		}
 	}
-	*/
+
+	public class Expression
+	{
+		public List<FrameData> Timing { get; set; }
+		public string Transition { get; set; } = "DEFAULT";
+
+		public override string ToString()
+		{
+			return $"[TimingData: {{{string.Join(", ", Timing)}}}, Transition: {Transition}]";
+		}
+	}
+
+	public class FrameData
+	{
+		public int Frame { get; set; }
+		public float Time { get; set; }
+
+		public override string ToString()
+		{
+			return $"{Frame}: {Time}";
+		}
+	}
+	#endregion
 }

@@ -6,7 +6,7 @@
 resource_local_to_scene = true
 region = Rect2(0, 0, 144, 144)
 
-[node name="DialogueSpeaker" type="Control" node_paths=PackedStringArray("SpeakerPortraitTexture", "SpeakerNameLabel")]
+[node name="DialogueSpeaker" type="Control" node_paths=PackedStringArray("NameLabel")]
 custom_minimum_size = Vector2(144, 168)
 layout_mode = 3
 anchors_preset = 15
@@ -15,8 +15,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_psblx")
-SpeakerPortraitTexture = NodePath("Ordering/SpeakerSprite")
-SpeakerNameLabel = NodePath("Ordering/SpeakerNameBox/Margin/SpeakerName")
+NameLabel = NodePath("Ordering/SpeakerNameBox/Margin/SpeakerName")
 Atlas = SubResource("AtlasTexture_psblx")
 
 [node name="Ordering" type="VBoxContainer" parent="."]
