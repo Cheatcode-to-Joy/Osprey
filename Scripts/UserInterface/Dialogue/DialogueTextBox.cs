@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -67,8 +68,29 @@ public partial class DialogueTextBox : NinePatchRect, IConfigReliant
 		TextLabel.VisibleCharacters = 0;
 
 		CurrentText = NewText;
+		PreloadAudio();
+
 		ScanText();
 		PrintText();
+	}
+
+	private Dictionary<string, AudioStream> Audio = [];
+
+	[GeneratedRegex("{sound name=(.+?)}")]
+	private static partial Regex AudioRegex();
+
+	private void PreloadAudio()
+	{
+		MatchCollection AudioNames = AudioRegex().Matches(CurrentText);
+		foreach (Match AudioName in AudioNames)
+		{
+			string ConvertedName = AudioName.Groups[1].Value.ToString();
+			if (!Audio.ContainsKey(ConvertedName))
+			{
+				AudioStream Stream = Router.Audio.SFXMaker.CreateStream(ConvertedName);
+				if (Stream != null) { Audio[ConvertedName] = Stream; }
+			}
+		}
 	}
 
 	private void ScanText()
@@ -219,8 +241,10 @@ public partial class DialogueTextBox : NinePatchRect, IConfigReliant
 		string SFXName = FetchParametreValue<string>("Expression", Parametres, 0, out bool Success);
 		if (!Success) { return; }
 
-		// TODO. Handle positional.
-		Router.Audio.SFXMaker.CreateSFX(SFXName);
+		if (Audio.ContainsKey(SFXName))
+		{
+			Router.Audio.SFXMaker.CreateOmniAudioStream(Audio[SFXName]);
+		}
 	}
 
 	private T FetchParametreValue<T>(string Name, string[] Parametres, int Position, out bool Success, bool Optional = false)

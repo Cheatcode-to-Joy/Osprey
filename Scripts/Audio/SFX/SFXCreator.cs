@@ -5,110 +5,86 @@ using System.Text.Json;
 
 public partial class SFXCreator : Node
 {
-	private const string NodeName = "SFXCreator";
-
 	[Export] private PackedScene OmniSFX;
 	[Export] private PackedScene PosiSFX;
 
-	private const string FilePathStart = "res://Assets/Audio/SFX/";
-	private const string FileExtension = ".mp3";
+	private const string AudioFolder = "res://Assets/Audio/SFX/";
 
-	private Dictionary<string, string> DefaultValues = new()
+	public AudioStream CreateStream(string JSONPath)
 	{
-		{ "IsAudioPositional", "false" }
-	};
+		JSONPath = $"{AudioFolder}{JSONPath}.json";
 
-	public Variant CreateSFX(string JSONPath)
-	{
-		JSONPath = FilePathStart + JSONPath + ".json";
-		if (!JSONPath.IsAbsolutePath())
+		SoundEffect CSound = JSONReader.ReadJSONFile<SoundEffect>(JSONPath);
+
+		try
 		{
-			Router.Debug.Print($"ERROR: SFX JSON file path not in correct format: {JSONPath}.");
-			return false;
+			if (CSound.Streams.Count == 0)
+			{
+				Router.Debug.Print($"ERROR: There are no audio streams in {JSONPath}.");
+				return null;
+			}
+
+			if (CSound.Streams.Count == 1)
+			{
+				return GD.Load<AudioStream>($"{AudioFolder}{CSound.Streams[0].File}.mp3");
+			}
+
+			AudioStreamRandomizer CStream = new();
+			CStream.RandomPitch = CSound.PitchVariation;
+			CStream.RandomVolumeOffsetDb = CSound.VolumeVariation;
+			foreach (StreamFile Stream in CSound.Streams)
+			{
+				CStream.AddStream(-1, GD.Load<AudioStream>($"{AudioFolder}{Stream.File}.mp3"), Stream.Weight);
+			}
+			return CStream;
 		}
-
-		Dictionary<string, JsonElement> SFXData = JSONReader.ReadJSONFile<Dictionary<string, JsonElement>>(JSONPath, false);
-		if (SFXData == null)
+		catch (Exception)
 		{
-			return false; // Error is already called in JSONReader.
-		}
-
-		bool IsAudioPositional = JSONExtractor.ReadData<bool>(NodeName, SFXData, DefaultValues, "IsAudioPositional");
-
-		return IsAudioPositional ? CreatePosiSFX(SFXData) : CreateOmniSFX(SFXData);
-	}
-
-	private Variant CreateOmniSFX(Dictionary<string, JsonElement> SFXData)
-	{
-		AudioStreamPlayer SoundEffect = OmniSFX.Instantiate<AudioStreamPlayer>();
-		string[][] StreamData = JSONExtractor.ReadData<string[][]>(NodeName, SFXData, DefaultValues, "StreamData");
-		SoundEffect.Stream = CreateStream(StreamData);
-		if (SoundEffect.Stream == null) { return false; }
-		// TODO. More will be added later.
-
-		AddChild(SoundEffect);
-		return false;
-	}
-
-	private Variant CreatePosiSFX(Dictionary<string, JsonElement> SFXData)
-	{
-		AudioStreamPlayer2D SoundEffect = PosiSFX.Instantiate<AudioStreamPlayer2D>();
-		string[][] StreamData = JSONExtractor.ReadData<string[][]>(NodeName, SFXData, DefaultValues, "StreamData");
-		SoundEffect.Stream = CreateStream(StreamData);
-		if (SoundEffect.Stream == null) { return false; }
-		// TODO. More will be added later.
-
-		return SoundEffect;
-	}
-
-	private AudioStream CreateStream(string[][] StreamData)
-	{
-		if (StreamData == null) { return null; }
-		if (StreamData.Length < 1 || (StreamData.Length == 1 && StreamData[0].Length > 1))
-		{
-			JSONExtractor.OnMissingData(NodeName, "StreamData");
+			Router.Debug.Print($"ERROR: Failed to read audio streams from {JSONPath}.");
 			return null;
 		}
-
-		AudioStream NewStream;
-		if (StreamData[0].Length == 1)
-		{
-			try
-			{
-				NewStream = (AudioStream)ResourceLoader.Load(FilePathStart + StreamData[0][0] + FileExtension);
-			}
-			catch (Exception)
-			{
-				Router.Debug.Print($"ERROR: Audio Stream unable to be imported: {FilePathStart + StreamData[0][0] + FileExtension}.");
-				return null;
-			}
-		}
-		else
-		{
-			AudioStreamRandomizer NewRandomizer = new AudioStreamRandomizer();
-			try
-			{
-				if (StreamData[0].Length != StreamData[1].Length) { return null; }
-				for (int Index = 0; Index < StreamData[0].Length; Index++)
-				{
-					NewRandomizer.AddStream(Index, (AudioStream)ResourceLoader.Load(FilePathStart + StreamData[0][Index] + FileExtension), StreamData[1][Index].ToFloat());
-				}
-
-				if (StreamData.Length > 2 && StreamData[2].Length >= 2)
-				{
-					NewRandomizer.RandomPitch = StreamData[2][0].ToFloat();
-					NewRandomizer.RandomVolumeOffsetDb = StreamData[2][1].ToFloat();
-				}
-
-				NewStream = NewRandomizer;
-			}
-			catch (Exception)
-			{
-				Router.Debug.Print($"ERROR: Audio Stream unable to be imported: {StreamData[0][0]} and following...");
-				return null;
-			}
-		}
-
-		return NewStream;
 	}
+
+	public void CreateOmniAudioStream(AudioStream CStream)
+	{
+		AudioStreamPlayer SoundPlayer = OmniSFX.Instantiate<AudioStreamPlayer>();
+		SoundPlayer.Stream = CStream;
+
+		AddChild(SoundPlayer);
+	}
+
+	public AudioStreamPlayer2D CreatePosiAudioStream(AudioStream CStream)
+	{
+		AudioStreamPlayer2D SoundPlayer = PosiSFX.Instantiate<AudioStreamPlayer2D>();
+		SoundPlayer.Stream = CStream;
+
+		return SoundPlayer;
+	}
+
+	#region SoundEffect
+	public class SoundEffect
+	{
+		public List<StreamFile> Streams { get; set; } = [];
+		public float PitchVariation { get; set; } = 0.0f;
+		public float VolumeVariation { get; set; } = 0.0f;
+
+		public override string ToString()
+		{
+			string Result = $"Pitch variation: {PitchVariation}\nVolume variation: {VolumeVariation}";
+			foreach (StreamFile Stream in Streams) { Result += $"\n{Stream}"; }
+			return Result;
+		}
+	}
+
+	public class StreamFile
+	{
+		public string File { get; set; } = "";
+		public float Weight { get; set; } = 1.0f;
+
+		public override string ToString()
+		{
+			return $"file {File}, weight {Weight}";
+		}
+	}
+	#endregion
 }

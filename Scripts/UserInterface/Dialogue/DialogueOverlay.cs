@@ -5,22 +5,11 @@ using System.Text.Json;
 
 public partial class DialogueOverlay : Control
 {
-	private const string NodeName = "DialogueOverlay";
-
 	[Export] private DialogueSpeaker SpeakerLeft;
 	[Export] private DialogueSpeaker SpeakerRight;
 	[Export] private DialogueTextBox TextBox;
 
-	private const string JSONPathStart = "res://Assets/Text/Dialogue/";
-
-	private Dictionary<string, string> DialogueText;
-
-	private Dictionary<string, string> DefaultValues = new()
-	{
-		{ "SpeakerLeft", "_Placeholder" },
-		{ "SpeakerRight", "_Placeholder" },
-		{ "LeftSpeaking", "true" }
-	};
+	private Dialogue CDialogue;
 
 	private bool LeftSpeaking = true;
 
@@ -32,25 +21,15 @@ public partial class DialogueOverlay : Control
 	
 	public void LoadDialogue(string JSONPath)
 	{
-		JSONPath = JSONPathStart + JSONPath + ".json";
-		if (!JSONPath.IsAbsolutePath())
-		{
-			Router.Debug.Print($"ERROR: Dialogue JSON file path not in correct format: {JSONPath}.");
-			return;
-		}
+		JSONPath = $"res://Assets/Text/Dialogue/{JSONPath}.json";
 
-		Dictionary<string, JsonElement> DialogueData = JSONReader.ReadJSONFile<Dictionary<string, JsonElement>>(JSONPath, false);
-		if (DialogueData == null)
-		{
-			return; // Error is already called in JSONReader.
-		}
+		CDialogue = JSONReader.ReadJSONFile<Dialogue>(JSONPath);
 
-		SpeakerLeft.SetSpeaker(JSONExtractor.ReadData<string>(NodeName, DialogueData, DefaultValues, "SpeakerLeft"));
-		SpeakerRight.SetSpeaker(JSONExtractor.ReadData<string>(NodeName, DialogueData, DefaultValues, "SpeakerRight"));
+		SpeakerLeft.SetSpeaker(CDialogue.SLeftName);
+		SpeakerRight.SetSpeaker(CDialogue.SRightName);
 
-		DialogueText = JSONExtractor.ReadData<Dictionary<string, string>>(NodeName, DialogueData, DefaultValues, "DialogueText");
+		LeftSpeaking = CDialogue.StartOnLeft;
 
-		LeftSpeaking = JSONExtractor.ReadData<bool>(NodeName, DialogueData, DefaultValues, "LeftSpeaking");
 		SpeakerLeft.SetMain(LeftSpeaking);
 		SpeakerRight.SetMain(!LeftSpeaking);
 
@@ -59,7 +38,14 @@ public partial class DialogueOverlay : Control
 
 	private void Play()
 	{
-		TextBox.SetText(DialogueText[Router.Config.FetchConfig<string>("Text", "Language")]);
+		string Locale = Router.Config.FetchConfig<string>("Text", "Language");
+		if (!CDialogue.Content.ContainsKey(Locale))
+		{
+			Router.Debug.Print($"ERROR: Current dialogue is not available in locale {Locale}.");
+			return;
+		}
+
+		TextBox.SetText(CDialogue.Content[Locale]);
 	}
 
 	public void ChangeSpeaker()
@@ -84,4 +70,22 @@ public partial class DialogueOverlay : Control
 		// TODO. Expand.
 		QueueFree();
 	}
+
+	#region Dialogue
+	public class Dialogue
+	{
+		public string SLeftName { get; set; } = "_TestSpeaker";
+		public string SRightName { get; set; } = "_TestSpeaker";
+		public bool StartOnLeft { get; set; } = true;
+
+		public Dictionary<string, string> Content { get; set; } = [];
+
+		public override string ToString()
+		{
+			string Result = $"Left Speaker: {SLeftName}\nRight Speaker: {SRightName}\nConversation begins with the {(StartOnLeft ? "left" : "right")}.";
+			foreach (string Locale in Content.Keys) { Result += $"\n{Locale}: {Content[Locale]}"; }
+			return Result;
+		}
+	}
+	#endregion
 }

@@ -4,13 +4,11 @@ using Godot;
 
 public static class JSONReader
 {
-	private const string TextFolder = "res://Assets/Text";
-
-	public static T ReadJSONFile<T>(string TextFile, bool UseFolder = true)
+	public static T ReadJSONFile<T>(string TextFile)
 	{
 		try
 		{
-			using FileAccess Reader = FileAccess.Open(UseFolder ? $"{TextFolder}/{TextFile}" : TextFile, FileAccess.ModeFlags.Read);
+			using FileAccess Reader = FileAccess.Open(TextFile, FileAccess.ModeFlags.Read);
 			string Contents = Reader.GetAsText();
 
 			return JsonSerializer.Deserialize<T>(Contents);
@@ -20,15 +18,5 @@ public static class JSONReader
 			Router.Debug.Print($"ERROR: JSON file read unsuccessful: {TextFile}.");
 			return default;
 		}
-	}
-
-	public static T DecodeJSONElement<T>(JsonElement Value)
-	{
-		return JsonSerializer.Deserialize<T>(Value);
-	}
-
-	public static T DecodeJSONElementSettings<T>(JsonElement Value, JsonSerializerOptions Options)
-	{
-		return JsonSerializer.Deserialize<T>(Value, Options);
 	}
 }

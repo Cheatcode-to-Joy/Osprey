@@ -1,7 +1,6 @@
 using Godot;
 using System;
 using System.Collections.Generic;
-using System.Text.Json;
 
 public partial class DialogueSpeaker : Control
 {
@@ -19,7 +18,7 @@ public partial class DialogueSpeaker : Control
 	public void SetSpeaker(string JSONPath)
 	{
 		CodeName = JSONPath;
-		JSONPath = $"Dialogue/Speakers/{JSONPath}.json";
+		JSONPath = $"res://Assets/Text/Dialogue/Speakers/{JSONPath}.json";
 
 		CSpeaker = JSONReader.ReadJSONFile<Speaker>(JSONPath);
 
@@ -29,7 +28,6 @@ public partial class DialogueSpeaker : Control
 
 	private void InitialiseName()
 	{
-		// FIXME. Redo, probably?
 		NameLabel.Text = CSpeaker.Name[..Math.Min(CSpeaker.Name.Length, (int)(1 + NameLabel.Size.X / 8))];
 	}
 
@@ -93,14 +91,15 @@ public partial class DialogueSpeaker : Control
 
 	public void SetMain(bool IsMain)
 	{
+		// TODO. Replace with animations.
 		Modulate = new Color(1, 1, 1, IsMain ? 1 : 0.5f);
 	}
 
 	#region Speaker
 	public class Speaker
 	{
-		public int ID { get; set; }
-		public string Name { get; set; }
+		public int ID { get; set; } = 0;
+		public string Name { get; set; } = "NO_NAME";
 		public Dictionary<string, Expression> ExpressionData { get; set; } = [];
 
 		public override string ToString()
@@ -124,8 +123,8 @@ public partial class DialogueSpeaker : Control
 
 	public class FrameData
 	{
-		public int Frame { get; set; }
-		public float Time { get; set; }
+		public int Frame { get; set; } = 0;
+		public float Time { get; set; } = 0.5f;
 
 		public override string ToString()
 		{
