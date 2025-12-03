@@ -60,9 +60,6 @@ public partial class DialogueSpeaker : Control
 
 		EmitSignal(SignalName.ExpressionChanged);
 
-		CurrentExpression = ExpressionName.ToUpper();
-		CurrentFrame = 0;
-
 		Atlas.Region = new Rect2(0, 0, PortraitWidth, PortraitHeight);
 
 		// Animation
@@ -70,10 +67,12 @@ public partial class DialogueSpeaker : Control
 		Connect(SignalName.ExpressionChanged, new Callable(AnimationTween, Tween.MethodName.Kill));
 		foreach (FrameData Data in CSpeaker.ExpressionData[ExpressionName.ToUpper()].Timing)
 		{
-			AnimationTween.TweenCallback(new Callable(this, MethodName.AnimateExpression));
+			AnimationTween.TweenCallback(Callable.From(() => AnimateExpression(Data.Frame)));
 			AnimationTween.TweenInterval(Data.Time);
 		}
-		switch (CSpeaker.ExpressionData[ExpressionName.ToUpper()].Transition)
+
+		string TransitionType = CSpeaker.ExpressionData[ExpressionName.ToUpper()].Transition;
+		switch (TransitionType)
 		{
 			case "LOOP":
 			AnimationTween.SetLoops();
@@ -81,27 +80,15 @@ public partial class DialogueSpeaker : Control
 			case "STAY":
 			break;
 			default:
-			AnimationTween.TweenCallback(new Callable(this, MethodName.PlayDefaultExpression));
+			AnimationTween.TweenCallback(Callable.From(() => ChangeExpression(TransitionType)));
 			break;
 		}
-
 	}
 
-	// FIXME. Figure out a better way. Why no bind in C#????
-	private string CurrentExpression = "DEFAULT";
-	private int CurrentFrame = 0;
-
-	private void AnimateExpression()
+	private void AnimateExpression(int Frame)
 	{
-		int Frame = CSpeaker.ExpressionData[CurrentExpression].Timing[CurrentFrame].Frame;
 		Frame = ((Frame + 1) * PortraitWidth) <= Atlas.Atlas.GetSize().X ? Frame : 0;
 		Atlas.Region = new Rect2(Frame * PortraitWidth, 0, PortraitWidth, PortraitHeight);
-		CurrentFrame = (CurrentFrame + 1) % CSpeaker.ExpressionData[CurrentExpression].Timing.Count;
-	}
-
-	private void PlayDefaultExpression()
-	{
-		ChangeExpression("DEFAULT");
 	}
 
 	public void SetMain(bool IsMain)
