@@ -31,19 +31,21 @@ public partial class DialogueOverlay : Control
 		SpeakerLeft.SetMain(LeftSpeaking);
 		SpeakerRight.SetMain(!LeftSpeaking);
 
+		ConnectSpeaker();
+
 		Play();
 	}
 
 	private void Play()
 	{
 		string Locale = Router.Config.FetchConfig<string>("Text", "Language");
-		if (!CDialogue.Content.ContainsKey(Locale))
+		if (!CDialogue.Content.TryGetValue(Locale, out string Value))
 		{
 			Router.Debug.Print($"ERROR: Current dialogue is not available in locale {Locale}.");
 			return;
 		}
 
-		TextBox.SetText(CDialogue.Content[Locale]);
+		TextBox.SetText(Value);
 	}
 
 	public void ChangeSpeaker()
@@ -51,6 +53,19 @@ public partial class DialogueOverlay : Control
 		LeftSpeaking = !LeftSpeaking;
 		SpeakerLeft.SetMain(LeftSpeaking);
 		SpeakerRight.SetMain(!LeftSpeaking);
+
+		DisconnectListener();
+		ConnectSpeaker();
+	}
+
+	private void DisconnectListener()
+	{
+		TextBox.Disconnect(DialogueTextBox.SignalName.CharacterTyped, new Callable(GetListener(), DialogueSpeaker.MethodName.PlayTypeSFX));
+	}
+
+	private void ConnectSpeaker()
+	{
+		TextBox.Connect(DialogueTextBox.SignalName.CharacterTyped, new Callable(GetSpeaker(), DialogueSpeaker.MethodName.PlayTypeSFX));
 	}
 
 	public DialogueSpeaker GetSpeaker()

@@ -13,6 +13,8 @@ public partial class DialogueSpeaker : Control
 	private const int PortraitWidth = 144;
 	private const int PortraitHeight = 144;
 
+	private MultiSFX TypePlayer;
+
 	[Signal] public delegate void ExpressionChangedEventHandler();
 
 	public void SetSpeaker(string JSONPath)
@@ -24,6 +26,7 @@ public partial class DialogueSpeaker : Control
 
 		InitialiseName();
 		InitialisePortrait();
+		InitialiseTypeSFX();
 	}
 
 	private void InitialiseName()
@@ -36,6 +39,12 @@ public partial class DialogueSpeaker : Control
 		Atlas.Region = new Rect2(0, 0, PortraitWidth, PortraitHeight);
 
 		ChangeExpression("DEFAULT");
+	}
+
+	private void InitialiseTypeSFX()
+	{
+		AudioStream Stream = Router.Audio.SFXMaker.CreateStream(CSpeaker.TypeSFX);
+		if (Stream != null) { TypePlayer = Router.Audio.SFXMaker.CreateMultiAudioStream(Stream); }
 	}
 
 	public void ChangeExpression(string ExpressionName)
@@ -89,10 +98,29 @@ public partial class DialogueSpeaker : Control
 		Atlas.Region = new Rect2(Frame * PortraitWidth, 0, PortraitWidth, PortraitHeight);
 	}
 
+	public void PlayTypeSFX()
+	{
+		TypePlayer?.Replay();
+	}
+
 	public void SetMain(bool IsMain)
 	{
 		// TODO. Replace with animations.
 		Modulate = new Color(1, 1, 1, IsMain ? 1 : 0.5f);
+	}
+
+	public void OnTreeExiting()
+	{
+		if (TypePlayer == null) { return; }
+
+		if (TypePlayer.Playing)
+		{
+			TypePlayer.Connect(AudioStreamPlayer.SignalName.Finished, new Callable(TypePlayer, Node.MethodName.QueueFree));
+		}
+		else
+		{
+			TypePlayer.QueueFree();
+		}
 	}
 
 	#region Speaker
@@ -100,6 +128,7 @@ public partial class DialogueSpeaker : Control
 	{
 		public int ID { get; set; } = 0;
 		public string Name { get; set; } = "NO_NAME";
+		public string TypeSFX { get; set; }
 		public Dictionary<string, Expression> ExpressionData { get; set; } = [];
 
 		public override string ToString()

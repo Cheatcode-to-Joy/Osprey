@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://bquln8nyj6d82"]
+
+[ext_resource type="Script" uid="uid://b6s7lkd4nu1kp" path="res://Scripts/Audio/SFX/MultiSFX.cs" id="1_lodkc"]
+
+[node name="MultiSFX" type="AudioStreamPlayer"]
+max_polyphony = 32
+script = ExtResource("1_lodkc")

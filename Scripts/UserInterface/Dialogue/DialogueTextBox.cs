@@ -20,6 +20,7 @@ public partial class DialogueTextBox : NinePatchRect, IConfigReliant
 	private bool ProgressingTextButton = false;
 	private const float TextSpeedProgress = 0.05f;
 
+	[Signal] public delegate void CharacterTypedEventHandler();
 	[Signal] public delegate void InputRegisteredEventHandler();
 	[Signal] public delegate void TextFinishedEventHandler();
 
@@ -119,6 +120,7 @@ public partial class DialogueTextBox : NinePatchRect, IConfigReliant
 				while (TextLabel.VisibleCharacters < TextLength)
 				{
 					TextLabel.VisibleCharacters++;
+					if (TextLabel.GetParsedText()[TextLabel.VisibleCharacters - 1] != char.Parse(" ")) { EmitSignal(SignalName.CharacterTyped); }
 					PrintTimer.Start(TextSpeed * TextSpeedMod * (ProgressingTextButton ? TextSpeedProgress : 1));
 					await ToSignal(PrintTimer, Timer.SignalName.Timeout);
 				}

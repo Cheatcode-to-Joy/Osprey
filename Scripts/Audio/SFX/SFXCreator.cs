@@ -6,6 +6,7 @@ public partial class SFXCreator : Node
 {
 	[Export] private PackedScene OmniSFX;
 	[Export] private PackedScene PosiSFX;
+	[Export] private PackedScene MultiSFX;
 
 	private const string AudioFolder = "res://Assets/Audio/SFX/";
 
@@ -14,6 +15,7 @@ public partial class SFXCreator : Node
 		JSONPath = $"{AudioFolder}{JSONPath}.json";
 
 		SoundEffect CSound = JSONReader.ReadJSONFile<SoundEffect>(JSONPath);
+		if (CSound == null) { return null; }
 
 		try
 		{
@@ -46,17 +48,26 @@ public partial class SFXCreator : Node
 
 	public void CreateOmniAudioStream(AudioStream CStream)
 	{
-		AudioStreamPlayer SoundPlayer = OmniSFX.Instantiate<AudioStreamPlayer>();
+		OmniSFX SoundPlayer = OmniSFX.Instantiate<OmniSFX>();
 		SoundPlayer.Stream = CStream;
 
 		AddChild(SoundPlayer);
 	}
 
-	public AudioStreamPlayer2D CreatePosiAudioStream(AudioStream CStream)
+	public PosiSFX CreatePosiAudioStream(AudioStream CStream)
 	{
-		AudioStreamPlayer2D SoundPlayer = PosiSFX.Instantiate<AudioStreamPlayer2D>();
+		PosiSFX SoundPlayer = PosiSFX.Instantiate<PosiSFX>();
 		SoundPlayer.Stream = CStream;
 
+		return SoundPlayer;
+	}
+
+	public MultiSFX CreateMultiAudioStream(AudioStream CStream)
+	{
+		MultiSFX SoundPlayer = MultiSFX.Instantiate<MultiSFX>();
+		SoundPlayer.Stream = CStream;
+
+		AddChild(SoundPlayer);
 		return SoundPlayer;
 	}
 

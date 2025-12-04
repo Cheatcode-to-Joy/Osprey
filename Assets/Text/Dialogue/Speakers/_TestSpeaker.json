@@ -1,6 +1,7 @@
 {
 	"ID" : 0,
 	"Name" : "Test Speaker",
+	"TypeSFX" : "_Test/TestTypeSFX",
 	"ExpressionData" : {
 		"DEFAULT" : {
 			"Name" : "DEFAULT",

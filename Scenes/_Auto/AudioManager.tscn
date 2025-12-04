@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://bu60gqe333vha"]
+[gd_scene load_steps=6 format=3 uid="uid://bu60gqe333vha"]
 
 [ext_resource type="Script" uid="uid://dmxf48o14i3ax" path="res://Scripts/_Auto/AudioManager.cs" id="1_ihvw4"]
 [ext_resource type="Script" uid="uid://bs23kvahelmka" path="res://Scripts/Audio/SFX/SFXCreator.cs" id="1_qw00n"]
 [ext_resource type="PackedScene" uid="uid://b85cmkfiyauqj" path="res://Scenes/Audio/SFX/OmniSFX.tscn" id="3_3ejn7"]
 [ext_resource type="PackedScene" uid="uid://dyis4dipwfat" path="res://Scenes/Audio/SFX/PosiSFX.tscn" id="4_wqi1k"]
+[ext_resource type="PackedScene" uid="uid://bquln8nyj6d82" path="res://Scenes/Audio/SFX/MultiSFX.tscn" id="5_wqi1k"]
 
 [node name="AudioManager" type="Node" node_paths=PackedStringArray("SFXMaker")]
 script = ExtResource("1_ihvw4")
@@ -13,5 +14,6 @@ SFXMaker = NodePath("SFXCreator")
 script = ExtResource("1_qw00n")
 OmniSFX = ExtResource("3_3ejn7")
 PosiSFX = ExtResource("4_wqi1k")
+MultiSFX = ExtResource("5_wqi1k")
 
 [connection signal="tree_entered" from="." to="." method="OnTreeEntered"]

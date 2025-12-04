@@ -57,3 +57,5 @@ shortcut_keys_enabled = false
 horizontal_alignment = 1
 vertical_alignment = 1
 justification_flags = 0
+
+[connection signal="tree_exiting" from="." to="." method="OnTreeExiting"]
