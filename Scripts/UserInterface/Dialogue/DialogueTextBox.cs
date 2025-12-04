@@ -93,11 +93,11 @@ public partial class DialogueTextBox : NinePatchRect, IConfigReliant
 	}
 
 	[GeneratedRegex("({.+?})")]
-	private static partial Regex CommandRegex();
+	private static partial Regex CommandFindRegex();
 
 	private void ScanText(string Text)
 	{
-		TextSections = CommandRegex().Split(Text);
+		TextSections = CommandFindRegex().Split(Text);
 	}
 
 	[Export] private Timer PrintTimer;
@@ -250,7 +250,7 @@ public partial class DialogueTextBox : NinePatchRect, IConfigReliant
 		}
 	}
 
-	private Dictionary<string, string> ParseParametres(string[] RawParametres)
+	private static Dictionary<string, string> ParseParametres(string[] RawParametres)
 	{
 		Dictionary<string, string> Parametres = [];
 		foreach (string RawParametre in RawParametres)
@@ -263,7 +263,7 @@ public partial class DialogueTextBox : NinePatchRect, IConfigReliant
 		return Parametres;
 	}
 
-	private T FetchParametre<T>(string Command, Dictionary<string, string> Parametres, string Key, out bool Success, bool Mandatory)
+	private static T FetchParametre<T>(string Command, Dictionary<string, string> Parametres, string Key, out bool Success, bool Mandatory)
 	{
 		if (!Parametres.ContainsKey(Key))
 		{
