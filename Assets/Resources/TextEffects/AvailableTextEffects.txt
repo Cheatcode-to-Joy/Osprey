@@ -17,11 +17,11 @@ Custom Commands:
 - {split} # Splits the following text into its separate dialogue entry.
 - {swapsplit} # Swaps the speaker and splits the entry.
 - {hold} # Waits for player input to progress.
-- {pause duration=1.0} # Pauses dialogue progression.
-- {speed multiplier=1.0} # Modifies the speed of dialogue progression.
-- {shake strength=10.0 duration=0.0 fade=2.0} # Shakes the screen.
+- {pause duration?=1.0} # Pauses dialogue progression.
+- {speed multiplier?=1.0} # Modifies the speed of dialogue progression.
+- {shake strength?=10.0 duration?=0.0 fade?=2.0} # Shakes the screen.
 - {sound name="<filename>"} # Plays the desired sound effect. Points to a JSON SFX file.
-- {expression name="<expressionname>" speaker=true} # Changes specified portrait to a different expression sprite.
+- {expression name?="<expressionname>" speaker?=true} # Changes specified portrait to a different expression sprite.
 
 # TODO.
 - {particle name="<particlename>" time=1.0 intensity=1.0 speaker=true} # Shows particles emanating from specified portrait.

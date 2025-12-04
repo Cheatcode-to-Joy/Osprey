@@ -1,6 +1,6 @@
+using Godot;
 using System;
 using System.Text.Json;
-using Godot;
 
 public static class JSONReader
 {

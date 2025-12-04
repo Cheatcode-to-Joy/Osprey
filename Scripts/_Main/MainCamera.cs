@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
 public partial class MainCamera : Camera2D
 {
@@ -16,8 +17,12 @@ public partial class MainCamera : Camera2D
         BaseOffset = Offset;
     }
 
-    public async void ShakeCamera(float ShakeStrength = DefaultShakeStrength, float ShakeDuration = DefaultShakeDuration, float ShakeFade = DefaultShakeFade)
+    public async void ShakeCamera(Dictionary<string, float> Arguments)
 	{
+		float ShakeStrength = Arguments.TryGetValue("Strength", out float Value) ? Value : DefaultShakeStrength;
+		float ShakeDuration = Arguments.TryGetValue("Duration", out Value) ? Value : DefaultShakeDuration;
+		float ShakeFade = Arguments.TryGetValue("Fade", out Value) ? Value : DefaultShakeFade;
+
 		while (ShakeDuration > 0.0f)
 		{
 			Vector2 ShakeAmount = new Vector2(

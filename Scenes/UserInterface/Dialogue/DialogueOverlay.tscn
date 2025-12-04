@@ -51,6 +51,6 @@ flip_h = true
 layout_mode = 2
 Overlay = NodePath("../../..")
 
-[connection signal="TextFinished" from="Margin/Elements/DialogueTextBox" to="." method="OnTextFinished"]
+[connection signal="TextFinished" from="Margin/Elements/DialogueTextBox" to="." method="OnTextFinished" flags=6]
 
 [editable path="Margin/Elements/Portraits/SpeakerRight"]

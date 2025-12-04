@@ -22,22 +22,22 @@ public partial class DialogueTextBox : NinePatchRect, IConfigReliant
 
 	[Signal] public delegate void InputRegisteredEventHandler();
 	[Signal] public delegate void TextFinishedEventHandler();
-	private bool SignalEmitted = false;
 
 	public override void _Ready()
 	{
 		OnConfigUpdate();
 	}
-	
-	public override void _Input(InputEvent @Event)
-	{
-		if (Input.IsActionJustPressed("ProgressDialogue")) { OnStartProgressDialogue(); }
-		if (Input.IsActionJustReleased("ProgressDialogue")) { OnStopProgressDialogue(); }
-	}
 
 	public void OnConfigUpdate()
 	{
 		TextSpeed = Math.Clamp(Router.Config.FetchConfig<float>("Text", "TextSpeed"), MinTextSpeed, MaxTextSpeed);
+	}
+	
+	#region Input
+	public override void _Input(InputEvent @Event)
+	{
+		if (Input.IsActionJustPressed("ProgressDialogue")) { OnStartProgressDialogue(); }
+		if (Input.IsActionJustReleased("ProgressDialogue")) { OnStopProgressDialogue(); }
 	}
 
 	public void OnStartProgressDialogue()
@@ -46,9 +46,8 @@ public partial class DialogueTextBox : NinePatchRect, IConfigReliant
 
 		ProgressingTextButton = true;
 
-		if (!SignalEmitted && !PrintingText)
+		if (!PrintingText)
 		{
-			SignalEmitted = true;
 			EmitSignal(SignalName.TextFinished);
 			return;
 		}
@@ -58,8 +57,9 @@ public partial class DialogueTextBox : NinePatchRect, IConfigReliant
 	{
 		ProgressingTextButton = false;
 	}
+	#endregion
 
-	string CurrentText = "";
+	#region Print
 	string[] TextSections;
 
 	public void SetText(string NewText)
@@ -67,10 +67,9 @@ public partial class DialogueTextBox : NinePatchRect, IConfigReliant
 		TextLabel.Text = "";
 		TextLabel.VisibleCharacters = 0;
 
-		CurrentText = NewText;
-		PreloadAudio();
+		PreloadAudio(NewText);
 
-		ScanText();
+		ScanText(NewText);
 		PrintText();
 	}
 
@@ -79,9 +78,9 @@ public partial class DialogueTextBox : NinePatchRect, IConfigReliant
 	[GeneratedRegex("{sound name=(.+?)}")]
 	private static partial Regex AudioRegex();
 
-	private void PreloadAudio()
+	private void PreloadAudio(string Text)
 	{
-		MatchCollection AudioNames = AudioRegex().Matches(CurrentText);
+		MatchCollection AudioNames = AudioRegex().Matches(Text);
 		foreach (Match AudioName in AudioNames)
 		{
 			string ConvertedName = AudioName.Groups[1].Value.ToString();
@@ -93,25 +92,26 @@ public partial class DialogueTextBox : NinePatchRect, IConfigReliant
 		}
 	}
 
-	private void ScanText()
+	[GeneratedRegex("({.+?})")]
+	private static partial Regex CommandRegex();
+
+	private void ScanText(string Text)
 	{
-		TextSections = new Regex("({.+?})").Split(CurrentText);
+		TextSections = CommandRegex().Split(Text);
 	}
 
 	[Export] private Timer PrintTimer;
 	private bool PrintingText = false;
-	private int ProcessedSections = 0;
+
 	private async void PrintText()
 	{
-		ProcessedSections = 0;
-
 		PrintingText = true;
 
 		foreach (string Entry in TextSections)
 		{
 			if (Entry.Length < 1) { continue; }
 
-			if (Entry.StartsWith("{")) { await ExecuteCommand(Entry); }
+			if (Entry.StartsWith(char.Parse("{"))) { await ExecuteCommand(Entry); }
 			else
 			{
 				TextLabel.AppendText(Entry);
@@ -123,61 +123,64 @@ public partial class DialogueTextBox : NinePatchRect, IConfigReliant
 					await ToSignal(PrintTimer, Timer.SignalName.Timeout);
 				}
 			}
-
-			ProcessedSections++;
 		}
 
 		PrintingText = false;
 	}
+	#endregion
 
 	#region Commands
+	[GeneratedRegex("[{}]")]
+	private static partial Regex CommandTrimRegex();
+
 	private async Task ExecuteCommand(string RawCommand)
 	{
-		RawCommand = Regex.Replace(RawCommand, "[{}]", "");
-		string[] Parametres = RawCommand.Split(" ");
+		RawCommand = CommandTrimRegex().Replace(RawCommand, "");
+		string[] Sections = RawCommand.Split(" ");
 
-		string[] Arguments = Parametres.Length > 1 ? Parametres.Skip(1).ToArray() : [];
+		string Command = Sections[0].Trim().ToLower();
+		Dictionary<string, string> Arguments = Sections.Length > 1 ? ParseParametres([.. Sections.Skip(1)]) : [];
 
 		Router.Debug.Print($"Executing in-line command {RawCommand}.");
 
-		switch (Parametres[0].ToLower())
+		switch (Command)
 		{
 			case "split":
-			await OnInlineSplit(Arguments);
+			await OnInlineSplit();
+			break;
+			case "swapsplit":
+			await OnInlineSwapSplit();
 			break;
 			case "hold":
-			await OnInlineHold(Arguments);
+			await OnInlineHold();
 			break;
 			case "pause":
 			await OnInlinePause(Arguments);
 			break;
+			case "end":
+			OnInlineEnd();
+			break;
 			case "speed":
-			await OnInlineSpeed(Arguments);
+			OnInlineSpeed(Arguments);
 			break;
 			case "expression":
-			await OnInlineExpression(Arguments);
+			OnInlineExpression(Arguments);
 			break;
 			case "shake":
-			await OnInlineShake(Arguments);
-			break;
-			case "swapsplit":
-			await OnInlineSwapSplit(Arguments);
-			break;
-			case "end":
-			await OnInlineEnd(Arguments);
+			OnInlineShake(Arguments);
 			break;
 			case "sound":
-			await OnInlineSound(Arguments);
+			OnInlineSound(Arguments);
 			break;
 			default:
-			Router.Debug.Print($"WARNING: Invalid in-line command {Parametres[0].ToLower()}.");
+			Router.Debug.Print($"WARNING: Invalid in-line command {Command}.");
 			return;
 		}
 	}
 
 	// TODO. Add indicator of waiting for input.
 
-	private async Task OnInlineSplit(string[] Parametres)
+	private async Task OnInlineSplit()
 	{
 		await ToSignal(this, SignalName.InputRegistered);
 
@@ -185,73 +188,86 @@ public partial class DialogueTextBox : NinePatchRect, IConfigReliant
 		TextLabel.VisibleCharacters = 0;
 	}
 
-	private async Task OnInlineHold(string[] Parametres)
+	private async Task OnInlineSwapSplit()
+	{
+		await OnInlineSplit();
+		Overlay.ChangeSpeaker();
+	}
+
+	private async Task OnInlineHold()
 	{
 		await ToSignal(this, SignalName.InputRegistered);
 	}
 
-	private async Task OnInlinePause(string[] Parametres)
+	private async Task OnInlinePause(Dictionary<string, string> Parametres)
 	{
-		float Duration = FetchParametreValue<float>("Pause", Parametres, 0, out bool Success);
-		if (Success) { await ToSignal(GetTree().CreateTimer(Duration), SceneTreeTimer.SignalName.Timeout); }
+		float Duration = FetchParametre<float>("Pause", Parametres, "duration", out bool Success, false);
+		await ToSignal(GetTree().CreateTimer(Success ? Duration : 1.0f), SceneTreeTimer.SignalName.Timeout);
 	}
 
-	private async Task OnInlineSpeed(string[] Parametres)
-	{
-		float NewSpeedMod = FetchParametreValue<float>("Speed", Parametres, 0, out bool Success);
-		if (Success) { TextSpeedMod = NewSpeedMod; }
-	}
-
-	private async Task OnInlineExpression(string[] Parametres)
-	{
-		string ExpressionName = FetchParametreValue<string>("Expression", Parametres, 0, out bool Success);
-		if (!Success) { return; }
-		bool Speaker = FetchParametreValue<bool>("Expression", Parametres, 1, out Success);
-		if (!Success) { return; }
-
-		DialogueSpeaker Participant = Speaker ? Overlay.GetSpeaker() : Overlay.GetListener();
-		Participant.ChangeExpression(ExpressionName);
-	}
-
-	private async Task OnInlineShake(string[] Parametres)
-	{
-		float Strength = FetchParametreValue<float>("Shake", Parametres, 0, out bool Success);
-		if (!Success) { return; }
-		float Duration = FetchParametreValue<float>("Shake", Parametres, 1, out Success);
-		if (!Success) { return; }
-		float Fade = FetchParametreValue<float>("Shake", Parametres, 2, out Success);
-		if (!Success) { return; }
-
-		Router.Main.Camera.ShakeCamera(Strength, Duration, Fade);
-	}
-
-	private async Task OnInlineSwapSplit(string[] Parametres)
-	{
-		await OnInlineSplit(Parametres);
-		Overlay.ChangeSpeaker();
-	}
-
-	private async Task OnInlineEnd(string[] Parametres)
+	private void OnInlineEnd()
 	{
 		EmitSignal(SignalName.TextFinished);
 	}
 
-	private async Task OnInlineSound(string[] Parametres)
+	private void OnInlineSpeed(Dictionary<string, string> Parametres)
 	{
-		string SFXName = FetchParametreValue<string>("Expression", Parametres, 0, out bool Success);
+		float NewSpeedMod = FetchParametre<float>("Speed", Parametres, "multiplier", out bool Success, false);
+		TextSpeedMod = Success ? NewSpeedMod : 1.0f;
+	}
+
+	private void OnInlineExpression(Dictionary<string, string> Parametres)
+	{
+		string ExpressionName = FetchParametre<string>("Expression", Parametres, "name", out bool ExpressionOK, false);
+		bool Speaker = FetchParametre<bool>("Expression", Parametres, "speaker", out bool SpeakerOK, false);
+
+		DialogueSpeaker Participant = (SpeakerOK ? Speaker : true) ? Overlay.GetSpeaker() : Overlay.GetListener();
+		Participant.ChangeExpression(ExpressionOK ? ExpressionName : "DEFAULT");
+	}
+
+	private void OnInlineShake(Dictionary<string, string> Parametres)
+	{
+		Dictionary<string, float> CameraParametres = [];
+
+		string[] ParametreNames = ["Strength", "Duration", "Fade"];
+		foreach (string Parametre in ParametreNames)
+		{
+			float Value = FetchParametre<float>("Shake", Parametres, Parametre.ToLower(), out bool Success, false);
+			if (Success) { CameraParametres[Parametre] = Value; }
+		}
+
+		Router.Main.Camera.ShakeCamera(CameraParametres);
+	}
+
+	private void OnInlineSound(Dictionary<string, string> Parametres)
+	{
+		string SFXName = FetchParametre<string>("Expression", Parametres, "name", out bool Success, true);
 		if (!Success) { return; }
 
-		if (Audio.ContainsKey(SFXName))
+		if (Audio.TryGetValue(SFXName, out AudioStream Value))
 		{
-			Router.Audio.SFXMaker.CreateOmniAudioStream(Audio[SFXName]);
+			Router.Audio.SFXMaker.CreateOmniAudioStream(Value);
 		}
 	}
 
-	private T FetchParametreValue<T>(string Name, string[] Parametres, int Position, out bool Success, bool Optional = false)
+	private Dictionary<string, string> ParseParametres(string[] RawParametres)
 	{
-		if (Parametres.Length <= Position)
+		Dictionary<string, string> Parametres = [];
+		foreach (string RawParametre in RawParametres)
 		{
-			if (!Optional) { Router.Debug.Print($"ERROR: In-line command parametre missing: {Name}, position {Position}."); }
+			string[] ParametreParts = RawParametre.Trim().Split("=");
+			if (ParametreParts.Length != 2) { continue; }
+			Parametres[ParametreParts[0].Trim().ToLower()] = ParametreParts[1].Trim();
+		}
+
+		return Parametres;
+	}
+
+	private T FetchParametre<T>(string Command, Dictionary<string, string> Parametres, string Key, out bool Success, bool Mandatory)
+	{
+		if (!Parametres.ContainsKey(Key))
+		{
+			if (Mandatory) { Router.Debug.Print($"ERROR: In-line command parametre missing: {Command} : {Key}."); }
 			Success = false;
 			return default;
 		}
@@ -259,22 +275,25 @@ public partial class DialogueTextBox : NinePatchRect, IConfigReliant
 		try
 		{
 			T Value = default;
-			Value = (T)Convert.ChangeType(Parametres[Position].Split("=")[1], typeof(T));
+			Value = (T)Convert.ChangeType(Parametres[Key], typeof(T));
 			Success = true;
 			return Value;
 		}
 		catch (Exception)
 		{
-			Router.Debug.Print($"ERROR: In-line command parametre not in correct format: {Name}, position {Position}.");
+			Router.Debug.Print($"ERROR: In-line command parametre not in correct format: {Command} : {Key}.");
 			Success = false;
 			return default;
 		}
 	}
 	#endregion
 
+	#region Indicator
+	// TODO.
 	[Export] private PackedScene DialogueIndicator;
 	private void InstantiateProgressArrow(bool Inline = false)
 	{
 		
 	}
+	#endregion
 }

@@ -1,7 +1,5 @@
 using Godot;
-using System;
 using System.Collections.Generic;
-using System.Text.Json;
 
 public partial class DialogueOverlay : Control
 {
