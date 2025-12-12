@@ -87,7 +87,7 @@ public partial class DialogueTextBox : NinePatchRect, IConfigReliant
 			string ConvertedName = AudioName.Groups[1].Value.ToString();
 			if (!Audio.ContainsKey(ConvertedName))
 			{
-				AudioStream Stream = Router.Audio.SFXMaker.CreateStream(ConvertedName);
+				AudioStream Stream = SFXCreator.CreateStream(ConvertedName);
 				if (Stream != null) { Audio[ConvertedName] = Stream; }
 			}
 		}

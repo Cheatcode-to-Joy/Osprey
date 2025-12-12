@@ -4,14 +4,23 @@ using System.Collections.Generic;
 
 public partial class DialogueSpeaker : Control
 {
+	[ExportGroup("References")]
+	[ExportSubgroup("Internal")]
 	[Export] private RichTextLabel NameLabel;
-	[Export] private AtlasTexture Atlas;
+	[Export] private TextureRect Portrait;
+
+	[ExportSubgroup("External")]
+	[Export] private DialogueTextBox TextBox;
+
+	[ExportGroup("Controls")]
+	[Export] private bool Flipped = false;
 
 	private string CodeName = "NO_NAME";
 	public Speaker CSpeaker;
 
 	private const int PortraitWidth = 144;
 	private const int PortraitHeight = 144;
+	private AtlasTexture Atlas;
 
 	private MultiSFX TypePlayer;
 
@@ -47,15 +56,21 @@ public partial class DialogueSpeaker : Control
 
 	private void InitialisePortrait()
 	{
-		Atlas.Region = new Rect2(0, 0, PortraitWidth, PortraitHeight);
+		Atlas = new AtlasTexture { Region = new Rect2(0, 0, PortraitWidth, PortraitHeight) };
+		Portrait.Texture = Atlas;
+		Portrait.FlipH = Flipped;
 
 		ChangeExpression("DEFAULT");
 	}
 
 	private void InitialiseTypeSFX()
 	{
-		AudioStream Stream = Router.Audio.SFXMaker.CreateStream(CSpeaker.TypeSFX);
-		if (Stream != null) { TypePlayer = Router.Audio.SFXMaker.CreateMultiAudioStream(Stream); }
+		AudioStream Stream = SFXCreator.CreateStream(CSpeaker.TypeSFX);
+		if (Stream != null)
+		{
+			TypePlayer = Router.Audio.SFXMaker.CreateMultiAudioStream(Stream);
+			TextBox.Connect(DialogueTextBox.SignalName.TextFinished, new Callable(TypePlayer, MultiSFX.MethodName.OnSourceExit));
+		}
 	}
 
 	public void ChangeExpression(string ExpressionName)
@@ -118,20 +133,6 @@ public partial class DialogueSpeaker : Control
 	{
 		// TODO. Replace with animations.
 		Modulate = new Color(1, 1, 1, IsMain ? 1 : 0.5f);
-	}
-
-	public void OnTreeExiting()
-	{
-		if (TypePlayer == null) { return; }
-
-		if (TypePlayer.Playing)
-		{
-			TypePlayer.Connect(AudioStreamPlayer.SignalName.Finished, new Callable(TypePlayer, Node.MethodName.QueueFree));
-		}
-		else
-		{
-			TypePlayer.QueueFree();
-		}
 	}
 
 	#region Speaker

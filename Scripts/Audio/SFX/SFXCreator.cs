@@ -10,7 +10,7 @@ public partial class SFXCreator : Node
 
 	private const string AudioFolder = "res://Assets/Audio/SFX/";
 
-	public AudioStream CreateStream(string JSONPath)
+	public static AudioStream CreateStream(string JSONPath)
 	{
 		JSONPath = $"{AudioFolder}{JSONPath}.json";
 
@@ -25,7 +25,7 @@ public partial class SFXCreator : Node
 				return null;
 			}
 
-			if (CSound.Streams.Count == 1)
+			if (CSound.Streams.Count == 1 && (Mathf.IsZeroApprox(CSound.PitchVariation) || Mathf.IsZeroApprox(CSound.VolumeVariation)))
 			{
 				return GD.Load<AudioStream>($"{AudioFolder}{CSound.Streams[0].File}.mp3");
 			}

@@ -7,4 +7,15 @@ public partial class MultiSFX : AudioStreamPlayer
 	{
 		if (Stream != null) { Play(); }
 	}
+
+	public void OnSourceExit()
+	{
+		if (Playing)
+		{
+			Connect(AudioStreamPlayer.SignalName.Finished, new Callable(this, Node.MethodName.QueueFree), 4);
+			return;
+		}
+
+		QueueFree();
+	}
 }

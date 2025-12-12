@@ -38,19 +38,17 @@ layout_mode = 2
 theme_override_constants/separation = 160
 alignment = 1
 
-[node name="SpeakerLeft" parent="Margin/Elements/Portraits" instance=ExtResource("2_f88pl")]
+[node name="SpeakerLeft" parent="Margin/Elements/Portraits" node_paths=PackedStringArray("TextBox") instance=ExtResource("2_f88pl")]
 layout_mode = 2
+TextBox = NodePath("../../DialogueTextBox")
 
-[node name="SpeakerRight" parent="Margin/Elements/Portraits" instance=ExtResource("2_f88pl")]
+[node name="SpeakerRight" parent="Margin/Elements/Portraits" node_paths=PackedStringArray("TextBox") instance=ExtResource("2_f88pl")]
 layout_mode = 2
-
-[node name="SpeakerSprite" parent="Margin/Elements/Portraits/SpeakerRight/Ordering" index="0"]
-flip_h = true
+TextBox = NodePath("../../DialogueTextBox")
+Flipped = true
 
 [node name="DialogueTextBox" parent="Margin/Elements" node_paths=PackedStringArray("Overlay") instance=ExtResource("2_od2xi")]
 layout_mode = 2
 Overlay = NodePath("../../..")
 
 [connection signal="TextFinished" from="Margin/Elements/DialogueTextBox" to="." method="OnTextFinished" flags=6]
-
-[editable path="Margin/Elements/Portraits/SpeakerRight"]
