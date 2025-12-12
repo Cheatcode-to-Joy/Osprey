@@ -14,14 +14,20 @@ public partial class DialogueOverlay : Control
 	// FIXME. Delete.
 	public override void _Input(InputEvent @Event)
 	{
-		if (@Event is InputEventKey EventKey && EventKey.Keycode == Key.A && @Event.IsPressed() && !EventKey.Echo) { LoadDialogue("_TestDialogue"); }
+		if (@Event is InputEventKey EventKey && EventKey.Keycode == Key.A && @Event.IsPressed() && !EventKey.Echo) { LoadDialogue("_DEFAULT_DIALOGUE"); }
 	}
 	
 	public void LoadDialogue(string JSONPath)
 	{
+		string DialogueName = JSONPath;
 		JSONPath = $"res://Assets/Text/Dialogue/{JSONPath}.json";
 
-		CDialogue = JSONReader.ReadJSONFile<Dialogue>(JSONPath);
+		CDialogue = JSONReader.ReadJSONFile<Dialogue>(JSONPath, out bool Success);
+		if (!Success)
+		{
+			Router.Debug.Print($"ERROR: Dialogue not found: {DialogueName}.");
+			CDialogue = JSONReader.ReadJSONFile<Dialogue>($"res://Assets/Text/Dialogue/_DEFAULT_DIALOGUE.json", out _);
+		}
 
 		SpeakerLeft.SetSpeaker(CDialogue.SLeftName);
 		SpeakerRight.SetSpeaker(CDialogue.SRightName);

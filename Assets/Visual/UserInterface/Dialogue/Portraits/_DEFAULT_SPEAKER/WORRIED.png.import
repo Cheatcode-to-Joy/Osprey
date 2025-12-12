@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cdo5dksewb60"
-path="res://.godot/imported/DEFAULT.png-704f0d1a706ab6638400e86a8a6298d4.ctex"
+uid="uid://ctaiuceeskkc1"
+path="res://.godot/imported/WORRIED.png-89194fa4857a9a3f77651b72fab1611a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Visual/UserInterface/Dialogue/Portraits/_TestSpeaker/DEFAULT.png"
-dest_files=["res://.godot/imported/DEFAULT.png-704f0d1a706ab6638400e86a8a6298d4.ctex"]
+source_file="res://Assets/Visual/UserInterface/Dialogue/Portraits/_DEFAULT_SPEAKER/WORRIED.png"
+dest_files=["res://.godot/imported/WORRIED.png-89194fa4857a9a3f77651b72fab1611a.ctex"]
 
 [params]
 

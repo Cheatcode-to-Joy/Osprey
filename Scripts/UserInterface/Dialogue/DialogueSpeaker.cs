@@ -22,7 +22,12 @@ public partial class DialogueSpeaker : Control
 		CodeName = JSONPath;
 		JSONPath = $"res://Assets/Text/Dialogue/Speakers/{JSONPath}.json";
 
-		CSpeaker = JSONReader.ReadJSONFile<Speaker>(JSONPath);
+		CSpeaker = JSONReader.ReadJSONFile<Speaker>(JSONPath, out bool Success);
+		if (!Success)
+		{
+			Router.Debug.Print($"ERROR: Speaker not found: {CodeName}.");
+			CSpeaker = JSONReader.ReadJSONFile<Speaker>($"res://Assets/Text/Dialogue/Speakers/_DEFAULT_SPEAKER.json", out _);
+		}
 
 		InitialiseName();
 		InitialisePortrait();
@@ -31,7 +36,13 @@ public partial class DialogueSpeaker : Control
 
 	private void InitialiseName()
 	{
-		NameLabel.Text = CSpeaker.Name[..Math.Min(CSpeaker.Name.Length, (int)(1 + NameLabel.Size.X / 8))];
+		string Locale = Router.Config.FetchConfig<string>("Text", "Language");
+		if (!CSpeaker.Name.TryGetValue(Locale, out string Value))
+		{
+			Router.Debug.Print($"ERROR: Speaker name is not available in locale {Locale}.");
+			Value = "NONAME";
+		}
+		NameLabel.Text = Value[..Math.Min(Value.Length, (int)(1 + NameLabel.Size.X / 8))];
 	}
 
 	private void InitialisePortrait()
@@ -127,7 +138,7 @@ public partial class DialogueSpeaker : Control
 	public class Speaker
 	{
 		public int ID { get; set; } = 0;
-		public string Name { get; set; } = "NO_NAME";
+		public Dictionary<string, string> Name { get; set; } = [];
 		public string TypeSFX { get; set; }
 		public Dictionary<string, Expression> ExpressionData { get; set; } = [];
 

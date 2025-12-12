@@ -14,8 +14,8 @@ public partial class SFXCreator : Node
 	{
 		JSONPath = $"{AudioFolder}{JSONPath}.json";
 
-		SoundEffect CSound = JSONReader.ReadJSONFile<SoundEffect>(JSONPath);
-		if (CSound == null) { return null; }
+		SoundEffect CSound = JSONReader.ReadJSONFile<SoundEffect>(JSONPath, out bool Success);
+		if (!Success) { return null; }
 
 		try
 		{

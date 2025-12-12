@@ -1,0 +1,8 @@
+{
+	"SLeftName" : "_DEFAULT_SPEAKER",
+	"SRightName" : "_DEFAULT_SPEAKER",
+	"StartOnLeft" : true,
+	"Content" : {
+		"en" : "This is the default dialogue. [color=red]It seems something went wrong.[/color] Or are you just {expression name=WINK}testing me?"
+	}
+}

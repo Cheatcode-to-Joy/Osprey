@@ -1,8 +1,0 @@
-{
-	"SLeftName" : "_TestSpeaker",
-	"SRightName" : "_TestSpeaker",
-	"StartOnLeft" : true,
-	"Content" : {
-		"en" : "This is a bit of [color=orange]testing[/color] dialogue {speed multiplier=2.0}with various [tornado radius=3.0 freq=2.0 connected=1]functions[/tornado]. I wonder if it works quite right... Still needs some padding {speed multiplier=0.5}to [color=lightblue]eventually[/color] {hold}scroll downwards somewhat, that would be neat.\nHere's a new paragraph, how is that{expression name=WINK} looking? Is everything showing properly with the right amount of padding?{swapsplit}And [pulse freq=1.0 color=#ffffff40 ease=-2.0]here's[/pulse] the {speed}second entry. All's going well it seem-{shake strength=5.0}{sound name=_Test/TestAudio}{expression name=WORRIED speaker=false} huh? {expression name=WORRIED}{pause}{shake strength=5.0 duration=2.0 fade=0.5}{sound name=_Test/TestAudio}{pause duration=0.2}{sound name=_Test/TestAudio}{pause duration=0.5}{sound name=_Test/TestAudio}{pause duration=1.3} [jitter]WHAT?????[/jitter]{pause duration=1.0}{end}"
-	}
-}

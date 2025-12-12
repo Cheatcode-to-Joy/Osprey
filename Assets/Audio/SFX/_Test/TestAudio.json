@@ -1,13 +1,7 @@
 {
 	"Streams" : [
-		{
-			"File" : "_Test/TestAudio1",
-			"Weight" : 1
-		},
-		{
-			"File" : "_Test/TestAudio2",
-			"Weight" : 1
-		}
+		{ "File" : "_Test/TestAudio1", "Weight" : 1 },
+		{ "File" : "_Test/TestAudio2", "Weight" : 1 }
 	],
 	"PitchVariation" : 1,
 	"VolumeVariation" : 0
