@@ -51,7 +51,8 @@ public partial class DialogueSpeaker : Control
 			Router.Debug.Print($"ERROR: Speaker name is not available in locale {Locale}.");
 			Value = "NONAME";
 		}
-		NameLabel.Text = Value[..Math.Min(Value.Length, (int)(1 + NameLabel.Size.X / 8))];
+		// TODO. Trim if necessary.
+		NameLabel.Text = (Value.Length % 2 == 0) ? Value : $"{Value} ";
 	}
 
 	private void InitialisePortrait()

@@ -1,4 +1,7 @@
-[gd_scene format=3 uid="uid://yj7c1hwqcrhk"]
+[gd_scene load_steps=3 format=3 uid="uid://yj7c1hwqcrhk"]
+
+[ext_resource type="Script" uid="uid://nr65esusqkpv" path="res://Scripts/UserInterface/HUD/CoreHUD.cs" id="1_cj5v2"]
+[ext_resource type="PackedScene" uid="uid://bg7e7bky66huf" path="res://Scenes/UserInterface/Dialogue/DialogueOverlay.tscn" id="2_nh20b"]
 
 [node name="CoreHUD" type="Control"]
 custom_minimum_size = Vector2(480, 320)
@@ -8,3 +11,5 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_cj5v2")
+DialogueScene = ExtResource("2_nh20b")

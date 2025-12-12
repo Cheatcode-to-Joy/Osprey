@@ -1,7 +1,7 @@
 {
 	"ID" : 0,
 	"Name" : {
-		"en" : "_DEFAULT"
+		"en" : "DEFAULT"
 	},
 	"TypeSFX" : "_Test/TestTypeSFX",
 	"ExpressionData" : {

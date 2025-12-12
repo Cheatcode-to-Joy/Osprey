@@ -11,11 +11,7 @@ public partial class DialogueOverlay : Control
 
 	private bool LeftSpeaking = true;
 
-	// FIXME. Delete.
-	public override void _Input(InputEvent @Event)
-	{
-		if (@Event is InputEventKey EventKey && EventKey.Keycode == Key.A && @Event.IsPressed() && !EventKey.Echo) { LoadDialogue("_DEFAULT_DIALOGUE"); }
-	}
+	[Signal] public delegate void DialogueFinishedEventHandler();
 	
 	public void LoadDialogue(string JSONPath)
 	{
@@ -38,11 +34,9 @@ public partial class DialogueOverlay : Control
 		SpeakerRight.SetMain(!LeftSpeaking);
 
 		ConnectSpeaker();
-
-		Play();
 	}
 
-	private void Play()
+	public void Play()
 	{
 		string Locale = Router.Config.FetchConfig<string>("Text", "Language");
 		if (!CDialogue.Content.TryGetValue(Locale, out string Value))
@@ -51,6 +45,7 @@ public partial class DialogueOverlay : Control
 			return;
 		}
 
+		Router.Debug.Print("Starting dialogue.");
 		TextBox.SetText(Value);
 	}
 
@@ -86,7 +81,14 @@ public partial class DialogueOverlay : Control
 
 	public void OnTextFinished()
 	{
+		EndDialogue();
+	}
+
+	public void EndDialogue()
+	{
 		// TODO. Expand.
+		Router.Debug.Print("Ending dialogue.");
+		EmitSignal(SignalName.DialogueFinished);
 		QueueFree();
 	}
 
