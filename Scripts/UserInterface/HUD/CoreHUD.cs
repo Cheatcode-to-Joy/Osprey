@@ -3,12 +3,6 @@ using System;
 
 public partial class CoreHUD : Control
 {
-	// FIXME. Delete.
-	public override void _Input(InputEvent @Event)
-	{
-		if (@Event is InputEventKey EventKey && EventKey.Keycode == Key.A && @Event.IsPressed() && !EventKey.Echo) { SpawnDialogue("_DEFAULT_DIALOGUE"); }
-	}
-
 	#region Dialogue
 	[ExportGroup("Dialogue")]
 	[Export] private PackedScene DialogueScene;

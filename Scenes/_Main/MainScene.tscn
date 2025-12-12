@@ -12,11 +12,12 @@
 [ext_resource type="PackedScene" uid="uid://bmf4o21t6o8qn" path="res://Scenes/UserInterface/TitleScreen/TitleScreen.tscn" id="9_m4cel"]
 [ext_resource type="PackedScene" uid="uid://bxwm3pj45kydn" path="res://Scenes/_Main/MainCamera.tscn" id="12_badjc"]
 
-[node name="MainScene" type="Node2D" node_paths=PackedStringArray("DOverlay", "SettingsHolder", "Camera")]
+[node name="MainScene" type="Node2D" node_paths=PackedStringArray("SettingsHolder", "DebugHolder", "Camera")]
 script = ExtResource("1_ciy8a")
-DOverlay = NodePath("DebugOverlay")
 Settings = ExtResource("2_541kf")
 SettingsHolder = NodePath("SettingsHolder")
+Debug = ExtResource("7_ewav3")
+DebugHolder = NodePath("DebugHolder")
 Camera = NodePath("MainCamera")
 
 [node name="CheatHandler" parent="." instance=ExtResource("1_lrf2w")]
@@ -46,10 +47,13 @@ offset_right = 40.0
 offset_bottom = 40.0
 mouse_filter = 2
 
-[node name="DebugOverlay" parent="." instance=ExtResource("7_ewav3")]
-visible = false
-offset_right = 480.0
-offset_bottom = 320.0
+[node name="DebugHolder" type="Control" parent="."]
+custom_minimum_size = Vector2(480, 320)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+mouse_filter = 2
 
 [node name="MainCamera" parent="." instance=ExtResource("12_badjc")]
 

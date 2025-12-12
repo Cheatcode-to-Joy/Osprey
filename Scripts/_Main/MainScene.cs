@@ -3,10 +3,13 @@ using System;
 
 public partial class MainScene : Node2D, IConfigReliant
 {
-	[Export] private DebugOverlay DOverlay;
 	[Export] private PackedScene Settings;
 	[Export] private Control SettingsHolder;
 	private SettingsMenu CurrentSettings = null;
+
+	[Export] private PackedScene Debug;
+	[Export] private Control DebugHolder;
+	private DebugOverlay CurrentDebug = null;
 
 	[Export] public MainCamera Camera;
 
@@ -22,19 +25,19 @@ public partial class MainScene : Node2D, IConfigReliant
 
 	public override void _Input(InputEvent @Event)
 	{
-		if (@Event.IsActionPressed("ToggleDebugOverlay"))
-		{
-			if (Router.Config.FetchConfig<bool>("Debug", "DebugEnabled")) { DOverlay.Visible = !DOverlay.Visible; }
-		}
-		else if (@Event.IsActionPressed("ToggleSettings"))
+		if (@Event.IsActionPressed("ToggleSettings"))
 		{
 			ToggleSettings();
+		}
+		else if (@Event.IsActionPressed("ToggleDebugOverlay"))
+		{
+			if (Router.Config.FetchConfig<bool>("Debug", "DebugEnabled")) { CallDeferred(MethodName.ToggleDebug); }
 		}
 	}
 
 	public void OnConfigUpdate()
 	{
-		if (DOverlay.Visible && !Router.Config.FetchConfig<bool>("Debug", "DebugEnabled")) { DOverlay.Visible = false; }
+		if (CurrentDebug != null && !Router.Config.FetchConfig<bool>("Debug", "DebugEnabled")) { ToggleDebug(); }
 	}
 
 	private void ToggleSettings()
@@ -48,5 +51,18 @@ public partial class MainScene : Node2D, IConfigReliant
 
 		CurrentSettings = Settings.Instantiate<SettingsMenu>();
 		SettingsHolder.AddChild(CurrentSettings);
+	}
+
+	private void ToggleDebug()
+	{
+		if (CurrentDebug != null)
+		{
+			CurrentDebug.QueueFree();
+			CurrentDebug = null;
+			return;
+		}
+
+		CurrentDebug = Debug.Instantiate<DebugOverlay>();
+		DebugHolder.AddChild(CurrentDebug);
 	}
 }

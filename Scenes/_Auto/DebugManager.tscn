@@ -1,8 +1,13 @@
-[gd_scene load_steps=2 format=3 uid="uid://bvg2sbv30qisx"]
+[gd_scene load_steps=3 format=3 uid="uid://bvg2sbv30qisx"]
 
 [ext_resource type="Script" uid="uid://dp3pfecx1od27" path="res://Scripts/_Auto/DebugManager.cs" id="1_v2ubl"]
+[ext_resource type="Script" uid="uid://cmljkvql66lbs" path="res://Scripts/_Auto/CommandManager.cs" id="2_2dyrm"]
 
-[node name="DebugManager" type="Node"]
+[node name="DebugManager" type="Node" node_paths=PackedStringArray("Commander")]
 script = ExtResource("1_v2ubl")
+Commander = NodePath("CommandManager")
+
+[node name="CommandManager" type="Node" parent="."]
+script = ExtResource("2_2dyrm")
 
 [connection signal="tree_entered" from="." to="." method="OnTreeEntered"]

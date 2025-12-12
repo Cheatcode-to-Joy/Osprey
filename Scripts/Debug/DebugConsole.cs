@@ -8,13 +8,16 @@ public partial class DebugConsole : Control
 	public override void _Ready()
 	{
 		Router.Debug.Connect(DebugManager.SignalName.MessageSent, new Callable(this, MethodName.AddMessageToLog));
+		Router.Debug.Connect(DebugManager.SignalName.LogCleared, new Callable(this, MethodName.EmptyLog));
 		Connect(SignalName.RequestDebugFill, new Callable(Router.Debug, DebugManager.MethodName.FillLog));
+		Connect(SignalName.CommandSubmitted, new Callable(Router.Debug, DebugManager.MethodName.OnCommandSubmitted));
 
 		InitialiseLog();
+		DebugLine.GrabFocus();
 	}
 
 	#region Scrolling
-	private const int MaxLines = 36;
+	private const int MaxLines = 32;
 	private int LineNumber = 0; // The total number of lines.
 	private int TopLine = 0; // The topmost visible line.
 
@@ -54,10 +57,14 @@ public partial class DebugConsole : Control
 	[Signal] public delegate void RequestDebugFillEventHandler();
 	private void InitialiseLog()
 	{
+		EmptyLog();
+		EmitSignal(SignalName.RequestDebugFill);
+	}
+
+	public void EmptyLog()
+	{
 		DebugLabel.Text = "";
 		LineNumber = 0;
-
-		EmitSignal(SignalName.RequestDebugFill);
 	}
 
 	public void AddMessageToLog(string Message)
@@ -67,5 +74,15 @@ public partial class DebugConsole : Control
 
 		LineNumber++;
 		ScrollToBottom();
+	}
+
+	[Export] private LineEdit DebugLine;
+	[Signal] public delegate void CommandSubmittedEventHandler(string Message);
+	public void OnTextSubmitted(string Message)
+	{
+		DebugLine.Text = "";
+		DebugLine.CallDeferred(Control.MethodName.GrabFocus);
+
+		if (Message != "") { EmitSignal(SignalName.CommandSubmitted, Message); }
 	}
 }
