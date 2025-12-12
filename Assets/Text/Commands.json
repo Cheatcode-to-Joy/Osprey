@@ -6,5 +6,9 @@
 	"dialogue" : {
 		"DebugOnly" : true, "CommandName" : "Start Dialogue", "Function" : "CommandStartDialogue",
 		"CommandDescription" : "Starts dialogue specified by the first argument."
+	},
+	"help" : {
+		"DebugOnly" : false, "CommandName" : "Help", "Function" : "CommandHelp",
+		"CommandDescription" : "Lists all available commands."
 	}
 }

@@ -13,7 +13,6 @@ public partial class DebugManager : Node
 
 	public override void _Ready()
 	{
-		LoadCommands();
 		Print($"{ProjectSettings.GetSetting("application/config/name")}");
 		Print($"Version {ProjectSettings.GetSetting("application/config/version")}");
 	}
@@ -31,11 +30,11 @@ public partial class DebugManager : Node
 
 		if (NewMessage.StartsWith("ERROR:"))
 		{
-			NewMessage = Colourise(NewMessage, "FF365E");
+			NewMessage = Colourise(NewMessage, Colours.RED);
 		}
 		else if (NewMessage.StartsWith("WARNING:"))
 		{
-			NewMessage = Colourise(NewMessage, "FFD95C");
+			NewMessage = Colourise(NewMessage, Colours.YELLOW);
 		}
 		Messages.Add(NewMessage);
 		EmitSignal(SignalName.MessageSent, NewMessage);
@@ -55,18 +54,25 @@ public partial class DebugManager : Node
 		EmitSignal(SignalName.LogCleared);
 	}
 
-	private static string Colourise(string Message, string Colour)
+	public enum Colours { RED, YELLOW }
+	public static string Colourise(string Message, Colours Colour)
 	{
-		return $"[color=#{Colour}]{Message}[/color]";
+		string ColourValue = "#FFFFFF";
+		switch (Colour)
+		{
+			case Colours.RED:
+			ColourValue = "#FF365E";
+			break;
+			case Colours.YELLOW:
+			ColourValue = "#FFD95C";
+			break;
+		}
+
+		return $"[color={ColourValue}]{Message}[/color]";
 	}
 
 	#region Commands
 	[Export] private CommandManager Commander;
-	private void LoadCommands()
-	{
-		// TODO.
-	}
-
 	public void OnCommandSubmitted(string Message)
 	{
 		Print($"> {Message}");

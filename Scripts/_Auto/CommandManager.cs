@@ -49,6 +49,21 @@ public partial class CommandManager : Node
 		HUD.SpawnDialogue(Arguments[0]);
 		return true;
 	}
+
+	private bool CommandHelp(string[] Arguments)
+	{
+		bool CanDebug = Router.Config.FetchConfig<bool>("Debug", "DebugEnabled");
+
+		foreach (string CommandName in Commands.Keys)
+		{
+			Command CommandValue = Commands[CommandName];
+			if (CanDebug || !CommandValue.DebugOnly)
+			{
+				Router.Debug.Print($"{DebugManager.Colourise(CommandName, DebugManager.Colours.YELLOW)}: {CommandValue.CommandDescription}\n");
+			}
+		}
+		return true;
+	}
 	#endregion
 }
 
