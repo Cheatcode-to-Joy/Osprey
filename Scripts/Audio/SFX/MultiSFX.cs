@@ -12,7 +12,7 @@ public partial class MultiSFX : AudioStreamPlayer
 	{
 		if (Playing)
 		{
-			Connect(AudioStreamPlayer.SignalName.Finished, new Callable(this, Node.MethodName.QueueFree), 4);
+			Connect(AudioStreamPlayer.SignalName.Finished, new Callable(this, Node.MethodName.QueueFree), (int)ConnectFlags.OneShot);
 			return;
 		}
 

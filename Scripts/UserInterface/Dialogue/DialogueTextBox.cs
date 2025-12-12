@@ -13,7 +13,7 @@ public partial class DialogueTextBox : NinePatchRect, IConfigReliant
 
 	private float TextSpeed;
 	private const float MinTextSpeed = 0.02f;
-	private const float MaxTextSpeed = 1.0f;
+	private const float MaxTextSpeed = 0.5f;
 
 	private float TextSpeedMod = 1;
 
