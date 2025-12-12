@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://fsrhgietnqha"]
+[gd_scene load_steps=3 format=3 uid="uid://fsrhgietnqha"]
 
 [ext_resource type="Script" uid="uid://bn8humuluckya" path="res://Scripts/UserInterface/Dialogue/DialogueTextBox.cs" id="1_8yd83"]
+[ext_resource type="Script" uid="uid://bxgtsigq7uudw" path="res://Assets/Resources/TextEffects/installer.gd" id="2_pbpn6"]
 
 [node name="DialogueTextBox" type="NinePatchRect" node_paths=PackedStringArray("TextLabel", "PrintTimer")]
 anchors_preset = 15
@@ -37,6 +38,7 @@ scroll_following_visible_characters = true
 autowrap_trim_flags = 0
 shortcut_keys_enabled = false
 justification_flags = 0
+script = ExtResource("2_pbpn6")
 
 [node name="PrintTimer" type="Timer" parent="."]
 one_shot = true

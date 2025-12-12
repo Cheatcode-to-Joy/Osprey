@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://d3mynu7offfie"]
+[gd_scene load_steps=4 format=3 uid="uid://d3mynu7offfie"]
 
 [ext_resource type="Script" uid="uid://conib8dnvgx1k" path="res://Scripts/UserInterface/Dialogue/DialogueSpeaker.cs" id="1_psblx"]
+[ext_resource type="Script" uid="uid://bxgtsigq7uudw" path="res://Assets/Resources/TextEffects/installer.gd" id="2_003y2"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_psblx"]
 resource_local_to_scene = true
@@ -57,5 +58,6 @@ shortcut_keys_enabled = false
 horizontal_alignment = 1
 vertical_alignment = 1
 justification_flags = 0
+script = ExtResource("2_003y2")
 
 [connection signal="tree_exiting" from="." to="." method="OnTreeExiting"]

@@ -9,7 +9,7 @@ Godot Default Effects:
 
 Custom Effects:
 
--
+- [jitter freq=10.0 amp=1.0]{text}[/jitter]
 
 Custom Commands:
 
