@@ -1,0 +1,9 @@
+{
+	"funmode" : {
+		"Inputs" : {
+			"Keyboard" : [ "Up-Up-Down-Down-Left-Right-Left-Right-B-A" ],
+			"Joypad" : [ "DpadUp-DpadUp-DpadDown-DpadDown-DpadLeft-DpadRight-DpadLeft-DpadRight-B-A" ]
+		},
+		"Function" : "FunMode" 
+	}
+}

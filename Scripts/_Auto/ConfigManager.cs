@@ -23,6 +23,17 @@ public partial class ConfigManager : Node
 	private ConfigFile DefaultConfig = new();
 
 	#region LOADING
+	private void LoadDefaultConfig()
+	{
+		Error LoadError = DefaultConfig.Load(DefaultConfigPath);
+
+		if (LoadError != Error.Ok)
+		{
+			Router.Debug.Print("ERROR: Failed to load default config.");
+			return;
+		}
+	}
+
 	private void LoadUserConfig()
 	{
 		Error LoadError = UserConfig.Load(UserConfigPath);
@@ -37,17 +48,6 @@ public partial class ConfigManager : Node
 	private void CreateUserConfig()
 	{
 		SaveConfig(DefaultConfig);
-	}
-
-	private void LoadDefaultConfig()
-	{
-		Error LoadError = DefaultConfig.Load(DefaultConfigPath);
-
-		if (LoadError != Error.Ok)
-		{
-			Router.Debug.Print("ERROR: Failed to load default config.");
-			return;
-		}
 	}
 	#endregion
 
@@ -66,47 +66,7 @@ public partial class ConfigManager : Node
 	#endregion
 
 	#region MODIFYING
-	private void ModifyConfig(string SectionName, string ConfigName, Variant NewValue)
-	{
-		if (FetchConfig<Variant>(SectionName, ConfigName).Equals(NewValue))
-		{
-			Router.Debug.Print($"Attempted to rewrite value of {ConfigName} with equal value: {NewValue}");
-			return;
-		}
-
-		if (FetchSpecificConfig<Variant>(SectionName, ConfigName, DefaultConfig).Equals(NewValue))
-		{
-			UserConfig.EraseSectionKey(SectionName, ConfigName);
-		}
-		else
-		{
-			UserConfig.SetValue(SectionName, ConfigName, NewValue);
-		}
-
-		SaveConfig(UserConfig);
-	}
-
-	private string[] ValidLanguages = { "en" };
-	public void ChangeLanguage(string Language)
-	{
-		Language = Language.Trim().ToLower();
-
-		if (!ValidLanguages.Contains(Language))
-		{
-			Router.Debug.Print("ERROR: Invalid language to switch to.");
-			return;
-		}
-
-		if (FetchConfig<string>("Text", "Language") == Language)
-		{
-			Router.Debug.Print("WARNING: Language already active.");
-			return;
-		}
-
-		TranslationServer.SetLocale(Language);
-	}
-
-	public void SetConfig(string SectionName, string ConfigName, Variant NewValue)
+	public void SetConfig<T>(string SectionName, string ConfigName, T NewValue)
 	{
 		if (!DefaultConfig.HasSectionKey(SectionName, ConfigName))
 		{
@@ -114,14 +74,50 @@ public partial class ConfigManager : Node
 			return;
 		}
 
+		if (!ModifyConfig(SectionName, ConfigName, NewValue)) { return; }
+
 		switch (ConfigName)
 		{
 			case "Language":
 				ChangeLanguage(NewValue.ToString());
 				break;
 		}
+	}
 
-		ModifyConfig(SectionName, ConfigName, NewValue);
+	private bool ModifyConfig<T>(string SectionName, string ConfigName, T NewValue)
+	{
+		if (UserConfig.HasSectionKey(SectionName, ConfigName) && FetchConfig<T>(SectionName, ConfigName).Equals(NewValue))
+		{
+			Router.Debug.Print($"Attempted to rewrite value of {ConfigName} with equal value: {NewValue}");
+			return false;
+		}
+
+		if (FetchSpecificConfig<T>(SectionName, ConfigName, DefaultConfig).Equals(NewValue))
+		{
+			UserConfig.EraseSectionKey(SectionName, ConfigName);
+		}
+		else
+		{
+			UserConfig.SetValue(SectionName, ConfigName, Variant.From(NewValue));
+		}
+
+		SaveConfig(UserConfig);
+
+		return true;
+	}
+
+	private string[] ValidLanguages = ["en"];
+	public void ChangeLanguage(string Language)
+	{
+		Language = Language.Trim().ToLower();
+
+		if (!ValidLanguages.Contains(Language))
+		{
+			Router.Debug.Print($"ERROR: Locale not found: {Language}.");
+			return;
+		}
+
+		TranslationServer.SetLocale(Language);
 	}
 	#endregion
 
@@ -138,7 +134,7 @@ public partial class ConfigManager : Node
 		return default;
 	}
 
-	private T FetchSpecificConfig<T>(string SectionName, string ConfigName, ConfigFile Config)
+	private static T FetchSpecificConfig<T>(string SectionName, string ConfigName, ConfigFile Config)
 	{
 		string SValue = FetchConfigAsString(SectionName, ConfigName, Config);
 		if (SValue != UnsetValueCode) { return ConvertValue<T>(SValue); }
@@ -146,12 +142,12 @@ public partial class ConfigManager : Node
 		return default;
 	}
 
-	private string FetchConfigAsString(string SectionName, string ConfigName, ConfigFile Config)
+	private static string FetchConfigAsString(string SectionName, string ConfigName, ConfigFile Config)
 	{
 		return Config.GetValue(SectionName, ConfigName, UnsetValueCode).ToString();
 	}
 
-	private T ConvertValue<T>(string StringValue)
+	private static T ConvertValue<T>(string StringValue)
 	{
 		try
 		{

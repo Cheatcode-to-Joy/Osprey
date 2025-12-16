@@ -6,6 +6,13 @@ public partial class CommandManager : Node
 {
 	public override void _Ready()
 	{
+		LoadCommands();
+	}
+
+	private Dictionary<string, Command> Commands = [];
+
+	private void LoadCommands()
+	{
 		Commands = JSONReader.ReadJSONFile<Dictionary<string, Command>>("res://Assets/Text/Commands.json", out bool _);
 	}
 
@@ -19,18 +26,10 @@ public partial class CommandManager : Node
 			return;
 		}
 
-		if (CurrentCommand.DebugOnly && !Router.Config.FetchConfig<bool>("Debug", "DebugEnabled"))
-		{
-			Router.Debug.Print($"Command {Segments[0]} is not accessible to you.");
-			return;
-		}
-
 		GD.Print(HasMethod(CurrentCommand.Function));
 		Success = (bool)Call(CurrentCommand.Function, (Segments.Length > 1) ? [..Segments.Skip(1)] : System.Array.Empty<string>());
 		Router.Debug.Print(Success ? $"Command {Segments[0]} executed." : $"Command {Segments[0]} failed.");
 	}
-
-	private Dictionary<string, Command> Commands = [];
 
 	#region Functions
 	private bool CommandClearLog(string[] Arguments)
@@ -52,15 +51,10 @@ public partial class CommandManager : Node
 
 	private bool CommandHelp(string[] Arguments)
 	{
-		bool CanDebug = Router.Config.FetchConfig<bool>("Debug", "DebugEnabled");
-
 		foreach (string CommandName in Commands.Keys)
 		{
 			Command CommandValue = Commands[CommandName];
-			if (CanDebug || !CommandValue.DebugOnly)
-			{
-				Router.Debug.Print($"{DebugManager.Colourise(CommandName, DebugManager.Colours.YELLOW)}: {CommandValue.CommandDescription}\n");
-			}
+			Router.Debug.Print($"{DebugManager.Colourise(CommandName, DebugManager.Colours.YELLOW)}: {CommandValue.CommandDescription}\n");
 		}
 		return true;
 	}
@@ -70,8 +64,6 @@ public partial class CommandManager : Node
 #region Command
 public class Command
 {
-	public bool DebugOnly { get; set; } = true;
-
 	public string CommandName { get; set; } = "NONAME";
 	public string CommandDescription { get; set; } = "NODESC";
 

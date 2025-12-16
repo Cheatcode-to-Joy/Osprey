@@ -3,13 +3,18 @@ using System;
 
 public partial class InputMethodHandler : Node
 {
+	public void OnTreeEntered()
+	{
+		Router.Input = this;
+	}
+
 	public enum INPUT_METHODS
 	{
 		Keyboard,
-		Controller
+		Joypad
 	}
-	private INPUT_METHODS InputMethod = INPUT_METHODS.Keyboard; // TODO. Replace default.
-	[Signal] public delegate void InputMethodChangedEventHandler(INPUT_METHODS NewMethod);
+	public INPUT_METHODS InputMethod = INPUT_METHODS.Keyboard; // TODO. Replace default.
+	[Signal] public delegate void InputMethodChangedEventHandler(int NewMethod);
 	private const float AxisOffsetMin = 0.1f;
 
 	public override void _Input(InputEvent @Event)
@@ -23,7 +28,7 @@ public partial class InputMethodHandler : Node
 		}
 		if (@Event is InputEventJoypadMotion @JoypadMotionEvent)
 		{
-			if (Math.Abs(@JoypadMotionEvent.AxisValue) > AxisOffsetMin) { CheckInput(INPUT_METHODS.Controller); }
+			if (Math.Abs(@JoypadMotionEvent.AxisValue) > AxisOffsetMin) { CheckInput(INPUT_METHODS.Joypad); }
 			return;
 		}
 
@@ -37,7 +42,7 @@ public partial class InputMethodHandler : Node
 
 		if (@Event is InputEventJoypadButton)
 		{
-			CheckInput(INPUT_METHODS.Controller);
+			CheckInput(INPUT_METHODS.Joypad);
 			return;
 		}
 	}

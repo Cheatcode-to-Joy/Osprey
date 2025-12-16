@@ -27,11 +27,16 @@ public partial class MainScene : Node2D, IConfigReliant
 	{
 		if (@Event.IsActionPressed("ToggleSettings"))
 		{
+			GetTree().Root.GetViewport().SetInputAsHandled();
 			ToggleSettings();
 		}
 		else if (@Event.IsActionPressed("ToggleDebugOverlay"))
 		{
-			if (Router.Config.FetchConfig<bool>("Debug", "DebugEnabled")) { CallDeferred(MethodName.ToggleDebug); }
+			if (Router.Config.FetchConfig<bool>("Debug", "DebugEnabled"))
+			{
+				GetTree().Root.GetViewport().SetInputAsHandled();
+				ToggleDebug();
+			}
 		}
 	}
 

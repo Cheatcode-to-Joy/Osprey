@@ -1,14 +1,14 @@
 {
 	"clear" : {
-		"DebugOnly" : false, "CommandName" : "Clear Log", "Function" : "CommandClearLog",
+		"CommandName" : "Clear Log", "Function" : "CommandClearLog",
 		"CommandDescription" : "Clears the console log."
 	},
 	"dialogue" : {
-		"DebugOnly" : true, "CommandName" : "Start Dialogue", "Function" : "CommandStartDialogue",
+		"CommandName" : "Start Dialogue", "Function" : "CommandStartDialogue",
 		"CommandDescription" : "Starts dialogue specified by the first argument."
 	},
 	"help" : {
-		"DebugOnly" : false, "CommandName" : "Help", "Function" : "CommandHelp",
+		"CommandName" : "Help", "Function" : "CommandHelp",
 		"CommandDescription" : "Lists all available commands."
 	}
 }

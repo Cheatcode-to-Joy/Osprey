@@ -4,3 +4,5 @@
 
 [node name="InputMethodHandler" type="Node"]
 script = ExtResource("1_kjdpv")
+
+[connection signal="tree_entered" from="." to="." method="OnTreeEntered"]
