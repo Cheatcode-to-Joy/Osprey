@@ -227,7 +227,7 @@ public partial class DialogueTextBox : NinePatchRect, IConfigReliant
 		Participant.ChangeExpression(ExpressionOK ? ExpressionName : "DEFAULT");
 	}
 
-	private void OnInlineShake(Dictionary<string, string> Parametres)
+	private static void OnInlineShake(Dictionary<string, string> Parametres)
 	{
 		Dictionary<string, float> CameraParametres = [];
 

@@ -26,7 +26,6 @@ public partial class CommandManager : Node
 			return;
 		}
 
-		GD.Print(HasMethod(CurrentCommand.Function));
 		Success = (bool)Call(CurrentCommand.Function, (Segments.Length > 1) ? [..Segments.Skip(1)] : System.Array.Empty<string>());
 		Router.Debug.Print(Success ? $"Command {Segments[0]} executed." : $"Command {Segments[0]} failed.");
 	}
