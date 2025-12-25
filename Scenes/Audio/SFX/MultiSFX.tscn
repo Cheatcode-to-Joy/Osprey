@@ -4,4 +4,5 @@
 
 [node name="MultiSFX" type="AudioStreamPlayer"]
 max_polyphony = 32
+bus = &"SoundEffect"
 script = ExtResource("1_lodkc")
