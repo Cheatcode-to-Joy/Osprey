@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://fsrhgietnqha"]
+[gd_scene load_steps=4 format=3 uid="uid://fsrhgietnqha"]
 
 [ext_resource type="Script" uid="uid://bn8humuluckya" path="res://Scripts/UserInterface/Dialogue/DialogueTextBox.cs" id="1_8yd83"]
+[ext_resource type="PackedScene" uid="uid://caal8344ttnwv" path="res://Scenes/UserInterface/Dialogue/DialogueProgressArrow.tscn" id="2_bo27h"]
 [ext_resource type="Script" uid="uid://bxgtsigq7uudw" path="res://Assets/Resources/TextEffects/installer.gd" id="2_pbpn6"]
 
 [node name="DialogueTextBox" type="NinePatchRect" node_paths=PackedStringArray("TextLabel", "PrintTimer")]
@@ -14,6 +15,7 @@ size_flags_vertical = 3
 script = ExtResource("1_8yd83")
 TextLabel = NodePath("Margin/DialogueText")
 PrintTimer = NodePath("PrintTimer")
+DialogueIndicator = ExtResource("2_bo27h")
 
 [node name="Margin" type="MarginContainer" parent="."]
 layout_mode = 1

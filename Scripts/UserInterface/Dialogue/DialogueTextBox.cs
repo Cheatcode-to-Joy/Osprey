@@ -184,7 +184,9 @@ public partial class DialogueTextBox : NinePatchRect, IConfigReliant
 
 	private async Task OnInlineSplit()
 	{
+		InstantiateProgressArrow();
 		await ToSignal(this, SignalName.InputRegistered);
+		RemoveProgressArrow();
 
 		TextLabel.Text = "";
 		TextLabel.VisibleCharacters = 0;
@@ -198,7 +200,9 @@ public partial class DialogueTextBox : NinePatchRect, IConfigReliant
 
 	private async Task OnInlineHold()
 	{
+		InstantiateProgressArrow();
 		await ToSignal(this, SignalName.InputRegistered);
+		RemoveProgressArrow();
 	}
 
 	private async Task OnInlinePause(Dictionary<string, string> Parametres)
@@ -267,7 +271,7 @@ public partial class DialogueTextBox : NinePatchRect, IConfigReliant
 
 	private static T FetchParametre<T>(string Command, Dictionary<string, string> Parametres, string Key, out bool Success, bool Mandatory)
 	{
-		if (!Parametres.ContainsKey(Key))
+		if (!Parametres.TryGetValue(Key, out string Parametre))
 		{
 			if (Mandatory) { Router.Debug.Print($"ERROR: In-line command parametre missing: {Command} : {Key}."); }
 			Success = false;
@@ -277,7 +281,7 @@ public partial class DialogueTextBox : NinePatchRect, IConfigReliant
 		try
 		{
 			T Value = default;
-			Value = (T)Convert.ChangeType(Parametres[Key], typeof(T));
+			Value = (T)Convert.ChangeType(Parametre, typeof(T));
 			Success = true;
 			return Value;
 		}
@@ -291,11 +295,25 @@ public partial class DialogueTextBox : NinePatchRect, IConfigReliant
 	#endregion
 
 	#region Indicator
-	// TODO.
 	[Export] private PackedScene DialogueIndicator;
-	private void InstantiateProgressArrow(bool Inline = false)
+	private DialogueProgressArrow CurrentIndicator;
+	private void InstantiateProgressArrow()
 	{
-		
+		/*
+		CurrentIndicator = DialogueIndicator.Instantiate<DialogueProgressArrow>();
+		CurrentIndicator.SetSprite(Overlay.GetSpeaker().CSpeaker.ID);
+		AddChild(CurrentIndicator);
+
+		// FIXME. Set position. There's a PR for GetCharacterBounds, so hopefully soon?
+		*/
+	}
+
+	private void RemoveProgressArrow()
+	{
+		/*
+		CurrentIndicator?.QueueFree();
+		CurrentIndicator = null;
+		*/
 	}
 	#endregion
 }

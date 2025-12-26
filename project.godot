@@ -34,6 +34,14 @@ project/assembly_name="Osprey"
 naming/default_signal_callback_name="On{NodeName}{SignalName}"
 naming/default_signal_callback_to_self_name="On{SignalName}"
 
+[file_customization]
+
+folder_colors={
+"res://Assets/": "yellow",
+"res://Scenes/": "orange",
+"res://Scripts/": "red"
+}
+
 [gui]
 
 theme/default_font_antialiasing=0
