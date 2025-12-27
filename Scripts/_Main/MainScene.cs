@@ -1,16 +1,10 @@
 using Godot;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 public partial class MainScene : Node2D, IConfigReliant
 {
-	[Export] private PackedScene Settings;
-	[Export] private Control SettingsHolder;
-	private SettingsMenu CurrentSettings = null;
-
-	[Export] private PackedScene Debug;
-	[Export] private Control DebugHolder;
-	private DebugOverlay CurrentDebug = null;
-
 	[Export] public MainCamera Camera;
 
 	public void OnTreeEntered()
@@ -28,7 +22,10 @@ public partial class MainScene : Node2D, IConfigReliant
 		if (@Event.IsActionPressed("ToggleSettings"))
 		{
 			GetViewport().SetInputAsHandled();
-			ToggleSettings();
+			if (!CloseTopOverlay())
+			{
+				AddOverlay(SettingsScene.Instantiate<UILayer>());
+			}
 		}
 		else if (@Event.IsActionPressed("ToggleDebugOverlay"))
 		{
@@ -45,29 +42,102 @@ public partial class MainScene : Node2D, IConfigReliant
 		if (CurrentDebug != null && !Router.Config.FetchConfig<bool>("Debug", "DebugEnabled")) { ToggleDebug(); }
 	}
 
-	private void ToggleSettings()
-	{
-		if (CurrentSettings != null)
-		{
-			CurrentSettings.QueueFree();
-			CurrentSettings = null;
-			return;
-		}
+	#region Overlays
+	[ExportGroup("Overlays")]
+	[Export] private PackedScene SettingsScene;
+	[Export] private PackedScene DebugScene;
 
-		CurrentSettings = Settings.Instantiate<SettingsMenu>();
-		SettingsHolder.AddChild(CurrentSettings);
+	[Export] private Control OverlayHolder;
+
+	private Dictionary<int, List<UILayer>> ActiveOverlays = [];
+	private UILayer CurrentDebug = null;
+
+	public void AddOverlay(UILayer Overlay, int Layer = 0)
+	{
+		Layer = Math.Clamp(Layer, 0, OverlayHolder.GetChildCount() - 1);
+		OverlayHolder.GetChild(Layer).AddChild(Overlay);
+
+		if (!ActiveOverlays.TryGetValue(Layer, out List<UILayer> Value))
+		{
+			Value = [];
+			ActiveOverlays[Layer] = Value;
+		}
+		Value.Add(Overlay);
+
+		SetTopOverlay();
+	}
+
+	public void CloseOverlay(UILayer Overlay)
+	{
+		if (!Overlay.RequestOverlayExit()) { return; }
+
+		foreach (int Key in ActiveOverlays.Keys)
+		{
+			if (ActiveOverlays[Key].Remove(Overlay))
+			{
+				Overlay.QueueFree();
+				SetTopOverlay();
+				return;
+			}
+		}
+	}
+
+	private UILayer GetTopOverlay()
+	{
+		List<int> SortedKeys = [.. ActiveOverlays.Keys];
+		SortedKeys.Sort();
+		SortedKeys.Reverse();
+
+		foreach (int Layer in SortedKeys)
+		{
+			if (ActiveOverlays[Layer].Count > 0)
+			{
+				return ActiveOverlays[Layer][^1];
+			}
+		}
+		return null;
+	}
+
+	private bool CloseTopOverlay()
+	{
+		List<int> SortedKeys = [.. ActiveOverlays.Keys];
+		SortedKeys.Sort();
+		SortedKeys.Reverse();
+
+		foreach (int Layer in SortedKeys)
+		{
+			if (ActiveOverlays[Layer].Count > 0)
+			{
+				if (ActiveOverlays[Layer][^1].RequestOverlayExit())
+				{
+					ActiveOverlays[Layer][^1].QueueFree();
+					ActiveOverlays[Layer].RemoveAt(ActiveOverlays[Layer].Count - 1);
+
+					// FIXME. Bad, bad, bad.
+					CurrentDebug = null;
+					SetTopOverlay();
+				}
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private void SetTopOverlay()
+	{
+		GetTopOverlay()?.CallDeferred(UILayer.MethodName.GrabDefaultFocus);
 	}
 
 	private void ToggleDebug()
 	{
 		if (CurrentDebug != null)
 		{
-			CurrentDebug.QueueFree();
+			CloseOverlay(CurrentDebug);
 			CurrentDebug = null;
 			return;
 		}
-
-		CurrentDebug = Debug.Instantiate<DebugOverlay>();
-		DebugHolder.AddChild(CurrentDebug);
+		
+		AddOverlay(CurrentDebug = DebugScene.Instantiate<UILayer>(), 1);
 	}
+	#endregion
 }

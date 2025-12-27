@@ -1,0 +1,46 @@
+[gd_scene load_steps=5 format=3 uid="uid://gvulm5ma1eb2"]
+
+[ext_resource type="PackedScene" uid="uid://24od6xr4rdx8" path="res://Scenes/UserInterface/_Generics/UILayer.tscn" id="1_55qr6"]
+[ext_resource type="Script" uid="uid://chlko2hvhtdc3" path="res://Scripts/UserInterface/Dialogue/OverlayDialogue.cs" id="2_3fo1s"]
+[ext_resource type="PackedScene" uid="uid://d3mynu7offfie" path="res://Scenes/UserInterface/Dialogue/DialogueSpeaker.tscn" id="3_y3bp1"]
+[ext_resource type="PackedScene" uid="uid://fsrhgietnqha" path="res://Scenes/UserInterface/Dialogue/DialogueTextBox.tscn" id="4_47tpc"]
+
+[node name="OverlayDialogue" node_paths=PackedStringArray("SpeakerLeft", "SpeakerRight", "TextBox") instance=ExtResource("1_55qr6")]
+script = ExtResource("2_3fo1s")
+SpeakerLeft = NodePath("Margin/Elements/Portraits/SpeakerLeft")
+SpeakerRight = NodePath("Margin/Elements/Portraits/SpeakerRight")
+TextBox = NodePath("Margin/Elements/DialogueTextBox")
+
+[node name="Margin" type="MarginContainer" parent="." index="1"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 40
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="Elements" type="VBoxContainer" parent="Margin" index="0"]
+layout_mode = 2
+alignment = 2
+
+[node name="Portraits" type="HBoxContainer" parent="Margin/Elements" index="0"]
+layout_mode = 2
+theme_override_constants/separation = 160
+alignment = 1
+
+[node name="SpeakerLeft" parent="Margin/Elements/Portraits" index="0" node_paths=PackedStringArray("TextBox") instance=ExtResource("3_y3bp1")]
+layout_mode = 2
+TextBox = NodePath("../../DialogueTextBox")
+
+[node name="SpeakerRight" parent="Margin/Elements/Portraits" index="1" node_paths=PackedStringArray("TextBox") instance=ExtResource("3_y3bp1")]
+layout_mode = 2
+TextBox = NodePath("../../DialogueTextBox")
+Flipped = true
+
+[node name="DialogueTextBox" parent="Margin/Elements" index="1" node_paths=PackedStringArray("Overlay") instance=ExtResource("4_47tpc")]
+layout_mode = 2
+Overlay = NodePath("../../..")

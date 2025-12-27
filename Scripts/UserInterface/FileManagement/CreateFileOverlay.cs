@@ -3,7 +3,7 @@ using System;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-public partial class CreateFileMenu : Control
+public partial class CreateFileOverlay : UILayer
 {
 	[GeneratedRegex("^[A-Za-z]*$")]
 	public static partial Regex PermittedInputRegex();
@@ -17,9 +17,6 @@ public partial class CreateFileMenu : Control
 		{
 			InputField.Connect(FileInputField.SignalName.InputStartRequested, new Callable(DataInput, FileDataInput.MethodName.SetFocus));
 		}
-
-		// FIXME. A bigger thing, automatically grabbing focus when the current menu becomes active (after exiting console stuff is bad).
-		GrabDefaultFocus();
 	}
 
 	public override void _Input(InputEvent @Event)
@@ -32,17 +29,18 @@ public partial class CreateFileMenu : Control
 		}
 	}
 
+	#region UI Layer
+	public override void GrabDefaultFocus()
+	{
+		InputFields[0].CallDeferred(Control.MethodName.GrabFocus);
+	}
+	#endregion
 
 	#region UI Behaviour
 	[Export] private FileDataInput DataInput;
 	private FileInputField ActiveInput = null;
 	private Callable ActiveFocusCallable;
 	[Export] private FileInputField[] InputFields;
-
-	public void GrabDefaultFocus()
-	{
-		InputFields[0].CallDeferred(Control.MethodName.GrabFocus);
-	}
 
 	public void GrabActiveFocus()
 	{

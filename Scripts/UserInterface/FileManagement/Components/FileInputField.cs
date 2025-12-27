@@ -8,7 +8,7 @@ public partial class FileInputField : LineEdit
 
 	private void OnTextChanged(string NewText)
 	{
-		Match TextMatch = CreateFileMenu.PermittedInputRegex().Match(NewText);
+		Match TextMatch = CreateFileOverlay.PermittedInputRegex().Match(NewText);
 		if (TextMatch.Success) { CachedInput = NewText; }
 		else
 		{

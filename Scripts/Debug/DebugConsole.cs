@@ -3,7 +3,7 @@ using System;
 
 public partial class DebugConsole : Control
 {
-	[Export] private DebugOverlay DOverlay;
+	[Export] private OverlayDebug DOverlay;
 
 	public override void _Ready()
 	{
@@ -13,7 +13,11 @@ public partial class DebugConsole : Control
 		Connect(SignalName.CommandSubmitted, new Callable(Router.Debug, DebugManager.MethodName.OnCommandSubmitted));
 
 		InitialiseLog();
-		DebugLine.GrabFocus();
+	}
+
+	public void GrabDefaultFocus()
+	{
+		DebugLine.CallDeferred(Control.MethodName.GrabFocus);
 	}
 
 	#region Scrolling

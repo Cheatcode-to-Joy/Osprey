@@ -1,0 +1,70 @@
+[gd_scene load_steps=6 format=3 uid="uid://1ubkp1omhtvx"]
+
+[ext_resource type="PackedScene" uid="uid://24od6xr4rdx8" path="res://Scenes/UserInterface/_Generics/UILayer.tscn" id="1_fq838"]
+[ext_resource type="Script" uid="uid://dd4vq8k1xxwdi" path="res://Scripts/UserInterface/FileManagement/CreateFileOverlay.cs" id="2_2dt64"]
+[ext_resource type="PackedScene" uid="uid://k4gvafy4f7n7" path="res://Scenes/UserInterface/FileManagement/Components/FileInputField.tscn" id="3_yo7me"]
+[ext_resource type="PackedScene" uid="uid://vbjcixcxb4if" path="res://Scenes/UserInterface/_Generics/Buttons/MenuButton.tscn" id="4_26xu0"]
+[ext_resource type="PackedScene" uid="uid://dp66uomdqekk5" path="res://Scenes/UserInterface/FileManagement/FileDataInput.tscn" id="5_6we23"]
+
+[node name="CreateFileOverlay" node_paths=PackedStringArray("DataInput", "InputFields") instance=ExtResource("1_fq838")]
+script = ExtResource("2_2dt64")
+DataInput = NodePath("Center/HBox/FileDataInput")
+InputFields = [NodePath("Center/HBox/FileData/PlayerNameInput"), NodePath("Center/HBox/FileData/SaveNameInput")]
+
+[node name="Center" type="CenterContainer" parent="." index="1"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBox" type="HBoxContainer" parent="Center" index="0"]
+custom_minimum_size = Vector2(384, 240)
+layout_mode = 2
+theme_override_constants/separation = 24
+alignment = 1
+
+[node name="FileData" type="VBoxContainer" parent="Center/HBox" index="0"]
+custom_minimum_size = Vector2(160, 0)
+layout_mode = 2
+
+[node name="PresetButtons" type="HBoxContainer" parent="Center/HBox/FileData" index="0"]
+layout_mode = 2
+theme_override_constants/separation = 16
+alignment = 2
+
+[node name="PlayerNameHint" type="Label" parent="Center/HBox/FileData" index="1"]
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+text = "PLAYER_NAME_HINT"
+
+[node name="PlayerNameInput" parent="Center/HBox/FileData" index="2" instance=ExtResource("3_yo7me")]
+layout_mode = 2
+focus_neighbor_right = NodePath("../../FileDataInput")
+
+[node name="SaveNameHint" type="Label" parent="Center/HBox/FileData" index="3"]
+layout_mode = 2
+text = "SAVE_NAME_HINT"
+
+[node name="SaveNameInput" parent="Center/HBox/FileData" index="4" instance=ExtResource("3_yo7me")]
+layout_mode = 2
+focus_neighbor_right = NodePath("../../FileDataInput")
+
+[node name="Buttons" type="HBoxContainer" parent="Center/HBox/FileData" index="5"]
+layout_mode = 2
+theme_override_constants/separation = 32
+alignment = 1
+
+[node name="SaveButton" parent="Center/HBox/FileData/Buttons" index="0" instance=ExtResource("4_26xu0")]
+layout_mode = 2
+focus_neighbor_right = NodePath("../BackButton")
+text = "SAVE"
+
+[node name="BackButton" parent="Center/HBox/FileData/Buttons" index="1" instance=ExtResource("4_26xu0")]
+layout_mode = 2
+focus_neighbor_left = NodePath("../SaveButton")
+text = "BACK"
+
+[node name="FileDataInput" parent="Center/HBox" index="1" instance=ExtResource("5_6we23")]
+layout_mode = 2

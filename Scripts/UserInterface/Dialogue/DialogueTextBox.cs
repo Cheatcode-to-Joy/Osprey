@@ -9,7 +9,7 @@ public partial class DialogueTextBox : NinePatchRect, IConfigReliant
 {
 	[Export] private RichTextLabel TextLabel;
 
-	[Export] private DialogueOverlay Overlay;
+	[Export] private OverlayDialogue Overlay;
 
 	private float TextSpeed;
 	private const float MinTextSpeed = 0.02f;

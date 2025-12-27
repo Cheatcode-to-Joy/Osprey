@@ -1,6 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://bg7e7bky66huf"]
+[gd_scene load_steps=4 format=3 uid="uid://biniyvmtbthh2"]
 
-[ext_resource type="Script" uid="uid://chlko2hvhtdc3" path="res://Scripts/UserInterface/Dialogue/DialogueOverlay.cs" id="1_xx611"]
+[ext_resource type="Script" uid="uid://chlko2hvhtdc3" path="res://Scripts/UserInterface/Dialogue/OverlayDialogue.cs" id="1_xx611"]
 [ext_resource type="PackedScene" uid="uid://d3mynu7offfie" path="res://Scenes/UserInterface/Dialogue/DialogueSpeaker.tscn" id="2_f88pl"]
 [ext_resource type="PackedScene" uid="uid://fsrhgietnqha" path="res://Scenes/UserInterface/Dialogue/DialogueTextBox.tscn" id="2_od2xi"]
 

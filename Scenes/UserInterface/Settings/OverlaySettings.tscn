@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3 uid="uid://cugmcq7c42ge"]
+
+[ext_resource type="PackedScene" uid="uid://24od6xr4rdx8" path="res://Scenes/UserInterface/_Generics/UILayer.tscn" id="1_7jay4"]
+[ext_resource type="Script" uid="uid://dcwduhpx06quf" path="res://Scripts/UserInterface/Settings/OverlaySettings.cs" id="2_3w4m1"]
+
+[node name="OverlaySettings" instance=ExtResource("1_7jay4")]
+script = ExtResource("2_3w4m1")

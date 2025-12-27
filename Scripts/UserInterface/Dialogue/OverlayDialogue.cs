@@ -1,7 +1,7 @@
 using Godot;
 using System.Collections.Generic;
 
-public partial class DialogueOverlay : Control
+public partial class OverlayDialogue : UILayer
 {
 	[Export] private DialogueSpeaker SpeakerLeft;
 	[Export] private DialogueSpeaker SpeakerRight;
@@ -89,7 +89,6 @@ public partial class DialogueOverlay : Control
 		// TODO. Expand.
 		Router.Debug.Print("Ending dialogue.");
 		EmitSignal(SignalName.DialogueFinished);
-		QueueFree();
 	}
 
 	#region Dialogue
