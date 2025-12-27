@@ -1,0 +1,5 @@
+[gd_scene format=3 uid="uid://vbjcixcxb4if"]
+
+[node name="MenuButton" type="Button"]
+theme_type_variation = &"BorderButton"
+text = "SAMPLE"

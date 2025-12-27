@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://dp66uomdqekk5"]
+
+[ext_resource type="Script" uid="uid://bkdpe6do7vl5l" path="res://Scripts/UserInterface/FileManagement/FileDataInput.cs" id="1_uv7qs"]
+[ext_resource type="PackedScene" uid="uid://bubirj3y0yaqx" path="res://Scenes/UserInterface/FileManagement/Components/FileKeyboardSection.tscn" id="2_343v8"]
+[ext_resource type="PackedScene" uid="uid://b62usbkko2xyg" path="res://Scenes/UserInterface/FileManagement/Components/FileKeyboardButton.tscn" id="3_owcpu"]
+
+[node name="FileDataInput" type="VBoxContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+script = ExtResource("1_uv7qs")
+KeySectionScene = ExtResource("2_343v8")
+KeyButtonScene = ExtResource("3_owcpu")

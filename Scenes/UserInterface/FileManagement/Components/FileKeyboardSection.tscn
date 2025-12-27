@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://bubirj3y0yaqx"]
+
+[node name="FileKeyboardSection" type="HFlowContainer"]
+mouse_filter = 2
+theme_override_constants/h_separation = 0
+theme_override_constants/v_separation = 0

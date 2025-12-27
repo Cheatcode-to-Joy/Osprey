@@ -1,7 +1,35 @@
-[gd_resource type="Theme" load_steps=11 format=3 uid="uid://c3p3eo1p176wp"]
+[gd_resource type="Theme" load_steps=13 format=3 uid="uid://c3p3eo1p176wp"]
 
-[ext_resource type="Texture2D" uid="uid://44t8t1wrcueb" path="res://Assets/Visual/UserInterface/UIElements.png" id="1_2gt6t"]
+[ext_resource type="StyleBox" uid="uid://ba24rd6f56vxk" path="res://Scenes/UserInterface/FileManagement/Components/KeyboardButtonBackground.tres" id="1_330b4"]
 [ext_resource type="FontVariation" uid="uid://bhh5dh6ayrlqk" path="res://Assets/Resources/Fonts/8TileMonoDefault.tres" id="1_v63ke"]
+[ext_resource type="StyleBox" uid="uid://tllx5wudts52" path="res://Scenes/UserInterface/_Generics/FocusBox.tres" id="2_330b4"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xiu4g"]
+content_margin_left = 8.0
+content_margin_top = 8.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
+bg_color = Color(0.105882354, 0.105882354, 0.105882354, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.8431838, 0.8431839, 0.84318364, 1)
+corner_detail = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_330b4"]
+content_margin_left = 8.0
+content_margin_top = 8.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
+bg_color = Color(0.6, 0.6, 0.6, 0)
+draw_center = false
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.50534403, 0.5053441, 0.5053438, 1)
+corner_detail = 2
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_v63ke"]
 
@@ -13,19 +41,7 @@
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_s8kvo"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_330b4"]
-atlas = ExtResource("1_2gt6t")
-region = Rect2(0, 0, 10, 10)
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_xiu4g"]
-texture = SubResource("AtlasTexture_330b4")
-texture_margin_left = 4.0
-texture_margin_top = 4.0
-texture_margin_right = 4.0
-texture_margin_bottom = 4.0
-axis_stretch_horizontal = 1
-axis_stretch_vertical = 1
-draw_center = false
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_kukak"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_s8kvo"]
 bg_color = Color(0, 0, 0, 0.8039216)
@@ -39,13 +55,27 @@ corner_detail = 2
 [resource]
 default_font = ExtResource("1_v63ke")
 default_font_size = 9
+BorderButton/base_type = &"Button"
+BorderButton/styles/focus = ExtResource("2_330b4")
+BorderButton/styles/hover = SubResource("StyleBoxFlat_xiu4g")
+BorderButton/styles/normal = SubResource("StyleBoxFlat_330b4")
 BoxContainer/constants/separation = 0
 Button/styles/disabled = SubResource("StyleBoxEmpty_v63ke")
 Button/styles/focus = SubResource("StyleBoxEmpty_2gt6t")
 Button/styles/hover = SubResource("StyleBoxEmpty_330b4")
 Button/styles/normal = SubResource("StyleBoxEmpty_xiu4g")
 Button/styles/pressed = SubResource("StyleBoxEmpty_s8kvo")
+FlowContainer/constants/h_separation = 8
+FlowContainer/constants/v_separation = 8
+KeyButtonActive/base_type = &"Label"
+KeyButtonActive/colors/font_color = Color(1, 1, 1, 1)
+KeyButtonActive/styles/focus = ExtResource("1_330b4")
+KeyButtonActive/styles/normal = ExtResource("1_330b4")
+KeyButtonInactive/base_type = &"Label"
+KeyButtonInactive/colors/font_color = Color(0.5019608, 0.5019608, 0.5019608, 1)
+KeyButtonInactive/styles/focus = ExtResource("1_330b4")
+KeyButtonInactive/styles/normal = SubResource("StyleBoxEmpty_kukak")
 LineEdit/constants/caret_width = 6
-LineEdit/styles/focus = SubResource("StyleBoxTexture_xiu4g")
+LineEdit/styles/focus = ExtResource("2_330b4")
 LineEdit/styles/normal = SubResource("StyleBoxFlat_s8kvo")
 SplitContainer/constants/separation = 0

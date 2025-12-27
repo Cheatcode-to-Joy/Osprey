@@ -1,0 +1,44 @@
+[gd_scene load_steps=4 format=3 uid="uid://k4gvafy4f7n7"]
+
+[ext_resource type="Script" uid="uid://5hr1xqqlqayn" path="res://Scripts/UserInterface/FileManagement/Components/FileInputField.cs" id="1_opan8"]
+[ext_resource type="Texture2D" uid="uid://44t8t1wrcueb" path="res://Assets/Visual/UserInterface/UIElements.png" id="2_b7y5y"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wrqhe"]
+atlas = ExtResource("2_b7y5y")
+region = Rect2(0, 0, 10, 10)
+
+[node name="FileInputField" type="LineEdit" node_paths=PackedStringArray("FakeFocus")]
+custom_minimum_size = Vector2(0, 24)
+max_length = 12
+context_menu_enabled = false
+emoji_menu_enabled = false
+virtual_keyboard_enabled = false
+virtual_keyboard_show_on_focus = false
+shortcut_keys_enabled = false
+middle_mouse_paste_enabled = false
+selecting_enabled = false
+deselect_on_focus_loss_enabled = false
+drag_and_drop_selection_enabled = false
+caret_blink = true
+script = ExtResource("1_opan8")
+FakeFocus = NodePath("FocusFaker")
+
+[node name="FocusFaker" type="NinePatchRect" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("AtlasTexture_wrqhe")
+draw_center = false
+patch_margin_left = 4
+patch_margin_top = 4
+patch_margin_right = 4
+patch_margin_bottom = 4
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[connection signal="gui_input" from="." to="." method="OnGuiInput"]
+[connection signal="text_changed" from="." to="." method="OnTextChanged"]
