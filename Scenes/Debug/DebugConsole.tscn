@@ -1,31 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://2gx030hk2qj1"]
+[gd_scene load_steps=3 format=3 uid="uid://2gx030hk2qj1"]
 
 [ext_resource type="Script" uid="uid://og58a6eixrjb" path="res://Scripts/Debug/DebugConsole.cs" id="1_ja2cn"]
-[ext_resource type="Texture2D" uid="uid://44t8t1wrcueb" path="res://Assets/Visual/UserInterface/UIElements.png" id="2_0ma3u"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_dl2hs"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0ma3u"]
-bg_color = Color(0, 0, 0, 0.8039216)
-border_width_left = 8
-border_width_top = 8
-border_width_right = 8
-border_width_bottom = 8
-border_color = Color(0, 0, 0, 0.8039216)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_t1hy4"]
-atlas = ExtResource("2_0ma3u")
-region = Rect2(0, 0, 10, 10)
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_e6wau"]
-texture = SubResource("AtlasTexture_t1hy4")
-texture_margin_left = 4.0
-texture_margin_top = 4.0
-texture_margin_right = 4.0
-texture_margin_bottom = 4.0
-axis_stretch_horizontal = 1
-axis_stretch_vertical = 1
-draw_center = false
 
 [node name="DebugConsole" type="Control" node_paths=PackedStringArray("DebugLabel", "DebugLine")]
 custom_minimum_size = Vector2(480, 264)
@@ -71,9 +48,6 @@ justification_flags = 0
 [node name="DebugInput" type="LineEdit" parent="Margin/Stacker"]
 custom_minimum_size = Vector2(0, 24)
 layout_mode = 2
-theme_override_constants/caret_width = 6
-theme_override_styles/normal = SubResource("StyleBoxFlat_0ma3u")
-theme_override_styles/focus = SubResource("StyleBoxTexture_e6wau")
 keep_editing_on_text_submit = true
 context_menu_enabled = false
 emoji_menu_enabled = false

@@ -19,7 +19,7 @@ public partial class TitleScreen : Control
 	private StringName[] ButtonMethods = { MethodName.OnNewGamePressed, MethodName.OnLoadSavesPressed, MethodName.OnSettingsPressed };
 	public void OnButtonPressed(int ButtonNumber)
 	{
-		Router.Debug.Print($"Title button {ButtonNumber.ToString()} pressed.");
+		Router.Debug.Print($"Title button {ButtonNumber} pressed.");
 		Call(ButtonMethods[Math.Clamp(ButtonNumber, 0, ButtonMethods.Length - 1)]);
 	}
 
