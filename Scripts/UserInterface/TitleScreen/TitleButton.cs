@@ -39,7 +39,7 @@ public partial class TitleButton : Button
 
 	private void OnMouseEntered()
 	{
-		ShowDecorations();
+		CallDeferred(Control.MethodName.GrabFocus);
 	}
 
 	private void OnMouseExited()

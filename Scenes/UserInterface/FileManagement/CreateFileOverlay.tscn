@@ -11,6 +11,9 @@ script = ExtResource("2_2dt64")
 DataInput = NodePath("Center/HBox/FileDataInput")
 InputFields = [NodePath("Center/HBox/FileData/PlayerNameInput"), NodePath("Center/HBox/FileData/SaveNameInput")]
 
+[node name="Background" parent="." index="0"]
+color = Color(0, 0, 0, 0.9411765)
+
 [node name="Center" type="CenterContainer" parent="." index="1"]
 layout_mode = 1
 anchors_preset = 15
@@ -68,3 +71,8 @@ text = "BACK"
 
 [node name="FileDataInput" parent="Center/HBox" index="1" instance=ExtResource("5_6we23")]
 layout_mode = 2
+
+[connection signal="focus_entered" from="Center/HBox/FileData/PlayerNameInput" to="." method="OnTextInputFocusEntered" flags=18]
+[connection signal="focus_entered" from="Center/HBox/FileData/SaveNameInput" to="." method="OnTextInputFocusEntered" flags=18]
+[connection signal="focus_entered" from="Center/HBox/FileData/Buttons/SaveButton" to="." method="OnOtherFocusEntered"]
+[connection signal="focus_entered" from="Center/HBox/FileData/Buttons/BackButton" to="." method="OnOtherFocusEntered"]

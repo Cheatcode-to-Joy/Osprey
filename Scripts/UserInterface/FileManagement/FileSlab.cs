@@ -15,16 +15,19 @@ public partial class FileSlab : PanelContainer, IConfigReliant
 	}
 
 	private bool HasSave = false;
+	private int SaveIndex = 0;
 
 	[Export] private Label SaveNumber;
 	public void SetSaveNumber(int Number)
 	{
+		SaveIndex = Number - 1;
 		SaveNumber.Text = Number.ToString("00");
 	}
 
 	public void InsertSaveData(FileData Data)
 	{
 		HasSave = true;
+		// TODO.
 	}
 
 	[Export] private Button MenuButton;
@@ -36,5 +39,12 @@ public partial class FileSlab : PanelContainer, IConfigReliant
 	private void SetButtonText()
 	{
 		MenuButton.Text = Tr(HasSave ? "LOAD" : "CREATE");
+	}
+
+	[Signal] public delegate void SaveLaunchRequestedEventHandler(int SaveNumber);
+	[Signal] public delegate void SaveCreationRequestedEventHandler(int SaveNumber);
+	public void OnButtonPressed()
+	{
+		EmitSignal(HasSave ? SignalName.SaveLaunchRequested : SignalName.SaveCreationRequested, SaveIndex);
 	}
 }

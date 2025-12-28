@@ -32,6 +32,9 @@ public partial class FileCarouselOverlay : UILayer
 				if (Data.TryGetValue(CurrentSave, out FileData DataPoint)) { Slab.InsertSaveData(DataPoint); }
 				CurrentSave++;
 				Slab.SetSaveNumber(CurrentSave);
+
+				Slab.Connect(FileSlab.SignalName.SaveLaunchRequested, new Callable(this, MethodName.OnSaveLaunchRequest));
+				Slab.Connect(FileSlab.SignalName.SaveCreationRequested, new Callable(this, MethodName.OnSaveCreationRequest));
 			}
 		}
 
@@ -60,5 +63,19 @@ public partial class FileCarouselOverlay : UILayer
 	public void OnButtonPressed(int Offset)
 	{
 		SwitchToBlock(CurrentBlock + Offset);
+	}
+
+	public void OnSaveLaunchRequest(int SaveIndex)
+	{
+		// TODO.
+		Router.Debug.Print($"Launching save index {SaveIndex}.");
+	}
+
+	[Export] private PackedScene CreateOverlayScene;
+	public void OnSaveCreationRequest(int SaveIndex)
+	{
+		// TODO. Pass the index I guess?
+		Router.Debug.Print($"Creating save index {SaveIndex}.");
+		Router.Main.AddOverlay(CreateOverlayScene.Instantiate<UILayer>());
 	}
 }

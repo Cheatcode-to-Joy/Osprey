@@ -74,3 +74,5 @@ horizontal_alignment = 1
 
 [node name="MenuButton" parent="Sections" instance=ExtResource("2_4njwr")]
 layout_mode = 2
+
+[connection signal="pressed" from="Sections/MenuButton" to="." method="OnButtonPressed"]

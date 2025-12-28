@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://c7ubo1l4t8kyq"]
+[gd_scene load_steps=6 format=3 uid="uid://c7ubo1l4t8kyq"]
 
 [ext_resource type="PackedScene" uid="uid://24od6xr4rdx8" path="res://Scenes/UserInterface/_Generics/UILayer.tscn" id="1_2s7bc"]
 [ext_resource type="PackedScene" uid="uid://vbjcixcxb4if" path="res://Scenes/UserInterface/_Generics/Buttons/MenuButton.tscn" id="2_5sy7h"]
 [ext_resource type="Script" uid="uid://dge2olil25dfy" path="res://Scripts/UserInterface/FileManagement/FileCarouselOverlay.cs" id="2_q3281"]
 [ext_resource type="PackedScene" uid="uid://bctg6w3gn0ksa" path="res://Scenes/UserInterface/FileManagement/FileBlock.tscn" id="3_15nu0"]
+[ext_resource type="PackedScene" uid="uid://1ubkp1omhtvx" path="res://Scenes/UserInterface/FileManagement/CreateFileOverlay.tscn" id="4_x3n36"]
 
 [node name="FileCarouselOverlay" node_paths=PackedStringArray("BlockHolder", "ButtonBack", "ButtonForward") instance=ExtResource("1_2s7bc")]
 script = ExtResource("2_q3281")
@@ -11,6 +12,7 @@ BlockHolder = NodePath("Contents/BlockHolder")
 BlockScene = ExtResource("3_15nu0")
 ButtonBack = NodePath("Contents/Buttons/BackButton")
 ButtonForward = NodePath("Contents/Buttons/ForwardButton")
+CreateOverlayScene = ExtResource("4_x3n36")
 
 [node name="Contents" type="VBoxContainer" parent="." index="1"]
 layout_mode = 1
