@@ -6,9 +6,12 @@ public partial class TitleOverlay : UILayer
 	[Export] private Control PressStart;
 	[Export] private MenuButtons Buttons;
 
+	[Export] private Label VersionNumber;
+
 	public override void _Ready()
 	{
 		Buttons.Connect(MenuButtons.SignalName.ButtonPressed, new Callable(this, MethodName.OnButtonPressed));
+		VersionNumber.Text = ProjectSettings.GetSetting("application/config/version").ToString();
 	}
 
 	#region UI Layer
