@@ -3,17 +3,18 @@
 [ext_resource type="Script" uid="uid://bnv08xy5c7uym" path="res://Scripts/_Main/MainScene.cs" id="1_ciy8a"]
 [ext_resource type="PackedScene" uid="uid://bflfw738670wl" path="res://Scenes/Debug/OverlayDebug.tscn" id="2_541kf"]
 [ext_resource type="PackedScene" uid="uid://cugmcq7c42ge" path="res://Scenes/UserInterface/Settings/OverlaySettings.tscn" id="2_m4cel"]
+[ext_resource type="PackedScene" uid="uid://d0qao5jrqw8q8" path="res://Scenes/UserInterface/TitleScreen/TitleOverlay.tscn" id="2_vwm7e"]
 [ext_resource type="PackedScene" uid="uid://boo6i7kivwgsg" path="res://Scenes/_Auto/InputMethodHandler.tscn" id="2_yw0v0"]
 [ext_resource type="PackedScene" uid="uid://cirh3sgv7y235" path="res://Scenes/_Auto/ConfigManager.tscn" id="3_ay4rq"]
 [ext_resource type="PackedScene" uid="uid://bu60gqe333vha" path="res://Scenes/_Auto/AudioManager.tscn" id="3_yw0v0"]
 [ext_resource type="PackedScene" uid="uid://bvg2sbv30qisx" path="res://Scenes/_Auto/DebugManager.tscn" id="5_s8x7n"]
 [ext_resource type="PackedScene" uid="uid://yj7c1hwqcrhk" path="res://Scenes/UserInterface/HUD/CoreHUD.tscn" id="7_ay4rq"]
-[ext_resource type="PackedScene" uid="uid://bmf4o21t6o8qn" path="res://Scenes/UserInterface/TitleScreen/TitleScreen.tscn" id="9_m4cel"]
 [ext_resource type="PackedScene" uid="uid://bxwm3pj45kydn" path="res://Scenes/_Main/MainCamera.tscn" id="12_badjc"]
 
 [node name="MainScene" type="Node2D" node_paths=PackedStringArray("Camera", "OverlayHolder")]
 script = ExtResource("1_ciy8a")
 Camera = NodePath("MainCamera")
+TitleScene = ExtResource("2_vwm7e")
 SettingsScene = ExtResource("2_m4cel")
 DebugScene = ExtResource("2_541kf")
 OverlayHolder = NodePath("OverlayHolder")
@@ -27,11 +28,6 @@ OverlayHolder = NodePath("OverlayHolder")
 [node name="DebugManager" parent="." instance=ExtResource("5_s8x7n")]
 
 [node name="CoreHUD" parent="." instance=ExtResource("7_ay4rq")]
-offset_right = 480.0
-offset_bottom = 320.0
-
-[node name="TitleScreen" parent="." instance=ExtResource("9_m4cel")]
-visible = false
 offset_right = 480.0
 offset_bottom = 320.0
 
@@ -54,6 +50,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 
 [node name="DebugHolder" type="Control" parent="OverlayHolder"]
 custom_minimum_size = Vector2(480, 320)
@@ -63,6 +60,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 
 [node name="MainCamera" parent="." instance=ExtResource("12_badjc")]
 

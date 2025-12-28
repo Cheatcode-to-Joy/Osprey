@@ -15,6 +15,7 @@ public partial class MainScene : Node2D, IConfigReliant
 	public override void _Ready()
 	{
 		Router.Config.Connect(ConfigManager.SignalName.ConfigChanged, new Callable(this, MethodName.OnConfigUpdate));
+		AddOverlay(TitleScene.Instantiate<UILayer>());
 	}
 
 	public override void _Input(InputEvent @Event)
@@ -44,6 +45,7 @@ public partial class MainScene : Node2D, IConfigReliant
 
 	#region Overlays
 	[ExportGroup("Overlays")]
+	[Export] private PackedScene TitleScene;
 	[Export] private PackedScene SettingsScene;
 	[Export] private PackedScene DebugScene;
 
@@ -58,19 +60,19 @@ public partial class MainScene : Node2D, IConfigReliant
 		if (!Debug) { ActiveOverlays.Add(Overlay); }
 		else { CurrentDebug = Overlay; }
 
-		SetTopOverlay();
+		SetTopOverlay(Debug);
 	}
 
-	private UILayer GetTopOverlay()
+	private UILayer GetTopOverlay(bool IncludeDebug = true)
 	{
-		if (CurrentDebug != null) { return CurrentDebug; }
+		if (IncludeDebug && CurrentDebug != null) { return CurrentDebug; }
 		if (ActiveOverlays.Count > 0) { return ActiveOverlays[^1]; }
 		return null;
 	}
 
-	private void SetTopOverlay()
+	private void SetTopOverlay(bool IncludeDebug = false)
 	{
-		GetTopOverlay()?.CallDeferred(UILayer.MethodName.GrabDefaultFocus);
+		GetTopOverlay(IncludeDebug)?.CallDeferred(UILayer.MethodName.GrabDefaultFocus);
 	}
 
 	private bool CloseTopOverlay()

@@ -7,7 +7,7 @@ public partial class CoreHUD : Control
 	[Export] private PackedScene CreateFileScene;
 	public override void _Ready()
 	{
-		CallDeferred(MethodName.OpenCreateFile);
+		// CallDeferred(MethodName.OpenCreateFile);
 	}
 	public void OpenCreateFile()
 	{

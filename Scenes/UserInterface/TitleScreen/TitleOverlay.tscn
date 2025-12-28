@@ -1,0 +1,66 @@
+[gd_scene load_steps=6 format=3 uid="uid://d0qao5jrqw8q8"]
+
+[ext_resource type="PackedScene" uid="uid://24od6xr4rdx8" path="res://Scenes/UserInterface/_Generics/UILayer.tscn" id="1_j6g3e"]
+[ext_resource type="Script" uid="uid://bad0kdlutvdch" path="res://Scripts/UserInterface/TitleScreen/TitleOverlay.cs" id="2_nbdrn"]
+[ext_resource type="Script" uid="uid://1r04rm6trqec" path="res://Scripts/UserInterface/TitleScreen/MenuButtons.cs" id="3_x5esr"]
+[ext_resource type="PackedScene" uid="uid://b0dprqeo6km54" path="res://Scenes/UserInterface/TitleScreen/TitleButton.tscn" id="4_howc2"]
+[ext_resource type="PackedScene" uid="uid://32iwusorf4kv" path="res://Scenes/UserInterface/TitleScreen/PressStart.tscn" id="5_aik6s"]
+
+[node name="TitleOverlay" node_paths=PackedStringArray("PressStart", "Buttons") instance=ExtResource("1_j6g3e")]
+script = ExtResource("2_nbdrn")
+PressStart = NodePath("Centering/CoreElements/MenuElements/PressStart")
+Buttons = NodePath("Centering/CoreElements/MenuElements/ButtonMargin/MenuButtons")
+
+[node name="Centering" type="CenterContainer" parent="." index="1"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CoreElements" type="VBoxContainer" parent="Centering" index="0"]
+layout_mode = 2
+
+[node name="GameTitle" type="TextureRect" parent="Centering/CoreElements" index="0"]
+custom_minimum_size = Vector2(240, 88)
+layout_mode = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="MenuElements" type="CenterContainer" parent="Centering/CoreElements" index="1"]
+custom_minimum_size = Vector2(240, 160)
+layout_mode = 2
+
+[node name="ButtonMargin" type="MarginContainer" parent="Centering/CoreElements/MenuElements" index="0"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_right = 16
+
+[node name="MenuButtons" type="VBoxContainer" parent="Centering/CoreElements/MenuElements/ButtonMargin" index="0"]
+visible = false
+layout_mode = 2
+alignment = 1
+script = ExtResource("3_x5esr")
+
+[node name="StartButton" parent="Centering/CoreElements/MenuElements/ButtonMargin/MenuButtons" index="0" instance=ExtResource("4_howc2")]
+layout_mode = 2
+
+[node name="ButtonText" parent="Centering/CoreElements/MenuElements/ButtonMargin/MenuButtons/StartButton/Splitter" index="1"]
+text = "bSTART_GAME"
+
+[node name="SettingsButton" parent="Centering/CoreElements/MenuElements/ButtonMargin/MenuButtons" index="1" instance=ExtResource("4_howc2")]
+layout_mode = 2
+
+[node name="ButtonText" parent="Centering/CoreElements/MenuElements/ButtonMargin/MenuButtons/SettingsButton/Splitter" index="1"]
+text = "bSETTINGS"
+
+[node name="PressStart" parent="Centering/CoreElements/MenuElements" index="1" instance=ExtResource("5_aik6s")]
+layout_mode = 2
+
+[connection signal="pressed" from="Centering/CoreElements/MenuElements/ButtonMargin/MenuButtons/StartButton" to="." method="OnButtonPressed" binds= [0]]
+[connection signal="pressed" from="Centering/CoreElements/MenuElements/ButtonMargin/MenuButtons/SettingsButton" to="." method="OnButtonPressed" binds= [1]]
+[connection signal="KeyPressed" from="Centering/CoreElements/MenuElements/PressStart" to="." method="OnKeyPressed"]
+
+[editable path="Centering/CoreElements/MenuElements/ButtonMargin/MenuButtons/StartButton"]
+[editable path="Centering/CoreElements/MenuElements/ButtonMargin/MenuButtons/SettingsButton"]
