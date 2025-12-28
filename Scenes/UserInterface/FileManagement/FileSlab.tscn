@@ -1,0 +1,76 @@
+[gd_scene load_steps=5 format=3 uid="uid://dyqfolboqpxd0"]
+
+[ext_resource type="Script" uid="uid://3w4uk1imlxna" path="res://Scripts/UserInterface/FileManagement/FileSlab.cs" id="1_a6kto"]
+[ext_resource type="Texture2D" uid="uid://2kxdhnbe8qgk" path="res://Assets/Visual/Icons/SaveIcon/SaveIcon.png" id="1_huicq"]
+[ext_resource type="PackedScene" uid="uid://vbjcixcxb4if" path="res://Scenes/UserInterface/_Generics/Buttons/MenuButton.tscn" id="2_4njwr"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4njwr"]
+atlas = ExtResource("1_huicq")
+region = Rect2(0, 0, 64, 64)
+
+[node name="FileSlab" type="PanelContainer" node_paths=PackedStringArray("SaveNumber", "MenuButton")]
+custom_minimum_size = Vector2(144, 240)
+offset_right = 144.0
+offset_bottom = 240.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+script = ExtResource("1_a6kto")
+SaveNumber = NodePath("Sections/SaveNumber/Number")
+MenuButton = NodePath("Sections/MenuButton")
+
+[node name="Sections" type="VBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 8
+alignment = 2
+
+[node name="SaveNumber" type="HBoxContainer" parent="Sections"]
+modulate = Color(0.50140655, 0.5014065, 0.5014065, 1)
+layout_mode = 2
+theme_override_constants/separation = 16
+alignment = 1
+
+[node name="Save" type="Label" parent="Sections/SaveNumber"]
+layout_mode = 2
+text = "SAVE"
+
+[node name="Number" type="Label" parent="Sections/SaveNumber"]
+auto_translate_mode = 2
+layout_mode = 2
+text = "01"
+
+[node name="Contents" type="VBoxContainer" parent="Sections"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 8
+
+[node name="SaveName" type="Label" parent="Sections/Contents"]
+auto_translate_mode = 2
+visible = false
+layout_mode = 2
+text = "_SAVE_NAME"
+horizontal_alignment = 1
+
+[node name="SaveIcon" type="TextureRect" parent="Sections/Contents"]
+visible = false
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+texture = SubResource("AtlasTexture_4njwr")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="PlayerName" type="Label" parent="Sections/Contents"]
+auto_translate_mode = 2
+visible = false
+layout_mode = 2
+text = "_PLAYER_NAME"
+horizontal_alignment = 1
+
+[node name="Time" type="Label" parent="Sections/Contents"]
+visible = false
+modulate = Color(0.50140655, 0.5014065, 0.5014065, 1)
+layout_mode = 2
+text = "0:00"
+horizontal_alignment = 1
+
+[node name="MenuButton" parent="Sections" instance=ExtResource("2_4njwr")]
+layout_mode = 2

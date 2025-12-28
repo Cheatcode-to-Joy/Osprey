@@ -56,6 +56,9 @@ public partial class MainScene : Node2D, IConfigReliant
 
 	public void AddOverlay(UILayer Overlay, bool Debug = false)
 	{
+		UILayer TopOverlay = GetTopOverlay();
+		if (TopOverlay != null) { TopOverlay.FocusBehaviorRecursive = Control.FocusBehaviorRecursiveEnum.Disabled; }
+
 		OverlayHolder.GetChild(Debug ? 1 : 0).AddChild(Overlay);
 		if (!Debug) { ActiveOverlays.Add(Overlay); }
 		else { CurrentDebug = Overlay; }
@@ -72,7 +75,11 @@ public partial class MainScene : Node2D, IConfigReliant
 
 	public void SetTopOverlay(bool IncludeDebug = false)
 	{
-		GetTopOverlay(IncludeDebug)?.CallDeferred(UILayer.MethodName.GrabDefaultFocus);
+		UILayer TopOverlay = GetTopOverlay(IncludeDebug);
+		if (TopOverlay == null) { return; }
+
+		TopOverlay.FocusBehaviorRecursive = Control.FocusBehaviorRecursiveEnum.Inherited;
+		TopOverlay.CallDeferred(UILayer.MethodName.GrabDefaultFocus);
 	}
 
 	public bool CloseOverlay(UILayer Overlay)

@@ -1,5 +1,10 @@
-[gd_scene format=3 uid="uid://vbjcixcxb4if"]
+[gd_scene load_steps=2 format=3 uid="uid://vbjcixcxb4if"]
+
+[ext_resource type="Script" uid="uid://djx5a6cum3ehs" path="res://Scripts/UserInterface/_Generics/Buttons/MButton.cs" id="1_dmk0b"]
 
 [node name="MenuButton" type="Button"]
 theme_type_variation = &"BorderButton"
 text = "SAMPLE"
+script = ExtResource("1_dmk0b")
+
+[connection signal="gui_input" from="." to="." method="OnGuiInput"]

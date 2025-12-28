@@ -1,8 +1,23 @@
-[gd_resource type="Theme" load_steps=13 format=3 uid="uid://c3p3eo1p176wp"]
+[gd_resource type="Theme" load_steps=17 format=3 uid="uid://c3p3eo1p176wp"]
 
 [ext_resource type="StyleBox" uid="uid://ba24rd6f56vxk" path="res://Scenes/UserInterface/FileManagement/Components/KeyboardButtonBackground.tres" id="1_330b4"]
 [ext_resource type="FontVariation" uid="uid://bhh5dh6ayrlqk" path="res://Assets/Resources/Fonts/8TileMonoDefault.tres" id="1_v63ke"]
 [ext_resource type="StyleBox" uid="uid://tllx5wudts52" path="res://Scenes/UserInterface/_Generics/FocusBox.tres" id="2_330b4"]
+[ext_resource type="Texture2D" uid="uid://44t8t1wrcueb" path="res://Assets/Visual/UserInterface/UIElements.png" id="3_xiu4g"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kukak"]
+content_margin_left = 8.0
+content_margin_top = 8.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
+bg_color = Color(0.6, 0.6, 0.6, 0)
+draw_center = false
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.8, 0.8, 0.8, 0)
+corner_detail = 2
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xiu4g"]
 content_margin_left = 8.0
@@ -52,10 +67,24 @@ border_width_bottom = 8
 border_color = Color(0, 0, 0, 0.8039216)
 corner_detail = 2
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_s8kvo"]
+atlas = ExtResource("3_xiu4g")
+region = Rect2(0, 10, 32, 32)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_kukak"]
+texture = SubResource("AtlasTexture_s8kvo")
+texture_margin_left = 12.0
+texture_margin_top = 12.0
+texture_margin_right = 12.0
+texture_margin_bottom = 12.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
 [resource]
 default_font = ExtResource("1_v63ke")
 default_font_size = 9
 BorderButton/base_type = &"Button"
+BorderButton/styles/disabled = SubResource("StyleBoxFlat_kukak")
 BorderButton/styles/focus = ExtResource("2_330b4")
 BorderButton/styles/hover = SubResource("StyleBoxFlat_xiu4g")
 BorderButton/styles/normal = SubResource("StyleBoxFlat_330b4")
@@ -78,4 +107,5 @@ KeyButtonInactive/styles/normal = SubResource("StyleBoxEmpty_kukak")
 LineEdit/constants/caret_width = 6
 LineEdit/styles/focus = ExtResource("2_330b4")
 LineEdit/styles/normal = SubResource("StyleBoxFlat_s8kvo")
+PanelContainer/styles/panel = SubResource("StyleBoxTexture_kukak")
 SplitContainer/constants/separation = 0

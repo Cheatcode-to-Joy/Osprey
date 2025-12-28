@@ -1,5 +1,49 @@
-[gd_scene load_steps=2 format=3 uid="uid://c7ubo1l4t8kyq"]
+[gd_scene load_steps=5 format=3 uid="uid://c7ubo1l4t8kyq"]
 
 [ext_resource type="PackedScene" uid="uid://24od6xr4rdx8" path="res://Scenes/UserInterface/_Generics/UILayer.tscn" id="1_2s7bc"]
+[ext_resource type="PackedScene" uid="uid://vbjcixcxb4if" path="res://Scenes/UserInterface/_Generics/Buttons/MenuButton.tscn" id="2_5sy7h"]
+[ext_resource type="Script" uid="uid://dge2olil25dfy" path="res://Scripts/UserInterface/FileManagement/FileCarouselOverlay.cs" id="2_q3281"]
+[ext_resource type="PackedScene" uid="uid://bctg6w3gn0ksa" path="res://Scenes/UserInterface/FileManagement/FileBlock.tscn" id="3_15nu0"]
 
-[node name="FileCarouselOverlay" instance=ExtResource("1_2s7bc")]
+[node name="FileCarouselOverlay" node_paths=PackedStringArray("BlockHolder", "ButtonBack", "ButtonForward") instance=ExtResource("1_2s7bc")]
+script = ExtResource("2_q3281")
+BlockHolder = NodePath("Contents/BlockHolder")
+BlockScene = ExtResource("3_15nu0")
+ButtonBack = NodePath("Contents/Buttons/BackButton")
+ButtonForward = NodePath("Contents/Buttons/ForwardButton")
+
+[node name="Contents" type="VBoxContainer" parent="." index="1"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 16.0
+offset_bottom = -16.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 16
+alignment = 2
+
+[node name="BlockHolder" type="Control" parent="Contents" index="0"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Buttons" type="HBoxContainer" parent="Contents" index="1"]
+layout_mode = 2
+theme_override_constants/separation = 64
+alignment = 1
+
+[node name="BackButton" parent="Contents/Buttons" index="0" instance=ExtResource("2_5sy7h")]
+auto_translate_mode = 2
+layout_mode = 2
+focus_neighbor_right = NodePath("../ForwardButton")
+text = "<"
+
+[node name="ForwardButton" parent="Contents/Buttons" index="1" instance=ExtResource("2_5sy7h")]
+auto_translate_mode = 2
+layout_mode = 2
+focus_neighbor_left = NodePath("../BackButton")
+text = ">"
+
+[connection signal="pressed" from="Contents/Buttons/BackButton" to="." method="OnButtonPressed" binds= [-1]]
+[connection signal="pressed" from="Contents/Buttons/ForwardButton" to="." method="OnButtonPressed" binds= [1]]

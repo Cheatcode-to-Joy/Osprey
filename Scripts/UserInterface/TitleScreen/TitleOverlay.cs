@@ -26,6 +26,7 @@ public partial class TitleOverlay : UILayer
 	public void OnKeyPressed()
 	{
 		Buttons.Show();
+		CallDeferred(MethodName.GrabDefaultFocus);
 	}
 
 	[Export] private PackedScene FileCarouselScene;
