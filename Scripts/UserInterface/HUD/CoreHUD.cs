@@ -3,17 +3,6 @@ using System;
 
 public partial class CoreHUD : Control
 {
-	// FIXME. Delete. Yeah all of the stuff above dialogue.
-	[Export] private PackedScene CreateFileScene;
-	public override void _Ready()
-	{
-		// CallDeferred(MethodName.OpenCreateFile);
-	}
-	public void OpenCreateFile()
-	{
-		Router.Main.AddOverlay(CreateFileScene.Instantiate<UILayer>());
-	}
-
 	#region Dialogue
 	[ExportGroup("Dialogue")]
 	[Export] private PackedScene DialogueScene;

@@ -23,7 +23,7 @@ public partial class MainScene : Node2D, IConfigReliant
 		if (@Event.IsActionPressed("ToggleSettings"))
 		{
 			GetViewport().SetInputAsHandled();
-			if (!CloseTopOverlay())
+			if (!CloseOverlay(GetTopOverlay()))
 			{
 				AddOverlay(SettingsScene.Instantiate<UILayer>());
 			}
@@ -63,36 +63,29 @@ public partial class MainScene : Node2D, IConfigReliant
 		SetTopOverlay(Debug);
 	}
 
-	private UILayer GetTopOverlay(bool IncludeDebug = true)
+	private UILayer GetTopOverlay(bool IncludeDebug = false)
 	{
 		if (IncludeDebug && CurrentDebug != null) { return CurrentDebug; }
 		if (ActiveOverlays.Count > 0) { return ActiveOverlays[^1]; }
 		return null;
 	}
 
-	private void SetTopOverlay(bool IncludeDebug = false)
+	public void SetTopOverlay(bool IncludeDebug = false)
 	{
 		GetTopOverlay(IncludeDebug)?.CallDeferred(UILayer.MethodName.GrabDefaultFocus);
 	}
 
-	private bool CloseTopOverlay()
+	public bool CloseOverlay(UILayer Overlay)
 	{
-		UILayer TopOverlay = GetTopOverlay();
-		if (TopOverlay == null) { return false; }
-
-		CloseOverlay(TopOverlay);
-		return true;
-	}
-
-	public void CloseOverlay(UILayer Overlay)
-	{
-		if (!Overlay.RequestOverlayExit()) { return; }
+		if (!Overlay.RequestOverlayExit()) { return false; }
 
 		if (Overlay == CurrentDebug) { CurrentDebug = null; }
-		else if (!ActiveOverlays.Remove(Overlay)) { return; }
+		else if (!ActiveOverlays.Remove(Overlay)) { return false; }
 
 		Overlay.QueueFree();
 		SetTopOverlay();
+
+		return true;
 	}
 
 	private void ToggleDebug()

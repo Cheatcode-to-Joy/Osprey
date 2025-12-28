@@ -57,6 +57,12 @@ public partial class CommandManager : Node
 		}
 		return true;
 	}
+
+	private bool CommandFocus(string[] Arguments)
+	{
+		Router.Main.SetTopOverlay();
+		return true;
+	}
 	#endregion
 }
 

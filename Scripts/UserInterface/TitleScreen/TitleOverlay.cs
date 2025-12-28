@@ -14,7 +14,7 @@ public partial class TitleOverlay : UILayer
 	#region UI Layer
 	public override void GrabDefaultFocus()
 	{
-		Buttons.GetChild<Control>(0).GrabFocus();
+		Buttons.GetChild<Control>(0)?.GrabFocus();
 	}
 
 	public override bool RequestOverlayExit() { return false; }
@@ -25,6 +25,9 @@ public partial class TitleOverlay : UILayer
 		Buttons.Show();
 	}
 
+	[Export] private PackedScene FileCarouselScene;
+	[Export] private PackedScene SettingsScene;
+
 	private StringName[] ButtonMethods = [MethodName.OnSavesPressed, MethodName.OnSettingsPressed];
 	public void OnButtonPressed(int ButtonNumber)
 	{
@@ -34,13 +37,13 @@ public partial class TitleOverlay : UILayer
 
 	private void OnSavesPressed()
 	{
-		// TODO.
 		Router.Debug.Print("Displaying saves.");
+		Router.Main.AddOverlay(FileCarouselScene.Instantiate<UILayer>());
 	}
 
 	private void OnSettingsPressed()
 	{
-		// TODO.
 		Router.Debug.Print("Opening settings.");
+		Router.Main.AddOverlay(SettingsScene.Instantiate<UILayer>());
 	}
 }

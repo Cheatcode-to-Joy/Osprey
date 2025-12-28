@@ -10,5 +10,9 @@
 	"help" : {
 		"CommandName" : "Help", "Function" : "CommandHelp",
 		"CommandDescription" : "Lists all available commands."
+	},
+	"focus" : {
+		"CommandName" : "Focus", "Function" : "CommandFocus",
+		"CommandDescription" : "Gives focus to the highest overlay below the console."
 	}
 }
