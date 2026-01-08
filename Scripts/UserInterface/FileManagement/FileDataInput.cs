@@ -73,6 +73,7 @@ public partial class FileDataInput : VBoxContainer
 
 	public static void OnKeyButtonMouseEnter(Label KeyButton)
 	{
+		// BUG: For some reason the text is brighter on hover as intended, but not on focus enter.
 		KeyButton.ThemeTypeVariation = "KeyButtonActive";
 	}
 
