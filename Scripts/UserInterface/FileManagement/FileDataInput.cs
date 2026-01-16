@@ -46,6 +46,8 @@ public partial class FileDataInput : VBoxContainer
 				KeyButton.GuiInput += Event => OnKeyButtonInput(Event, LetterData);
 				KeyButton.MouseEntered += () => OnKeyButtonMouseEnter(KeyButton);
 				KeyButton.MouseExited += () => OnKeyButtonMouseExit(KeyButton);
+				KeyButton.FocusEntered += () => OnKeyButtonFocusEnter(KeyButton);
+				KeyButton.FocusExited += () => OnKeyButtonFocusExit(KeyButton);
 			}
 
 			KeyButtons.Add(SectionButtons);
@@ -71,15 +73,61 @@ public partial class FileDataInput : VBoxContainer
 		}
 	}
 
-	public static void OnKeyButtonMouseEnter(Label KeyButton)
+	private bool Enabled = true;
+
+	public void OnEnable()
 	{
-		// BUG: For some reason the text is brighter on hover as intended, but not on focus enter.
-		KeyButton.ThemeTypeVariation = "KeyButtonActive";
+		if (Enabled) { return; }
+		Enabled = true;
+
+		if (HoveredKey != null) { HoveredKey.ThemeTypeVariation = "KeyButtonActive"; }
+		Modulate = new(1, 1, 1, 1);
+		FocusBehaviorRecursive = FocusBehaviorRecursiveEnum.Inherited;
 	}
 
-	public static void OnKeyButtonMouseExit(Label KeyButton)
+	public void OnDisable()
 	{
-		KeyButton.ThemeTypeVariation = "KeyButtonInactive";
+		if (!Enabled) { return; }
+		Enabled = false;
+
+		if (HoveredKey != null) { HoveredKey.ThemeTypeVariation = "KeyButtonInactive"; }
+		Modulate = new(1, 1, 1, 0.5f);
+		FocusBehaviorRecursive = FocusBehaviorRecursiveEnum.Disabled;
+	}
+
+	private Label HoveredKey = null;
+
+	private void MakeButtonActive(Label KeyButton)
+	{
+		if (Enabled) { KeyButton.ThemeTypeVariation = "KeyButtonActive"; }
+	}
+
+	private void MakeButtonInactive(Label KeyButton)
+	{
+		if (HoveredKey != null && HoveredKey == KeyButton) { return; }
+		if (Enabled) { KeyButton.ThemeTypeVariation = "KeyButtonInactive"; }
+	}
+
+	public void OnKeyButtonMouseEnter(Label KeyButton)
+	{
+		HoveredKey = KeyButton;
+		MakeButtonActive(KeyButton);
+	}
+
+	public void OnKeyButtonMouseExit(Label KeyButton)
+	{
+		if (HoveredKey == KeyButton) { HoveredKey = null; }
+		MakeButtonInactive(KeyButton);
+	}
+
+	public void OnKeyButtonFocusEnter(Label KeyButton)
+	{
+		MakeButtonActive(KeyButton);
+	}
+
+	public void OnKeyButtonFocusExit(Label KeyButton)
+	{
+		MakeButtonInactive(KeyButton);
 	}
 	#endregion
 }

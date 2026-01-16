@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=17 format=3 uid="uid://c3p3eo1p176wp"]
+[gd_resource type="Theme" load_steps=18 format=3 uid="uid://c3p3eo1p176wp"]
 
 [ext_resource type="StyleBox" uid="uid://ba24rd6f56vxk" path="res://Scenes/UserInterface/FileManagement/Components/KeyboardButtonBackground.tres" id="1_330b4"]
 [ext_resource type="FontVariation" uid="uid://bhh5dh6ayrlqk" path="res://Assets/Resources/Fonts/8TileMonoDefault.tres" id="1_v63ke"]
@@ -56,6 +56,8 @@ corner_detail = 2
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_s8kvo"]
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_o8ndh"]
+
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_kukak"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_s8kvo"]
@@ -98,11 +100,11 @@ FlowContainer/constants/h_separation = 8
 FlowContainer/constants/v_separation = 8
 KeyButtonActive/base_type = &"Label"
 KeyButtonActive/colors/font_color = Color(1, 1, 1, 1)
-KeyButtonActive/styles/focus = ExtResource("1_330b4")
+KeyButtonActive/styles/focus = SubResource("StyleBoxEmpty_o8ndh")
 KeyButtonActive/styles/normal = ExtResource("1_330b4")
 KeyButtonInactive/base_type = &"Label"
 KeyButtonInactive/colors/font_color = Color(0.5019608, 0.5019608, 0.5019608, 1)
-KeyButtonInactive/styles/focus = ExtResource("1_330b4")
+KeyButtonInactive/styles/focus = SubResource("StyleBoxEmpty_kukak")
 KeyButtonInactive/styles/normal = SubResource("StyleBoxEmpty_kukak")
 LineEdit/constants/caret_width = 6
 LineEdit/styles/focus = ExtResource("2_330b4")

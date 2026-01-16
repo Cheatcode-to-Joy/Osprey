@@ -1,10 +1,13 @@
-[gd_scene format=3 uid="uid://b62usbkko2xyg"]
+[gd_scene load_steps=2 format=3 uid="uid://b62usbkko2xyg"]
+
+[ext_resource type="StyleBox" uid="uid://ba24rd6f56vxk" path="res://Scenes/UserInterface/FileManagement/Components/KeyboardButtonBackground.tres" id="1_ao6gi"]
 
 [node name="FileKeyboardButton" type="Label"]
 custom_minimum_size = Vector2(24, 24)
 focus_mode = 2
 mouse_filter = 0
 theme_type_variation = &"KeyButtonInactive"
+theme_override_styles/focus = ExtResource("1_ao6gi")
 text = "A"
 horizontal_alignment = 1
 vertical_alignment = 1

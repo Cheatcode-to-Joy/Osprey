@@ -10,7 +10,7 @@ public partial class CreateFileOverlay : UILayer
 
 	public override void _Ready()
 	{
-		SetInputInactive();
+		DataInput.OnDisable();
 		DataInput.Connect(FileDataInput.SignalName.CharacterInput, new Callable(this, MethodName.AppendKeyInput));
 
 		foreach (FileInputField InputField in InputFields)
@@ -52,25 +52,11 @@ public partial class CreateFileOverlay : UILayer
 		ActiveInput?.InsertTextAtCaret(InputKey.ToString());
 	}
 
-	private void SetInputActive()
-	{
-		DataInput.Modulate = new(1, 1, 1, 1);
-		DataInput.FocusBehaviorRecursive = FocusBehaviorRecursiveEnum.Inherited;
-	}
-
-	private void SetInputInactive()
-	{
-		DataInput.Modulate = new(1, 1, 1, 0.5f);
-		DataInput.FocusBehaviorRecursive = FocusBehaviorRecursiveEnum.Disabled;
-		
-		ActiveInput = null;
-	}
-
 	public void OnTextInputFocusEntered(FileInputField TextInput)
 	{
 		if (ActiveInput != null && ActiveInput != TextInput) { ActiveInput.ToggleFakeFocus(false); }
 
-		SetInputActive();
+		DataInput.OnEnable();
 		TextInput.ToggleFakeFocus(true);
 
 		ActiveFocusCallable = new Callable(this, MethodName.GrabActiveFocus);
@@ -92,7 +78,9 @@ public partial class CreateFileOverlay : UILayer
 			DataInput.Disconnect(FileDataInput.SignalName.InputDeclined, ActiveFocusCallable);
 		}
 
-		SetInputInactive();
+		DataInput.OnDisable();
+
+		ActiveInput = null;
 	}
 	#endregion
 }
