@@ -1,8 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://b85cmkfiyauqj"]
+[gd_scene format=3 uid="uid://b85cmkfiyauqj"]
 
 [ext_resource type="Script" uid="uid://5d3egg6kn3o2" path="res://Scripts/Audio/SFX/OmniSFX.cs" id="1_wlq52"]
 
-[node name="OmniSFX" type="AudioStreamPlayer"]
+[node name="OmniSFX" type="AudioStreamPlayer" unique_id=1480576496]
 autoplay = true
 bus = &"SoundEffect"
 script = ExtResource("1_wlq52")

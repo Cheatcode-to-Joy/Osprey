@@ -1,8 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://dyis4dipwfat"]
+[gd_scene format=3 uid="uid://dyis4dipwfat"]
 
 [ext_resource type="Script" uid="uid://c0223vtggbded" path="res://Scripts/Audio/SFX/PosiSFX.cs" id="1_0a74q"]
 
-[node name="PosiSFX" type="AudioStreamPlayer2D"]
+[node name="PosiSFX" type="AudioStreamPlayer2D" unique_id=421666475]
 autoplay = true
 bus = &"SoundEffect"
 script = ExtResource("1_0a74q")

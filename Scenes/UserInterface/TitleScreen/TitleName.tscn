@@ -1,13 +1,13 @@
 [gd_scene format=3 uid="uid://dfscdo32v8rkp"]
 
-[node name="TitleName" type="Control"]
+[node name="TitleName" type="Control" unique_id=262324815]
 custom_minimum_size = Vector2(240, 88)
 layout_mode = 3
 anchors_preset = 0
 offset_right = 240.0
 offset_bottom = 88.0
 
-[node name="PlaceHolder" type="VBoxContainer" parent="."]
+[node name="PlaceHolder" type="VBoxContainer" parent="." unique_id=1625614804]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -17,14 +17,14 @@ grow_vertical = 2
 theme_override_constants/separation = 8
 alignment = 1
 
-[node name="Code" type="Label" parent="PlaceHolder"]
+[node name="Code" type="Label" parent="PlaceHolder" unique_id=1361661207]
 auto_translate_mode = 2
 layout_mode = 2
 text = "CODENAME"
 horizontal_alignment = 1
 justification_flags = 128
 
-[node name="GameName" type="Label" parent="PlaceHolder"]
+[node name="GameName" type="Label" parent="PlaceHolder" unique_id=316692999]
 auto_translate_mode = 2
 layout_mode = 2
 theme_override_font_sizes/font_size = 36

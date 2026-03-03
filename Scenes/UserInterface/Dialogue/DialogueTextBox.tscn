@@ -1,10 +1,10 @@
-[gd_scene load_steps=4 format=3 uid="uid://fsrhgietnqha"]
+[gd_scene format=3 uid="uid://fsrhgietnqha"]
 
 [ext_resource type="Script" uid="uid://bn8humuluckya" path="res://Scripts/UserInterface/Dialogue/DialogueTextBox.cs" id="1_8yd83"]
 [ext_resource type="PackedScene" uid="uid://caal8344ttnwv" path="res://Scenes/UserInterface/Dialogue/DialogueProgressArrow.tscn" id="2_bo27h"]
 [ext_resource type="Script" uid="uid://bxgtsigq7uudw" path="res://Assets/Resources/TextEffects/installer.gd" id="2_pbpn6"]
 
-[node name="DialogueTextBox" type="NinePatchRect" node_paths=PackedStringArray("TextLabel", "PrintTimer")]
+[node name="DialogueTextBox" type="NinePatchRect" unique_id=1327200070 node_paths=PackedStringArray("TextLabel", "PrintTimer")]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -17,7 +17,7 @@ TextLabel = NodePath("Margin/DialogueText")
 PrintTimer = NodePath("PrintTimer")
 DialogueIndicator = ExtResource("2_bo27h")
 
-[node name="Margin" type="MarginContainer" parent="."]
+[node name="Margin" type="MarginContainer" parent="." unique_id=1941262030]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -29,7 +29,7 @@ theme_override_constants/margin_top = 16
 theme_override_constants/margin_right = 16
 theme_override_constants/margin_bottom = 16
 
-[node name="DialogueText" type="RichTextLabel" parent="Margin"]
+[node name="DialogueText" type="RichTextLabel" parent="Margin" unique_id=67050338]
 clip_contents = false
 layout_mode = 2
 theme_override_constants/line_separation = 8
@@ -42,5 +42,5 @@ shortcut_keys_enabled = false
 justification_flags = 0
 script = ExtResource("2_pbpn6")
 
-[node name="PrintTimer" type="Timer" parent="."]
+[node name="PrintTimer" type="Timer" parent="." unique_id=556308782]
 one_shot = true

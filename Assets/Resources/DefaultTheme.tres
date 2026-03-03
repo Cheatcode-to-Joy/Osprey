@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=18 format=3 uid="uid://c3p3eo1p176wp"]
+[gd_resource type="Theme" format=3 uid="uid://c3p3eo1p176wp"]
 
 [ext_resource type="StyleBox" uid="uid://ba24rd6f56vxk" path="res://Scenes/UserInterface/FileManagement/Components/KeyboardButtonBackground.tres" id="1_330b4"]
 [ext_resource type="FontVariation" uid="uid://bhh5dh6ayrlqk" path="res://Assets/Resources/Fonts/8TileMonoDefault.tres" id="1_v63ke"]

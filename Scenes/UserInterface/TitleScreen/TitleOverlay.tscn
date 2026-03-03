@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://d0qao5jrqw8q8"]
+[gd_scene format=3 uid="uid://d0qao5jrqw8q8"]
 
 [ext_resource type="PackedScene" uid="uid://24od6xr4rdx8" path="res://Scenes/UserInterface/_Generics/UILayer.tscn" id="1_j6g3e"]
 [ext_resource type="Script" uid="uid://bad0kdlutvdch" path="res://Scripts/UserInterface/TitleScreen/TitleOverlay.cs" id="2_nbdrn"]
@@ -9,7 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://32iwusorf4kv" path="res://Scenes/UserInterface/TitleScreen/PressStart.tscn" id="5_aik6s"]
 [ext_resource type="PackedScene" uid="uid://dfscdo32v8rkp" path="res://Scenes/UserInterface/TitleScreen/TitleName.tscn" id="5_tgsi4"]
 
-[node name="TitleOverlay" node_paths=PackedStringArray("PressStart", "Buttons", "VersionNumber") instance=ExtResource("1_j6g3e")]
+[node name="TitleOverlay" unique_id=452932758 node_paths=PackedStringArray("PressStart", "Buttons", "VersionNumber") instance=ExtResource("1_j6g3e")]
 script = ExtResource("2_nbdrn")
 PressStart = NodePath("Centering/CoreElements/MenuElements/PressStart")
 Buttons = NodePath("Centering/CoreElements/MenuElements/ButtonMargin/MenuButtons")
@@ -17,7 +17,7 @@ VersionNumber = NodePath("VersionNumber/Number")
 FileCarouselScene = ExtResource("3_howc2")
 SettingsScene = ExtResource("4_aik6s")
 
-[node name="Centering" type="CenterContainer" parent="." index="1"]
+[node name="Centering" type="CenterContainer" parent="." index="1" unique_id=1535561367]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -25,44 +25,44 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="CoreElements" type="VBoxContainer" parent="Centering" index="0"]
+[node name="CoreElements" type="VBoxContainer" parent="Centering" index="0" unique_id=1262703025]
 layout_mode = 2
 
-[node name="GameTitle" parent="Centering/CoreElements" index="0" instance=ExtResource("5_tgsi4")]
+[node name="GameTitle" parent="Centering/CoreElements" index="0" unique_id=1995851374 instance=ExtResource("5_tgsi4")]
 layout_mode = 2
 
-[node name="MenuElements" type="CenterContainer" parent="Centering/CoreElements" index="1"]
+[node name="MenuElements" type="CenterContainer" parent="Centering/CoreElements" index="1" unique_id=895057176]
 custom_minimum_size = Vector2(240, 160)
 layout_mode = 2
 
-[node name="ButtonMargin" type="MarginContainer" parent="Centering/CoreElements/MenuElements" index="0"]
+[node name="ButtonMargin" type="MarginContainer" parent="Centering/CoreElements/MenuElements" index="0" unique_id=786659163]
 layout_mode = 2
 theme_override_constants/margin_left = 16
 theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 16
 
-[node name="MenuButtons" type="VBoxContainer" parent="Centering/CoreElements/MenuElements/ButtonMargin" index="0"]
+[node name="MenuButtons" type="VBoxContainer" parent="Centering/CoreElements/MenuElements/ButtonMargin" index="0" unique_id=803078893]
 visible = false
 layout_mode = 2
 alignment = 1
 script = ExtResource("3_x5esr")
 
-[node name="StartButton" parent="Centering/CoreElements/MenuElements/ButtonMargin/MenuButtons" index="0" instance=ExtResource("4_howc2")]
+[node name="StartButton" parent="Centering/CoreElements/MenuElements/ButtonMargin/MenuButtons" index="0" unique_id=1334529925 instance=ExtResource("4_howc2")]
 layout_mode = 2
 
-[node name="ButtonText" parent="Centering/CoreElements/MenuElements/ButtonMargin/MenuButtons/StartButton/Splitter" index="1"]
+[node name="ButtonText" parent="Centering/CoreElements/MenuElements/ButtonMargin/MenuButtons/StartButton/Splitter" parent_id_path=PackedInt32Array(1334529925, 23291306) index="1" unique_id=190640848]
 text = "bSTART_GAME"
 
-[node name="SettingsButton" parent="Centering/CoreElements/MenuElements/ButtonMargin/MenuButtons" index="1" instance=ExtResource("4_howc2")]
+[node name="SettingsButton" parent="Centering/CoreElements/MenuElements/ButtonMargin/MenuButtons" index="1" unique_id=827817040 instance=ExtResource("4_howc2")]
 layout_mode = 2
 
-[node name="ButtonText" parent="Centering/CoreElements/MenuElements/ButtonMargin/MenuButtons/SettingsButton/Splitter" index="1"]
+[node name="ButtonText" parent="Centering/CoreElements/MenuElements/ButtonMargin/MenuButtons/SettingsButton/Splitter" parent_id_path=PackedInt32Array(827817040, 23291306) index="1" unique_id=190640848]
 text = "bSETTINGS"
 
-[node name="PressStart" parent="Centering/CoreElements/MenuElements" index="1" instance=ExtResource("5_aik6s")]
+[node name="PressStart" parent="Centering/CoreElements/MenuElements" index="1" unique_id=1471738778 instance=ExtResource("5_aik6s")]
 layout_mode = 2
 
-[node name="VersionNumber" type="HBoxContainer" parent="." index="2"]
+[node name="VersionNumber" type="HBoxContainer" parent="." index="2" unique_id=1746563580]
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
@@ -78,13 +78,13 @@ grow_vertical = 0
 theme_override_constants/separation = 8
 alignment = 2
 
-[node name="Version" type="Label" parent="VersionNumber" index="0"]
+[node name="Version" type="Label" parent="VersionNumber" index="0" unique_id=1755095261]
 modulate = Color(0.17254902, 0.17254902, 0.17254902, 1)
 layout_mode = 2
 text = "GAME_VERSION"
 justification_flags = 0
 
-[node name="Number" type="Label" parent="VersionNumber" index="1"]
+[node name="Number" type="Label" parent="VersionNumber" index="1" unique_id=1629198158]
 auto_translate_mode = 2
 modulate = Color(0.50140655, 0.5014065, 0.5014065, 1)
 layout_mode = 2

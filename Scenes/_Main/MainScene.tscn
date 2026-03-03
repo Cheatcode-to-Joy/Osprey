@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://dpahii5yd5hml"]
+[gd_scene format=3 uid="uid://dpahii5yd5hml"]
 
 [ext_resource type="Script" uid="uid://bnv08xy5c7uym" path="res://Scripts/_Main/MainScene.cs" id="1_ciy8a"]
 [ext_resource type="PackedScene" uid="uid://bflfw738670wl" path="res://Scenes/Debug/OverlayDebug.tscn" id="2_541kf"]
@@ -11,7 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://yj7c1hwqcrhk" path="res://Scenes/UserInterface/HUD/CoreHUD.tscn" id="7_ay4rq"]
 [ext_resource type="PackedScene" uid="uid://bxwm3pj45kydn" path="res://Scenes/_Main/MainCamera.tscn" id="12_badjc"]
 
-[node name="MainScene" type="Node2D" node_paths=PackedStringArray("Camera", "OverlayHolder")]
+[node name="MainScene" type="Node2D" unique_id=1093026577 node_paths=PackedStringArray("Camera", "OverlayHolder")]
 script = ExtResource("1_ciy8a")
 Camera = NodePath("MainCamera")
 TitleScene = ExtResource("2_vwm7e")
@@ -19,19 +19,19 @@ SettingsScene = ExtResource("2_m4cel")
 DebugScene = ExtResource("2_541kf")
 OverlayHolder = NodePath("OverlayHolder")
 
-[node name="ConfigManager" parent="." instance=ExtResource("3_ay4rq")]
+[node name="ConfigManager" parent="." unique_id=63723478 instance=ExtResource("3_ay4rq")]
 
-[node name="InputMethodHandler" parent="." instance=ExtResource("2_yw0v0")]
+[node name="InputMethodHandler" parent="." unique_id=2077792389 instance=ExtResource("2_yw0v0")]
 
-[node name="AudioManager" parent="." instance=ExtResource("3_yw0v0")]
+[node name="AudioManager" parent="." unique_id=425800568 instance=ExtResource("3_yw0v0")]
 
-[node name="DebugManager" parent="." instance=ExtResource("5_s8x7n")]
+[node name="DebugManager" parent="." unique_id=61164013 instance=ExtResource("5_s8x7n")]
 
-[node name="CoreHUD" parent="." instance=ExtResource("7_ay4rq")]
+[node name="CoreHUD" parent="." unique_id=2047669496 instance=ExtResource("7_ay4rq")]
 offset_right = 480.0
 offset_bottom = 320.0
 
-[node name="OverlayHolder" type="Control" parent="."]
+[node name="OverlayHolder" type="Control" parent="." unique_id=1854463944]
 custom_minimum_size = Vector2(480, 320)
 layout_mode = 3
 anchors_preset = 15
@@ -42,7 +42,7 @@ offset_bottom = 320.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="GenericHolder" type="Control" parent="OverlayHolder"]
+[node name="GenericHolder" type="Control" parent="OverlayHolder" unique_id=1605506211]
 custom_minimum_size = Vector2(480, 320)
 layout_mode = 1
 anchors_preset = 15
@@ -52,7 +52,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="DebugHolder" type="Control" parent="OverlayHolder"]
+[node name="DebugHolder" type="Control" parent="OverlayHolder" unique_id=1150427998]
 custom_minimum_size = Vector2(480, 320)
 layout_mode = 1
 anchors_preset = 15
@@ -62,6 +62,6 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="MainCamera" parent="." instance=ExtResource("12_badjc")]
+[node name="MainCamera" parent="." unique_id=1773070237 instance=ExtResource("12_badjc")]
 
 [connection signal="tree_entered" from="." to="." method="OnTreeEntered"]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://32iwusorf4kv"]
+[gd_scene format=3 uid="uid://32iwusorf4kv"]
 
 [ext_resource type="Script" uid="uid://bb5xfyrk5a3po" path="res://Scripts/UserInterface/TitleScreen/PressStart.cs" id="1_5tof2"]
 
@@ -40,7 +40,7 @@ _data = {
 &"RESET": SubResource("Animation_5tof2")
 }
 
-[node name="PressStart" type="Control" node_paths=PackedStringArray("APlayer", "DisappearTimer")]
+[node name="PressStart" type="Control" unique_id=227590482 node_paths=PackedStringArray("APlayer", "DisappearTimer")]
 custom_minimum_size = Vector2(128, 24)
 layout_mode = 3
 anchors_preset = 0
@@ -50,7 +50,7 @@ script = ExtResource("1_5tof2")
 APlayer = NodePath("AnimationPlayer")
 DisappearTimer = NodePath("DisappearTimer")
 
-[node name="ButtonLabel" type="Label" parent="."]
+[node name="ButtonLabel" type="Label" parent="." unique_id=2038136669]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -62,13 +62,11 @@ horizontal_alignment = 1
 vertical_alignment = 1
 justification_flags = 0
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-&"": SubResource("AnimationLibrary_5iabd")
-}
-autoplay = "Blink"
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=164922330]
+libraries/ = SubResource("AnimationLibrary_5iabd")
+autoplay = &"Blink"
 
-[node name="DisappearTimer" type="Timer" parent="."]
+[node name="DisappearTimer" type="Timer" parent="." unique_id=1042430347]
 one_shot = true
 
 [connection signal="timeout" from="DisappearTimer" to="." method="OnDisappearTimerTimeout"]

@@ -1,10 +1,10 @@
-[gd_scene load_steps=3 format=3 uid="uid://2gx030hk2qj1"]
+[gd_scene format=3 uid="uid://2gx030hk2qj1"]
 
 [ext_resource type="Script" uid="uid://og58a6eixrjb" path="res://Scripts/Debug/DebugConsole.cs" id="1_ja2cn"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_dl2hs"]
 
-[node name="DebugConsole" type="Control" node_paths=PackedStringArray("DebugLabel", "DebugLine")]
+[node name="DebugConsole" type="Control" unique_id=11646102 node_paths=PackedStringArray("DebugLabel", "DebugLine")]
 custom_minimum_size = Vector2(480, 264)
 layout_mode = 3
 anchors_preset = 15
@@ -17,7 +17,7 @@ script = ExtResource("1_ja2cn")
 DebugLabel = NodePath("Margin/Stacker/DebugLog")
 DebugLine = NodePath("Margin/Stacker/DebugInput")
 
-[node name="Margin" type="MarginContainer" parent="."]
+[node name="Margin" type="MarginContainer" parent="." unique_id=466234566]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -30,12 +30,12 @@ theme_override_constants/margin_top = 16
 theme_override_constants/margin_right = 24
 theme_override_constants/margin_bottom = 16
 
-[node name="Stacker" type="VBoxContainer" parent="Margin"]
+[node name="Stacker" type="VBoxContainer" parent="Margin" unique_id=351125623]
 layout_mode = 2
 mouse_filter = 2
 theme_override_constants/separation = 8
 
-[node name="DebugLog" type="RichTextLabel" parent="Margin/Stacker"]
+[node name="DebugLog" type="RichTextLabel" parent="Margin/Stacker" unique_id=534542861]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -46,7 +46,7 @@ scroll_active = false
 tab_size = 1
 justification_flags = 0
 
-[node name="DebugInput" type="LineEdit" parent="Margin/Stacker"]
+[node name="DebugInput" type="LineEdit" parent="Margin/Stacker" unique_id=519870851]
 custom_minimum_size = Vector2(0, 24)
 layout_mode = 2
 keep_editing_on_text_submit = true

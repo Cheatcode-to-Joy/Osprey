@@ -1,9 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://d3mynu7offfie"]
+[gd_scene format=3 uid="uid://d3mynu7offfie"]
 
 [ext_resource type="Script" uid="uid://conib8dnvgx1k" path="res://Scripts/UserInterface/Dialogue/DialogueSpeaker.cs" id="1_psblx"]
 [ext_resource type="Script" uid="uid://bxgtsigq7uudw" path="res://Assets/Resources/TextEffects/installer.gd" id="2_003y2"]
 
-[node name="DialogueSpeaker" type="Control" node_paths=PackedStringArray("NameLabel", "Portrait")]
+[node name="DialogueSpeaker" type="Control" unique_id=367087212 node_paths=PackedStringArray("NameLabel", "Portrait")]
 custom_minimum_size = Vector2(144, 168)
 layout_mode = 3
 anchors_preset = 15
@@ -15,22 +15,22 @@ script = ExtResource("1_psblx")
 NameLabel = NodePath("Ordering/SpeakerNameBox/Margin/SpeakerName")
 Portrait = NodePath("Ordering/SpeakerSprite")
 
-[node name="Ordering" type="VBoxContainer" parent="."]
+[node name="Ordering" type="VBoxContainer" parent="." unique_id=596548252]
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="SpeakerSprite" type="TextureRect" parent="Ordering"]
+[node name="SpeakerSprite" type="TextureRect" parent="Ordering" unique_id=1992480860]
 custom_minimum_size = Vector2(144, 144)
 layout_mode = 2
 expand_mode = 1
 stretch_mode = 5
 
-[node name="SpeakerNameBox" type="NinePatchRect" parent="Ordering"]
+[node name="SpeakerNameBox" type="NinePatchRect" parent="Ordering" unique_id=66740303]
 custom_minimum_size = Vector2(0, 24)
 layout_mode = 2
 
-[node name="Margin" type="MarginContainer" parent="Ordering/SpeakerNameBox"]
+[node name="Margin" type="MarginContainer" parent="Ordering/SpeakerNameBox" unique_id=1411585967]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -42,7 +42,7 @@ theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 8
 
-[node name="SpeakerName" type="RichTextLabel" parent="Ordering/SpeakerNameBox/Margin"]
+[node name="SpeakerName" type="RichTextLabel" parent="Ordering/SpeakerNameBox/Margin" unique_id=1008272346]
 clip_contents = false
 layout_mode = 2
 bbcode_enabled = true

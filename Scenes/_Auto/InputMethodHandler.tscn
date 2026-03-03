@@ -1,8 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://boo6i7kivwgsg"]
+[gd_scene format=3 uid="uid://boo6i7kivwgsg"]
 
 [ext_resource type="Script" uid="uid://cs34q5phql787" path="res://Scripts/_Auto/InputMethodHandler.cs" id="1_kjdpv"]
 
-[node name="InputMethodHandler" type="Node"]
+[node name="InputMethodHandler" type="Node" unique_id=1858405099]
 script = ExtResource("1_kjdpv")
 
 [connection signal="tree_entered" from="." to="." method="OnTreeEntered"]
