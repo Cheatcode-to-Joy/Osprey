@@ -5,46 +5,73 @@
 [ext_resource type="StyleBox" uid="uid://tllx5wudts52" path="res://Scenes/UserInterface/_Generics/FocusBox.tres" id="2_330b4"]
 [ext_resource type="Texture2D" uid="uid://44t8t1wrcueb" path="res://Assets/Visual/UserInterface/UIElements.png" id="3_xiu4g"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kukak"]
-content_margin_left = 8.0
-content_margin_top = 8.0
-content_margin_right = 8.0
-content_margin_bottom = 8.0
-bg_color = Color(0.6, 0.6, 0.6, 0)
-draw_center = false
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0.8, 0.8, 0.8, 0)
-corner_detail = 2
+[sub_resource type="AtlasTexture" id="AtlasTexture_xiu4g"]
+atlas = ExtResource("3_xiu4g")
+region = Rect2(16, 0, 16, 16)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xiu4g"]
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_s8kvo"]
 content_margin_left = 8.0
 content_margin_top = 8.0
 content_margin_right = 8.0
 content_margin_bottom = 8.0
-bg_color = Color(0.105882354, 0.105882354, 0.105882354, 1)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0.8431838, 0.8431839, 0.84318364, 1)
-corner_detail = 2
+texture = SubResource("AtlasTexture_xiu4g")
+texture_margin_left = 4.0
+texture_margin_top = 4.0
+texture_margin_right = 4.0
+texture_margin_bottom = 4.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_330b4"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_kukak"]
+atlas = ExtResource("3_xiu4g")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_o8ndh"]
 content_margin_left = 8.0
 content_margin_top = 8.0
 content_margin_right = 8.0
 content_margin_bottom = 8.0
-bg_color = Color(0.6, 0.6, 0.6, 0)
-draw_center = false
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0.50534403, 0.5053441, 0.5053438, 1)
-corner_detail = 2
+texture = SubResource("AtlasTexture_kukak")
+texture_margin_left = 4.0
+texture_margin_top = 4.0
+texture_margin_right = 4.0
+texture_margin_bottom = 4.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qeywp"]
+atlas = ExtResource("3_xiu4g")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_csxmi"]
+content_margin_left = 8.0
+content_margin_top = 8.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
+texture = SubResource("AtlasTexture_qeywp")
+texture_margin_left = 4.0
+texture_margin_top = 4.0
+texture_margin_right = 4.0
+texture_margin_bottom = 4.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o8ndh"]
+atlas = ExtResource("3_xiu4g")
+region = Rect2(64, 0, 16, 16)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_qeywp"]
+content_margin_left = 8.0
+content_margin_top = 8.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
+texture = SubResource("AtlasTexture_o8ndh")
+texture_margin_left = 4.0
+texture_margin_top = 4.0
+texture_margin_right = 4.0
+texture_margin_bottom = 4.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_v63ke"]
 
@@ -71,14 +98,18 @@ corner_detail = 2
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_s8kvo"]
 atlas = ExtResource("3_xiu4g")
-region = Rect2(0, 10, 32, 32)
+region = Rect2(16, 0, 16, 16)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_kukak"]
+content_margin_left = 8.0
+content_margin_top = 8.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
 texture = SubResource("AtlasTexture_s8kvo")
-texture_margin_left = 12.0
-texture_margin_top = 12.0
-texture_margin_right = 12.0
-texture_margin_bottom = 12.0
+texture_margin_left = 4.0
+texture_margin_top = 4.0
+texture_margin_right = 4.0
+texture_margin_bottom = 4.0
 axis_stretch_horizontal = 1
 axis_stretch_vertical = 1
 
@@ -86,10 +117,11 @@ axis_stretch_vertical = 1
 default_font = ExtResource("1_v63ke")
 default_font_size = 9
 BorderButton/base_type = &"Button"
-BorderButton/styles/disabled = SubResource("StyleBoxFlat_kukak")
+BorderButton/styles/disabled = SubResource("StyleBoxTexture_s8kvo")
 BorderButton/styles/focus = ExtResource("2_330b4")
-BorderButton/styles/hover = SubResource("StyleBoxFlat_xiu4g")
-BorderButton/styles/normal = SubResource("StyleBoxFlat_330b4")
+BorderButton/styles/hover = SubResource("StyleBoxTexture_o8ndh")
+BorderButton/styles/normal = SubResource("StyleBoxTexture_csxmi")
+BorderButton/styles/pressed = SubResource("StyleBoxTexture_qeywp")
 BoxContainer/constants/separation = 0
 Button/styles/disabled = SubResource("StyleBoxEmpty_v63ke")
 Button/styles/focus = SubResource("StyleBoxEmpty_2gt6t")
