@@ -83,4 +83,16 @@ public partial class CreateFileOverlay : UILayer
 		ActiveInput = null;
 	}
 	#endregion
+
+	#region Buttons
+	public void OnSaveButtonPressed()
+	{
+		
+	}
+
+	public void OnBackButtonPressed()
+	{
+		Router.Main.CloseOverlay(this);
+	}
+	#endregion
 }

@@ -5,7 +5,7 @@
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_wrqhe"]
 atlas = ExtResource("2_b7y5y")
-region = Rect2(0, 0, 10, 10)
+region = Rect2(0, 0, 16, 16)
 
 [node name="FileInputField" type="LineEdit" unique_id=1240074970 node_paths=PackedStringArray("FakeFocus")]
 custom_minimum_size = Vector2(0, 24)
@@ -33,10 +33,10 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = SubResource("AtlasTexture_wrqhe")
 draw_center = false
-patch_margin_left = 4
-patch_margin_top = 4
-patch_margin_right = 4
-patch_margin_bottom = 4
+patch_margin_left = 6
+patch_margin_top = 6
+patch_margin_right = 6
+patch_margin_bottom = 6
 axis_stretch_horizontal = 1
 axis_stretch_vertical = 1
 

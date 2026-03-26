@@ -84,4 +84,6 @@ layout_mode = 2
 [connection signal="focus_entered" from="Center/HBox/FileData/PlayerName/PlayerNameInput" to="." method="OnTextInputFocusEntered" flags=18]
 [connection signal="focus_entered" from="Center/HBox/FileData/SaveName/SaveNameInput" to="." method="OnTextInputFocusEntered" flags=18]
 [connection signal="focus_entered" from="Center/HBox/FileData/Buttons/SaveButton" to="." method="OnOtherFocusEntered"]
+[connection signal="pressed" from="Center/HBox/FileData/Buttons/SaveButton" to="." method="OnSaveButtonPressed"]
 [connection signal="focus_entered" from="Center/HBox/FileData/Buttons/BackButton" to="." method="OnOtherFocusEntered"]
+[connection signal="pressed" from="Center/HBox/FileData/Buttons/BackButton" to="." method="OnBackButtonPressed"]
