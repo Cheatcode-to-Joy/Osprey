@@ -1,0 +1,34 @@
+[gd_scene format=3 uid="uid://bme2ve4fjsclq"]
+
+[ext_resource type="Material" uid="uid://dpgxnjuiwrop7" path="res://Scenes/UserInterface/_Generics/Buttons/InputButtons/InputButtonTint.tres" id="1_3fpna"]
+[ext_resource type="Texture2D" uid="uid://44t8t1wrcueb" path="res://Assets/Visual/UserInterface/UIElements.png" id="1_yfhqx"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_01t6e"]
+atlas = ExtResource("1_yfhqx")
+region = Rect2(48, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_61qb1"]
+resource_local_to_scene = true
+atlas = ExtResource("1_yfhqx")
+region = Rect2(17, 17, 6, 6)
+
+[node name="InputButton" type="HBoxContainer" unique_id=1525633324]
+custom_minimum_size = Vector2(0, 24)
+
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=39410437]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+
+[node name="ButtonBack" type="TextureRect" parent="CenterContainer" unique_id=1516489601]
+material = ExtResource("1_3fpna")
+layout_mode = 2
+texture = SubResource("AtlasTexture_01t6e")
+stretch_mode = 5
+
+[node name="ButtonIcon" type="TextureRect" parent="CenterContainer" unique_id=285834465]
+layout_mode = 2
+texture = SubResource("AtlasTexture_61qb1")
+
+[node name="Text" type="Label" parent="." unique_id=1211831283]
+layout_mode = 2
+text = "PLACEHOLDER"

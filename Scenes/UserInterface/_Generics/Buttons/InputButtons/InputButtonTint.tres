@@ -1,0 +1,8 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://dpgxnjuiwrop7"]
+
+[ext_resource type="Shader" uid="uid://bdnu40tecrimu" path="res://Assets/Resources/Shaders/ColourTint.tres" id="1_kouer"]
+
+[resource]
+shader = ExtResource("1_kouer")
+shader_parameter/TintPower = 1.0
+shader_parameter/TintHue = Color(0.48301, 0.119238, 0.115493, 1)
