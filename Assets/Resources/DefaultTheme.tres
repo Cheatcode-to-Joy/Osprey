@@ -98,7 +98,7 @@ corner_detail = 2
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_s8kvo"]
 atlas = ExtResource("3_xiu4g")
-region = Rect2(16, 0, 16, 16)
+region = Rect2(0, 16, 16, 16)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_kukak"]
 content_margin_left = 8.0
@@ -107,9 +107,9 @@ content_margin_right = 8.0
 content_margin_bottom = 8.0
 texture = SubResource("AtlasTexture_s8kvo")
 texture_margin_left = 4.0
-texture_margin_top = 4.0
+texture_margin_top = 6.0
 texture_margin_right = 4.0
-texture_margin_bottom = 4.0
+texture_margin_bottom = 6.0
 axis_stretch_horizontal = 1
 axis_stretch_vertical = 1
 
